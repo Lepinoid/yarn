@@ -683,7 +683,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		ARG 1 tag
 	METHOD method_5739 distanceTo (Lnet/minecraft/class_1297;)F
 		ARG 1 entity
-	METHOD method_5740 hasNoGravity ()Z
+	METHOD method_5740 isNoGravity ()Z
 	METHOD method_5741 getMaxNetherPortalTime ()I
 	METHOD method_5742 onStoppedTrackingBy (Lnet/minecraft/class_3222;)V
 		ARG 1 player
