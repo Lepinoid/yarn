@@ -1,4 +1,4 @@
-CLASS net/minecraft/class_1887 net/minecraft/enchantment/Enchantment
+CLASS net/minecraft/class_1887 net/minecraft/enchantment/MinecraftEnchantment
 	FIELD field_9083 type Lnet/minecraft/class_1886;
 	FIELD field_9084 translationKey Ljava/lang/String;
 	FIELD field_9085 rarity Lnet/minecraft/class_1887$class_1888;
