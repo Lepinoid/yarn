@@ -31,8 +31,9 @@ def minecraft_version = "1.19-rc2"
 
 def ENV = System.getenv()
 // Fetch build number from Github Actions
+def build_number = ENV.BUILD_NUMBER ?: "local"
 
-def yarnVersion = "${minecraft_version}+build.1"
+def yarnVersion = "${minecraft_version}+build.$build_number"
 version = yarnVersion
 
 if (ENV.BRANCH_NAME) {
@@ -969,9 +970,12 @@ publishing {
 		}
 
 	}
-	repositories {
-		maven {
-			url "${System.getProperty("user.home")}/lepinoid/maven-repo"
+	def publishTargetPath = ENV.PUBLISH_PATH
+	if (publishTargetPath != null) {
+		repositories {
+			maven {
+				url = publishTargetPath
+			}
 		}
 	}
 }
