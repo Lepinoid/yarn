@@ -10,9 +10,9 @@ buildscript {
 	dependencies {
 		classpath "cuchaz:enigma-cli:${project.enigma_version}"
 		classpath "net.fabricmc:stitch:${project.stitch_version}"
-		classpath "commons-io:commons-io:2.8.0"
-		classpath 'de.undercouch:gradle-download-task:4.1.1'
-		classpath 'net.fabricmc:tiny-remapper:0.7.0'
+		classpath "commons-io:commons-io:2.11.0"
+		classpath "de.undercouch:gradle-download-task:4.1.1"
+		classpath "net.fabricmc:tiny-remapper:${project.tiny_remapper_version}"
 		classpath "net.fabricmc.unpick:unpick:${project.unpick_version}"
 		classpath "net.fabricmc.unpick:unpick-format-utils:${project.unpick_version}"
 		classpath "net.fabricmc:name-proposal:${project.name_proposal_version}"
@@ -21,13 +21,13 @@ buildscript {
 
 plugins {
 	id 'java' // for constants, packages, javadoc
-	id 'de.undercouch.download' version '4.1.1'
+	id 'de.undercouch.download' version '4.1.2'
 	id 'maven-publish'
-	id 'org.cadixdev.licenser' version '0.6.1'
+	id "com.diffplug.spotless" version "6.4.2"
 	id 'net.fabricmc.filament' version '0.3.0'
 }
 
-def minecraft_version = "1.18.2"
+def minecraft_version = "1.19-rc2"
 
 def ENV = System.getenv()
 // Fetch build number from Github Actions
@@ -56,7 +56,10 @@ repositories {
 }
 
 configurations {
-	enigmaRuntime
+	asm
+	enigmaRuntime {
+		extendsFrom asm
+	}
 	javadocClasspath
 	decompileClasspath
 	mappingPoetJar {
@@ -64,9 +67,12 @@ configurations {
 	}
 	mappingPoet {
 		extendsFrom mappingPoetJar
+		extendsFrom asm
 		transitive = true
 	}
-	unpick
+	unpick {
+		extendsFrom asm
+	}
 }
 
 def unpickMetaFile = file("unpick-definitions/unpick.json")
@@ -80,11 +86,10 @@ dependencies {
 	decompileClasspath "net.fabricmc:cfr:${project.cfr_version}"
 	mappingPoetJar "net.fabricmc:mappingpoet:${project.mappingpoet_version}"
 	unpick "net.fabricmc.unpick:unpick-cli:${project.unpick_version}"
-	// Update asm to allow running on JDK 18
-	unpick "org.ow2.asm:asm:9.2"
-	unpick "org.ow2.asm:asm-tree:9.2"
-	unpick "org.ow2.asm:asm-commons:9.2"
-	unpick "org.ow2.asm:asm-util:9.2"
+	asm "org.ow2.asm:asm:${project.asm_version}"
+	asm "org.ow2.asm:asm-tree:${project.asm_version}"
+	asm "org.ow2.asm:asm-commons:${project.asm_version}"
+	asm "org.ow2.asm:asm-util:${project.asm_version}"
 }
 
 def setupGroup = "jar setup"
@@ -104,6 +109,7 @@ def clientJar = new File(cacheFilesMinecraft, "${minecraft_version}-client.jar")
 def serverBootstrapJar = new File(cacheFilesMinecraft, "${minecraft_version}-serverboostrap.jar")
 // The real server jar, expected from the bootstrap
 def serverJar = new File(cacheFilesMinecraft, "${minecraft_version}-server.jar")
+def serverIntermediaryJar = file("${minecraft_version}-server-intermediary.jar")
 def libraries = new File(cacheFilesMinecraft, "libraries")
 def libs = new File("build/libs/")
 
@@ -329,6 +335,8 @@ task downloadMcLibs(dependsOn: downloadWantedVersionManifest) {
 		}
 
 		version.libraries.each {
+			if (it.downloads.artifact == null) return // TODO: happens for downloads.classifiers - implement properly?
+
 			def downloadUrl = it.downloads.artifact.url
 
 			download {
@@ -416,7 +424,6 @@ task mapIntermediaryJar(dependsOn: [downloadMcLibs, downloadIntermediary, mergeJ
 	//Force the task to always run
 	outputs.upToDateWhen { false }
 
-
 	doLast {
 		logger.lifecycle(":mapping minecraft to intermediary")
 		def tinyInput = downloadIntermediary.dest
@@ -424,36 +431,37 @@ task mapIntermediaryJar(dependsOn: [downloadMcLibs, downloadIntermediary, mergeJ
 	}
 }
 
-task yarnUnpicked(dependsOn: "unpickIntermediaryJar", type: JavaExec) {
-	group = yarnGroup
+task mapServerIntermediaryJar(dependsOn: [downloadMcLibs, downloadIntermediary, extractServerJar]) {
+	group = mapJarGroup
+	inputs.files downloadMcLibs.outputs.files.files
+	outputs.file(serverIntermediaryJar)
 
-	classpath = configurations.enigmaRuntime
-	mainClass = 'cuchaz.enigma.gui.Main'
+	//Force the task to always run
+	outputs.upToDateWhen { false }
 
-	args '-jar'
-	args unpickedJar.getAbsolutePath()
-	args '-mappings'
-	args mappingsDir.getAbsolutePath()
-	args '-profile'
-	args 'enigma_profile.json'
-
-	jvmArgs "-Xmx2048m"
+	doLast {
+		logger.lifecycle(":mapping minecraft server to intermediary")
+		def tinyInput = downloadIntermediary.dest
+		mapJar(serverIntermediaryJar, serverJar, tinyInput, libraries, "official", "intermediary")
+	}
 }
 
-task yarn(dependsOn: mapIntermediaryJar, type: JavaExec) {
+task yarnUnpicked(dependsOn: "unpickIntermediaryJar", type: EnigmaTask) {
 	group = yarnGroup
+	jar = unpickedJar
+	mappings = mappingsDir
+}
 
-	classpath = configurations.enigmaRuntime
-	mainClass = 'cuchaz.enigma.gui.Main'
+task yarn(dependsOn: mapIntermediaryJar, type: EnigmaTask) {
+	group = yarnGroup
+	jar = intermediaryJar
+	mappings = mappingsDir
+}
 
-	args '-jar'
-	args intermediaryJar.getAbsolutePath()
-	args '-mappings'
-	args mappingsDir.getAbsolutePath()
-	args '-profile'
-	args 'enigma_profile.json'
-
-	jvmArgs "-Xmx2048m"
+task yarnCommon(dependsOn: mapServerIntermediaryJar, type: EnigmaTask) {
+	group = yarnGroup
+	jar = serverIntermediaryJar
+	mappings = mappingsDir
 }
 
 task checkMappings(dependsOn: mapIntermediaryJar) {
@@ -491,18 +499,18 @@ task buildYarnTiny(dependsOn: mapIntermediaryJar, type: WithV2FileOutput) {
 		logger.lifecycle(":generating tiny mappings")
 
 		new MapSpecializedMethodsCommand().run(
-				intermediaryJar.getAbsolutePath(),
-				"enigma",
-				mappingsDir.getAbsolutePath(),
-				"tinyv2:intermediary:named",
-				v2Output.getAbsolutePath()
+			intermediaryJar.getAbsolutePath(),
+			"enigma",
+			mappingsDir.getAbsolutePath(),
+			"tinyv2:intermediary:named",
+			v2Output.getAbsolutePath()
 		)
 
 		new ConvertMappingsCommand().run(
-				"tinyv2",
-				v2Output.getAbsolutePath(),
-				"tiny:intermediary:named",
-				v1Output.getAbsolutePath())
+			"tinyv2",
+			v2Output.getAbsolutePath(),
+			"tiny:intermediary:named",
+			v1Output.getAbsolutePath())
 	}
 }
 
@@ -587,7 +595,7 @@ clean.doFirst {
 	delete tempDir, cacheFilesMinecraft
 }
 
-tasks.build.dependsOn "compressTiny", "tinyJar", "v2UnmergedYarnJar", "v2MergedYarnJar"
+tasks.build.dependsOn "compressTiny","tinyJar","v2UnmergedYarnJar", "v2MergedYarnJar", "javadocJar"
 
 task exportMappingsOfficial(dependsOn: downloadIntermediary) {
 	def composeInput = downloadIntermediary.dest
@@ -636,9 +644,9 @@ task mapNamedJar(dependsOn: ["mergeV2", "unpickIntermediaryJar"]) {
 	outputs.upToDateWhen { false }
 
 	def jsrToJetbrains = [
-			"javax/annotation/Nullable"            : "org/jetbrains/annotations/Nullable",
-			"javax/annotation/Nonnull"             : "org/jetbrains/annotations/NotNull",
-			"javax/annotation/concurrent/Immutable": "org/jetbrains/annotations/Unmodifiable"
+		"javax/annotation/Nullable": "org/jetbrains/annotations/Nullable",
+		"javax/annotation/Nonnull": "org/jetbrains/annotations/NotNull",
+		"javax/annotation/concurrent/Immutable": "org/jetbrains/annotations/Unmodifiable"
 	]
 
 	doLast {
@@ -699,9 +707,10 @@ sourceSets {
 	packageDocs // package info files
 }
 
-license {
-	header file("HEADER")
-	include '**/*.java'
+spotless {
+	java {
+		licenseHeaderFile(rootProject.file("HEADER"))
+	}
 }
 
 task constantsJar(type: Jar) {
@@ -718,7 +727,7 @@ task sourcesJar(type: Jar, dependsOn: classes) {
 
 build.dependsOn constantsJar
 
-task insertAutoGeneratedEnumMappings(dependsOn: [buildYarnTiny, mapIntermediaryJar], type: FileOutput) {
+task insertAutoGeneratedEnumMappings(dependsOn : [buildYarnTiny,mapIntermediaryJar], type : FileOutput){
 	group = buildMappingGroup
 	File noEnumV2 = buildYarnTiny.v2Output
 	output = new File(tempDir, "unmerged-named-v2-with-enum.tiny")
@@ -779,7 +788,7 @@ task v2UnmergedYarnJar(dependsOn: [insertAutoGeneratedEnumMappings, combineUnpic
 	from(combineUnpickDefinitions.output) {
 		rename combineUnpickDefinitions.output.get().asFile.name, "extras/definitions.unpick"
 	}
-	from(file(unpickMetaFile)) {
+	from (file(unpickMetaFile)) {
 		expand version: project.unpick_version
 		rename unpickMetaFile.name, "extras/unpick.json"
 	}
@@ -801,7 +810,7 @@ task v2MergedYarnJar(dependsOn: ["mergeV2"], type: Jar) {
 	from(combineUnpickDefinitions.output) {
 		rename combineUnpickDefinitions.output.get().asFile.name, "extras/definitions.unpick"
 	}
-	from(file(unpickMetaFile)) {
+	from (file(unpickMetaFile)) {
 		expand version: project.unpick_version
 		rename unpickMetaFile.name, "extras/unpick.json"
 	}
@@ -905,8 +914,7 @@ javadoc {
 		// lazy setting
 		options {
 			tagletPath configurations.mappingPoet.files.toList()
-			header mappingPoetJar.get().filter { it.name == 'javadoc_header.txt' }.singleFile.text.trim()
-			// cannot include line breaks
+			header mappingPoetJar.get().filter { it.name == 'javadoc_header.txt' }.singleFile.text.trim() // cannot include line breaks
 			addFileOption "-add-stylesheet", mappingPoetJar.get().filter { it.name == 'forms.css' }.singleFile
 		}
 	}
@@ -983,7 +991,7 @@ task checkVersion {
 publish.mustRunAfter checkVersion
 
 void mapJar(File output, File input, File mappings, File libraries, String from, String to,
-			Action<TinyRemapper.Builder> action = {}) {
+		Action<TinyRemapper.Builder> action = { }) {
 	if (output.exists()) {
 		output.delete()
 	}
@@ -1036,4 +1044,29 @@ class WithV2FileOutput extends DefaultTask {
 	File v1Output
 	@OutputFile
 	File v2Output
+}
+
+abstract class EnigmaTask extends JavaExec {
+	@Input
+	abstract Property<File> getJar()
+
+	@Input
+	abstract Property<File> getMappings()
+
+	EnigmaTask() {
+		classpath = project.configurations.enigmaRuntime
+		mainClass.set('cuchaz.enigma.gui.Main')
+	}
+
+	@TaskAction
+	void exec() {
+		args '-jar'
+		args jar.get().absolutePath
+		args '-mappings'
+		args mappings.get().absolutePath
+		args '-profile'
+		args 'enigma_profile.json'
+		jvmArgs "-Xmx2048m"
+		super.exec()
+	}
 }
