@@ -29,3 +29,6 @@ jobs:
           repo: ${{ secrets.REPO }}
           token-user: ${{ secrets.TOKEN_USER }}
           token: ${{ secrets.TOKEN }}
+          commit-user-name: ${{ secrets.COMMITTER_NAME }}
+          commit-user-email: ${{ secrets.COMMITTER_MAIL }}
+
