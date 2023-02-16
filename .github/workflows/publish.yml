@@ -5,6 +5,6 @@ jobs:
   publish:
     if: ${{ github.repository_owner == 'Lepinoid' }}
     uses: Lepinoid/WorkflowCollections/.github/workflows/publish_to_maven-repo.yml@main
+    secrets: inherit
     with:
       java_version: 18
-      secrets: inherit
