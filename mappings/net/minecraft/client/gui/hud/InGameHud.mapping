@@ -54,8 +54,9 @@ CLASS net/minecraft/class_329 net/minecraft/client/gui/hud/InGameHud
 	METHOD method_1733 getHeartRows (I)I
 		ARG 1 heartCount
 	METHOD method_1734 getRiddenEntity ()Lnet/minecraft/class_1309;
-	METHOD method_1735 renderVignetteOverlay (Lnet/minecraft/class_1297;)V
-		ARG 1 entity
+	METHOD method_1735 renderVignetteOverlay (Lnet/minecraft/class_4587;Lnet/minecraft/class_1297;)V
+		ARG 1 matrices
+		ARG 2 entity
 	METHOD method_1736 renderCrosshair (Lnet/minecraft/class_4587;)V
 		ARG 1 matrices
 	METHOD method_1737 getCameraPlayer ()Lnet/minecraft/class_1657;
@@ -69,8 +70,9 @@ CLASS net/minecraft/class_329 net/minecraft/client/gui/hud/InGameHud
 	METHOD method_1744 getHeartCount (Lnet/minecraft/class_1309;)I
 		ARG 1 entity
 	METHOD method_1745 resetDebugHudChunk ()V
-	METHOD method_1746 renderPortalOverlay (F)V
-		ARG 1 nauseaStrength
+	METHOD method_1746 renderPortalOverlay (Lnet/minecraft/class_4587;F)V
+		ARG 1 matrices
+		ARG 2 nauseaStrength
 	METHOD method_1747 clear ()V
 	METHOD method_1748 tick ()V
 	METHOD method_1749 renderHeldItemTooltip (Lnet/minecraft/class_4587;)V
@@ -103,13 +105,7 @@ CLASS net/minecraft/class_329 net/minecraft/client/gui/hud/InGameHud
 	METHOD method_1760 renderStatusBars (Lnet/minecraft/class_4587;)V
 		COMMENT Renders the armor, health, air, and hunger bars.
 		ARG 1 matrices
-	METHOD method_1762 renderHotbarItem (IIFLnet/minecraft/class_1657;Lnet/minecraft/class_1799;I)V
-		ARG 1 x
-		ARG 2 y
-		ARG 3 tickDelta
-		ARG 4 player
-		ARG 5 stack
-		ARG 6 seed
+	METHOD method_1762 renderHotbarItem (Lnet/minecraft/class_4587;IIFLnet/minecraft/class_1657;Lnet/minecraft/class_1799;I)V
 	METHOD method_1765 renderStatusEffectOverlay (Lnet/minecraft/class_4587;)V
 		ARG 1 matrices
 	METHOD method_1766 renderDemoTimer (Lnet/minecraft/class_4587;)V
@@ -120,11 +116,13 @@ CLASS net/minecraft/class_329 net/minecraft/client/gui/hud/InGameHud
 		ARG 3 yOffset
 		ARG 4 width
 		ARG 5 color
-	METHOD method_31977 renderOverlay (Lnet/minecraft/class_2960;F)V
-		ARG 1 texture
-		ARG 2 opacity
-	METHOD method_32598 renderSpyglassOverlay (F)V
-		ARG 1 scale
+	METHOD method_31977 renderOverlay (Lnet/minecraft/class_4587;Lnet/minecraft/class_2960;F)V
+		ARG 1 matrices
+		ARG 2 texture
+		ARG 3 opacity
+	METHOD method_32598 renderSpyglassOverlay (Lnet/minecraft/class_4587;F)V
+		ARG 1 matrices
+		ARG 2 scale
 	METHOD method_34001 setTitleTicks (III)V
 		ARG 1 fadeInTicks
 		ARG 2 stayTicks

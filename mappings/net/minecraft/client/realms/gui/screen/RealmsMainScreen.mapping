@@ -21,7 +21,7 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 	FIELD field_19477 rateLimiter Lcom/google/common/util/concurrent/RateLimiter;
 	FIELD field_19478 dontSetConnectedToRealms Z
 	FIELD field_19481 lastScrollYPosition I
-	FIELD field_19482 lastScreen Lnet/minecraft/class_437;
+	FIELD field_19482 parent Lnet/minecraft/class_437;
 	FIELD field_19483 realmSelectionList Lnet/minecraft/class_4325$class_4329;
 	FIELD field_19485 playButton Lnet/minecraft/class_4185;
 	FIELD field_19486 backButton Lnet/minecraft/class_4185;
@@ -42,20 +42,16 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 	FIELD field_22548 DARKEN Lnet/minecraft/class_2960;
 	FIELD field_22549 CROSS_ICON Lnet/minecraft/class_2960;
 	FIELD field_22550 TRIAL_ICON Lnet/minecraft/class_2960;
-	FIELD field_22551 WIDGETS Lnet/minecraft/class_2960;
 	FIELD field_22552 ON_ICON Lnet/minecraft/class_2960;
 	FIELD field_22553 OFF_ICON Lnet/minecraft/class_2960;
 	FIELD field_22554 EXPIRED_ICON Lnet/minecraft/class_2960;
 	FIELD field_22555 EXPIRES_SOON_ICON Lnet/minecraft/class_2960;
-	FIELD field_22556 LEAVE_ICON Lnet/minecraft/class_2960;
 	FIELD field_22557 INVITATION_ICON Lnet/minecraft/class_2960;
 	FIELD field_22558 INVITE_ICON Lnet/minecraft/class_2960;
 	FIELD field_22559 WORLD_ICON Lnet/minecraft/class_2960;
 	FIELD field_22560 REALMS Lnet/minecraft/class_2960;
-	FIELD field_22561 CONFIGURE_ICON Lnet/minecraft/class_2960;
 	FIELD field_22563 NEWS_ICON Lnet/minecraft/class_2960;
 	FIELD field_22564 POPUP Lnet/minecraft/class_2960;
-	FIELD field_24198 hoverState Lnet/minecraft/class_4325$class_5220;
 	FIELD field_26447 NO_PENDING_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26448 PENDING_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26449 TRIAL_MESSAGE_LINES Ljava/util/List;
@@ -63,7 +59,6 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 	FIELD field_26451 EXPIRED_LIST_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26452 EXPIRED_RENEW_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26453 EXPIRED_TRIAL_TEXT Lnet/minecraft/class_2561;
-	FIELD field_26454 EXPIRED_SUBSCRIBE_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26455 MINIGAME_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26456 POPUP_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26457 EXPIRED_TEXT Lnet/minecraft/class_2561;
@@ -71,8 +66,6 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 	FIELD field_26459 EXPIRES_IN_A_DAY_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26460 OPEN_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26461 CLOSED_TEXT Lnet/minecraft/class_2561;
-	FIELD field_26462 LEAVE_TEXT Lnet/minecraft/class_2561;
-	FIELD field_26463 CONFIGURE_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26465 NEWS_TEXT Lnet/minecraft/class_2561;
 	FIELD field_26466 popupText Lnet/minecraft/class_5489;
 	FIELD field_33774 TRIAL_NARRATION Lnet/minecraft/class_2561;
@@ -81,8 +74,14 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 	FIELD field_37267 lastPlayButtonClickTime J
 	FIELD field_39680 periodicRunnersManager Lnet/minecraft/class_7581$class_7584;
 	FIELD field_39681 serverFilterer Lnet/minecraft/class_7580;
+	FIELD field_42859 PLAY_TEXT Lnet/minecraft/class_2561;
+	FIELD field_42860 LEAVE_TEXT Lnet/minecraft/class_2561;
+	FIELD field_42861 CONFIGURE_TEXT Lnet/minecraft/class_2561;
+	FIELD field_42995 INFO_ICON Lnet/minecraft/class_2960;
+	FIELD field_42996 seenNotifications Ljava/util/Set;
+	FIELD field_42997 notifications Ljava/util/List;
 	METHOD <init> (Lnet/minecraft/class_437;)V
-		ARG 1 lastScreen
+		ARG 1 parent
 	METHOD method_20834 onClosePopup ()V
 	METHOD method_20835 popupX0 ()I
 	METHOD method_20836 popupY0 ()I
@@ -142,7 +141,6 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 		ARG 5 mouseY
 	METHOD method_20874 shouldPlayButtonBeActive (Lnet/minecraft/class_4877;)Z
 		ARG 1 server
-	METHOD method_20882 addButtons ()V
 	METHOD method_20883 drawClose (Lnet/minecraft/class_4587;IIII)V
 		ARG 1 matrices
 		ARG 2 x
@@ -150,22 +148,6 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 		ARG 4 mouseX
 		ARG 5 mouseY
 	METHOD method_20884 shouldRenewButtonBeActive (Lnet/minecraft/class_4877;)Z
-		ARG 1 server
-	METHOD method_20891 drawLeave (Lnet/minecraft/class_4587;IIII)V
-		ARG 1 matrices
-		ARG 2 x
-		ARG 3 y
-		ARG 4 mouseX
-		ARG 5 mouseY
-	METHOD method_20892 shouldConfigureButtonBeVisible (Lnet/minecraft/class_4877;)Z
-		ARG 1 server
-	METHOD method_20898 drawConfigure (Lnet/minecraft/class_4587;IIII)V
-		ARG 1 matrices
-		ARG 2 x
-		ARG 3 y
-		ARG 4 mouseX
-		ARG 5 mouseY
-	METHOD method_20899 shouldLeaveButtonBeVisible (Lnet/minecraft/class_4877;)Z
 		ARG 1 server
 	METHOD method_20902 newScreen ()Lnet/minecraft/class_4325;
 	METHOD method_20903 configureClicked (Lnet/minecraft/class_4877;)V
@@ -201,37 +183,21 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 		ARG 4 mouseX
 		ARG 5 mouseY
 		ARG 6 remainingDays
-	METHOD method_24988 (Lnet/minecraft/class_4185;)V
-		ARG 0 button
-	METHOD method_24989 (Lnet/minecraft/class_4185;)V
-		ARG 1 button
 	METHOD method_24991 leaveServer (ZLnet/minecraft/class_4877;)V
 		ARG 1 confirmed
 		ARG 2 realmsServer
-	METHOD method_24993 (Lnet/minecraft/class_4185;)V
-		ARG 1 button
-	METHOD method_24995 (Lnet/minecraft/class_4185;)V
-		ARG 1 button
-	METHOD method_24997 (Lnet/minecraft/class_4185;)V
-		ARG 1 button
 	METHOD method_25001 isOwnedNotExpired (Lnet/minecraft/class_4877;)Z
 		ARG 1 serverData
 	METHOD method_31172 (Lnet/minecraft/class_4877;Lnet/minecraft/class_4325$class_4866;)Z
 		ARG 1 child
 	METHOD method_31174 removeServer (Lnet/minecraft/class_4877;)V
 		ARG 1 serverData
-	METHOD method_31379 (Lnet/minecraft/class_4185;)V
-		ARG 1 button
-	METHOD method_31380 (Lnet/minecraft/class_4185;)V
-		ARG 1 button
 	METHOD method_35682 setCreatedTrial (Z)V
 		ARG 1 createdTrial
 	METHOD method_38503 findServer ()Lnet/minecraft/class_4877;
 	METHOD method_38504 (Lnet/minecraft/class_4877;Z)V
 		ARG 2 confirmed
 	METHOD method_38505 removeSelection ()V
-	METHOD method_42398 (Lnet/minecraft/class_4185;)V
-		ARG 1 button
 	METHOD method_44609 resetPeriodicRunnersManager ()V
 	METHOD method_44610 (Lnet/minecraft/class_4882;)V
 		ARG 1 liveStats
@@ -245,35 +211,90 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 		ARG 1 pendingInvitesCount
 	METHOD method_44615 (Ljava/util/List;)V
 		ARG 1 servers
+	METHOD method_48171 addInvitesAndNewsButtons ()V
+	METHOD method_48173 addPurchaseButtons ()V
+	METHOD method_48178 (Lnet/minecraft/class_4185;)V
+		ARG 0 button
+	METHOD method_48179 (Lnet/minecraft/class_4185;)V
+		ARG 1 button
+	METHOD method_48180 (Lnet/minecraft/class_4185;)V
+		ARG 1 button
+	METHOD method_49281 (Lnet/minecraft/class_4325;Lnet/minecraft/class_364;)V
+		ARG 1 child
+	METHOD method_49283 (Lnet/minecraft/class_4185;)V
+		ARG 1 button
+	METHOD method_49284 (Lnet/minecraft/class_4185;)V
+		ARG 1 button
+	METHOD method_49285 shouldConfigureButtonBeActive (Lnet/minecraft/class_4877;)Z
+		ARG 1 server
+	METHOD method_49286 (Lnet/minecraft/class_4185;)V
+		ARG 1 button
+	METHOD method_49287 addLowerButtons ()V
+	METHOD method_49288 shouldLeaveButtonBeActive (Lnet/minecraft/class_4877;)Z
+		ARG 1 server
+	METHOD method_49289 (Lnet/minecraft/class_4185;)V
+		ARG 1 button
+	METHOD method_49290 (Lnet/minecraft/class_4185;)V
+		ARG 1 button
+	METHOD method_49550 refresh ()V
+	METHOD method_49551 addNotificationEntry (Lnet/minecraft/class_4325$class_4329;Lnet/minecraft/class_8204;)V
+		ARG 1 selectionList
+		ARG 2 notification
+	METHOD method_49553 request (Lnet/minecraft/class_4325$class_8203;Ljava/util/function/Consumer;)V
+		ARG 0 request
+		ARG 1 resultConsumer
+	METHOD method_49554 (Ljava/lang/Throwable;)Ljava/lang/Void;
+		ARG 0 throwable
+	METHOD method_49555 (Ljava/util/List;Lnet/minecraft/class_4341;)Ljava/lang/Object;
+		ARG 1 client
+	METHOD method_49556 (Ljava/util/List;Ljava/lang/Object;)V
+		ARG 2 void_
+	METHOD method_49557 dismissNotification (Ljava/util/UUID;)V
+		ARG 1 notification
+	METHOD method_49558 (Ljava/util/UUID;Lnet/minecraft/class_4341;)Ljava/lang/Object;
+		ARG 1 client
+	METHOD method_49559 (Ljava/util/UUID;Lnet/minecraft/class_8204;)Z
+		ARG 1 notificationId
+	METHOD method_49560 (Ljava/util/UUID;Ljava/lang/Object;)V
+		ARG 2 void_
+	METHOD method_49561 (Ljava/util/List;)V
+		ARG 1 notifications
 	CLASS class_4326 CloseButton
 		METHOD method_25021 (Lnet/minecraft/class_4325;Lnet/minecraft/class_4185;)V
 			ARG 1 button
 	CLASS class_4327 NewsButton
 		METHOD method_25022 (Lnet/minecraft/class_4325;Lnet/minecraft/class_4185;)V
 			ARG 1 button
-		METHOD method_45572 (Lnet/minecraft/class_4325;Z)V
-			ARG 1 confirmed
 	CLASS class_4328 PendingInvitesButton
 		METHOD method_37005 updatePendingText ()V
 	CLASS class_4329 RealmSelectionList
 	CLASS class_4330 RealmSelectionListEntry
-		FIELD field_19518 mServerData Lnet/minecraft/class_4877;
+		FIELD field_19518 server Lnet/minecraft/class_4877;
 		METHOD <init> (Lnet/minecraft/class_4325;Lnet/minecraft/class_4877;)V
-			ARG 2 serverData
+			ARG 2 server
 		METHOD method_20945 render (Lnet/minecraft/class_4877;Lnet/minecraft/class_4587;IIII)V
-			ARG 1 serverData
+			ARG 1 server
 			ARG 2 matrices
 			ARG 3 x
 			ARG 4 y
 			ARG 5 mouseX
 			ARG 6 mouseY
-		METHOD method_20946 renderMcoServerItem (Lnet/minecraft/class_4877;Lnet/minecraft/class_4587;IIII)V
-			ARG 1 serverData
+		METHOD method_20946 renderRealmsServerItem (Lnet/minecraft/class_4877;Lnet/minecraft/class_4587;IIII)V
+			ARG 1 server
 			ARG 2 matrices
 			ARG 3 x
 			ARG 4 y
 			ARG 5 mouseX
 			ARG 6 mouseY
+		METHOD method_49291 drawServerState (Lnet/minecraft/class_4877;Lnet/minecraft/class_4587;IIIIII)V
+			ARG 1 server
+			ARG 2 matrices
+			ARG 3 x
+			ARG 4 y
+			ARG 5 mouseX
+			ARG 6 mouseY
+			ARG 7 xOffset
+			ARG 8 yOffset
 	CLASS class_4331 RealmSelectionListTrialEntry
 		METHOD method_20947 renderTrialItem (Lnet/minecraft/class_4587;IIIII)V
 			ARG 1 matrices
@@ -284,4 +305,39 @@ CLASS net/minecraft/class_4325 net/minecraft/client/realms/gui/screen/RealmsMain
 			ARG 6 mouseY
 	CLASS class_4866 Entry
 		METHOD method_38506 getRealmsServer ()Lnet/minecraft/class_4877;
-	CLASS class_5220 HoverState
+	CLASS class_8200 VisitButtonEntry
+		FIELD field_42999 button Lnet/minecraft/class_4185;
+		FIELD field_43000 x I
+		METHOD <init> (Lnet/minecraft/class_4325;Lnet/minecraft/class_4185;)V
+			ARG 2 button
+	CLASS class_8201 CrossButton
+		METHOD <init> (IILnet/minecraft/class_4185$class_4241;Lnet/minecraft/class_2561;)V
+			ARG 1 x
+			ARG 2 y
+			ARG 3 onPress
+			ARG 4 message
+		METHOD <init> (Lnet/minecraft/class_4185$class_4241;Lnet/minecraft/class_2561;)V
+			ARG 1 onPress
+			ARG 2 message
+	CLASS class_8202 VisitUrlNotification
+		FIELD field_43005 message Lnet/minecraft/class_2561;
+		FIELD field_43006 gridChildren Ljava/util/List;
+		FIELD field_43007 dismissButton Lnet/minecraft/class_4325$class_8201;
+		FIELD field_43008 textWidget Lnet/minecraft/class_7940;
+		FIELD field_43009 grid Lnet/minecraft/class_7845;
+		FIELD field_43010 textGrid Lnet/minecraft/class_7843;
+		FIELD field_43011 width I
+		METHOD <init> (Lnet/minecraft/class_4325;Lnet/minecraft/class_2561;Lnet/minecraft/class_8204;)V
+			ARG 2 message
+			ARG 3 notification
+		METHOD method_49564 setWidth (I)V
+			ARG 1 width
+		METHOD method_49565 (Lnet/minecraft/class_4587;IIFLnet/minecraft/class_339;)V
+			ARG 4 child
+		METHOD method_49566 (Lnet/minecraft/class_8204;Lnet/minecraft/class_4185;)V
+			ARG 2 button
+		METHOD method_49567 updateWidth (I)V
+			ARG 1 width
+	CLASS class_8203 Request
+		METHOD request (Lnet/minecraft/class_4341;)Ljava/lang/Object;
+			ARG 1 client

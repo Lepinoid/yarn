@@ -40,7 +40,6 @@ CLASS net/minecraft/class_310 net/minecraft/client/MinecraftClient
 	COMMENT @see net.minecraft.server.integrated.IntegratedServer
 	COMMENT @see net.minecraft.client.render.GameRenderer
 	FIELD field_16240 profiler Lnet/minecraft/class_3695;
-	FIELD field_16762 game Lnet/minecraft/class_3799;
 	FIELD field_1686 windowProvider Lnet/minecraft/class_3682;
 	FIELD field_1687 world Lnet/minecraft/class_638;
 		COMMENT Represents the world the client is currently viewing.
@@ -181,6 +180,7 @@ CLASS net/minecraft/class_310 net/minecraft/client/MinecraftClient
 	FIELD field_40381 serverResourcePackProvider Lnet/minecraft/class_1066;
 	FIELD field_41331 telemetryManager Lnet/minecraft/class_6628;
 	FIELD field_41332 renderTime J
+	FIELD field_41782 navigationType Lnet/minecraft/class_8015;
 	METHOD <init> (Lnet/minecraft/class_542;)V
 		ARG 1 args
 	METHOD method_1476 checkIs64Bit ()Z
@@ -271,8 +271,8 @@ CLASS net/minecraft/class_310 net/minecraft/client/MinecraftClient
 	METHOD method_1551 getInstance ()Lnet/minecraft/class_310;
 	METHOD method_1554 getBakedModelManager ()Lnet/minecraft/class_1092;
 	METHOD method_1555 hasReducedDebugInfo ()Z
-	METHOD method_1556 (Lnet/minecraft/class_1860;)Lnet/minecraft/class_2960;
-		ARG 0 recipe
+	METHOD method_1556 (Lnet/minecraft/class_516;Lnet/minecraft/class_1860;)Lnet/minecraft/class_2960;
+		ARG 1 recipe
 	METHOD method_1558 getCurrentServerEntry ()Lnet/minecraft/class_642;
 	METHOD method_1560 getCameraEntity ()Lnet/minecraft/class_1297;
 	METHOD method_1561 getEntityRenderDispatcher ()Lnet/minecraft/class_898;
@@ -303,12 +303,11 @@ CLASS net/minecraft/class_310 net/minecraft/client/MinecraftClient
 	METHOD method_1589 isConnectedToRealms ()Z
 	METHOD method_1590 handleBlockBreaking (Z)V
 		ARG 1 breaking
-	METHOD method_1591 (Lnet/minecraft/class_1860;)Ljava/util/stream/Stream;
-		ARG 0 recipe
+	METHOD method_1591 (Lnet/minecraft/class_516;Lnet/minecraft/class_1860;)Ljava/util/stream/Stream;
+		ARG 1 recipe
 	METHOD method_1592 scheduleStop ()V
 	METHOD method_16009 getFramerateLimit ()I
 	METHOD method_16011 getProfiler ()Lnet/minecraft/class_3695;
-	METHOD method_16689 getGame ()Lnet/minecraft/class_3799;
 	METHOD method_17044 checkGameData ()V
 	METHOD method_17533 (I)Lnet/minecraft/class_3949;
 		ARG 1 spawnChunkRadius
@@ -345,8 +344,8 @@ CLASS net/minecraft/class_310 net/minecraft/client/MinecraftClient
 		ARG 1 mipmapLevels
 	METHOD method_24226 handleResourceReloadException (Ljava/lang/Throwable;)V
 		ARG 1 throwable
-	METHOD method_24228 (Ljava/util/concurrent/CompletableFuture;Ljava/util/Optional;)V
-		ARG 2 throwable
+	METHOD method_24228 (ZLjava/util/concurrent/CompletableFuture;Ljava/util/Optional;)V
+		ARG 3 error
 	METHOD method_24287 getWindowTitle ()Ljava/lang/String;
 	METHOD method_24288 updateWindowTitle ()V
 	METHOD method_24289 getModStatus ()Lnet/minecraft/class_6683;
@@ -508,13 +507,20 @@ CLASS net/minecraft/class_310 net/minecraft/client/MinecraftClient
 	METHOD method_47600 getRenderTime ()J
 	METHOD method_47601 getTelemetryManager ()Lnet/minecraft/class_6628;
 	METHOD method_47602 isOptionalTelemetryEnabled ()Z
+	METHOD method_48185 setNavigationType (Lnet/minecraft/class_8015;)V
+		ARG 1 navigationType
+	METHOD method_48186 getNavigationType ()Lnet/minecraft/class_8015;
+	METHOD method_49292 showResourceReloadFailureToast (Lnet/minecraft/class_2561;)V
+		ARG 1 description
+	METHOD method_49293 (ZLjava/lang/Throwable;)V
+		ARG 2 throwable
+	METHOD method_49294 onForcedResourceReloadFailure ()V
 	CLASS class_5859 ChatRestriction
 		COMMENT Represents the restrictions on chat on a Minecraft client.
 		COMMENT
 		COMMENT @see MinecraftClient#getChatRestriction()
 		FIELD field_28944 description Lnet/minecraft/class_2561;
 		FIELD field_39456 MORE_INFO_TEXT Lnet/minecraft/class_2561;
-		FIELD field_39457 JAVA_ACCOUNT_SETTINGS_URL Ljava/lang/String;
 		METHOD <init> (Ljava/lang/String;ILnet/minecraft/class_2561;)V
 			ARG 3 description
 		METHOD method_33885 getDescription ()Lnet/minecraft/class_2561;

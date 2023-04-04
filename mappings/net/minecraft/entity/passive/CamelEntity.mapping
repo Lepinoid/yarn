@@ -5,7 +5,6 @@ CLASS net/minecraft/class_7689 net/minecraft/entity/passive/CamelEntity
 	FIELD field_40138 idleAnimationCooldown I
 	FIELD field_40139 DASHING Lnet/minecraft/class_2940;
 	FIELD field_40140 LAST_POSE_TICK Lnet/minecraft/class_2940;
-	FIELD field_40141 walkingAnimationState Lnet/minecraft/class_7094;
 	FIELD field_40142 sittingTransitionAnimationState Lnet/minecraft/class_7094;
 	FIELD field_40143 standingTransitionAnimationState Lnet/minecraft/class_7094;
 	FIELD field_40144 idlingAnimationState Lnet/minecraft/class_7094;
@@ -29,6 +28,13 @@ CLASS net/minecraft/class_7689 net/minecraft/entity/passive/CamelEntity
 	METHOD method_45362 setDashing (Z)V
 		ARG 1 dashing
 	METHOD method_46398 shouldPlaySittingTransitionAnimation ()Z
+	METHOD method_48159 clampHeadYaw (Lnet/minecraft/class_1297;F)V
+		ARG 1 entity
+		ARG 2 range
+	METHOD method_48160 initLastPoseTick (J)V
+		ARG 1 time
+	METHOD method_48573 shouldUpdateSittingAnimations ()Z
 	CLASS class_7690 CamelBodyControl
 		METHOD <init> (Lnet/minecraft/class_7689;Lnet/minecraft/class_7689;)V
 			ARG 2 camel
+	CLASS class_8196 CamelMoveControl
