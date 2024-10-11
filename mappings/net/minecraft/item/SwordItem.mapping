@@ -1,13 +1,6 @@
 CLASS net/minecraft/class_1829 net/minecraft/item/SwordItem
-	FIELD field_23745 attributeModifiers Lcom/google/common/collect/Multimap;
-	FIELD field_8920 attackDamage F
-	METHOD <init> (Lnet/minecraft/class_1832;IFLnet/minecraft/class_1792$class_1793;)V
-		ARG 1 toolMaterial
-		ARG 2 attackDamage
-		ARG 3 attackSpeed
-		ARG 4 settings
-	METHOD method_20282 (Lnet/minecraft/class_1309;)V
-		ARG 0 e
-	METHOD method_20283 (Lnet/minecraft/class_1309;)V
-		ARG 0 e
-	METHOD method_8020 getAttackDamage ()F
+	METHOD method_57394 createAttributeModifiers (Lnet/minecraft/class_1832;IF)Lnet/minecraft/class_9285;
+		ARG 0 material
+		ARG 1 baseAttackDamage
+		ARG 2 attackSpeed
+	METHOD method_58417 createToolComponent ()Lnet/minecraft/class_9424;

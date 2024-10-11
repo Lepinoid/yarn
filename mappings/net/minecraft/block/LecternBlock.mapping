@@ -12,6 +12,7 @@ CLASS net/minecraft/class_3715 net/minecraft/block/LecternBlock
 	FIELD field_17371 EAST_SHAPE Lnet/minecraft/class_265;
 	FIELD field_17372 SOUTH_SHAPE Lnet/minecraft/class_265;
 	FIELD field_31113 SCHEDULED_TICK_DELAY I
+	FIELD field_46386 CODEC Lcom/mojang/serialization/MapCodec;
 	METHOD method_17470 openScreen (Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_1657;)V
 		ARG 1 world
 		ARG 2 pos
@@ -20,7 +21,7 @@ CLASS net/minecraft/class_3715 net/minecraft/block/LecternBlock
 		ARG 0 world
 		ARG 1 pos
 		ARG 2 state
-	METHOD method_17472 putBookIfAbsent (Lnet/minecraft/class_1297;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_1799;)Z
+	METHOD method_17472 putBookIfAbsent (Lnet/minecraft/class_1309;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_1799;)Z
 		ARG 0 user
 		ARG 1 world
 		ARG 2 pos
@@ -36,7 +37,7 @@ CLASS net/minecraft/class_3715 net/minecraft/block/LecternBlock
 		ARG 0 world
 		ARG 1 pos
 		ARG 2 state
-	METHOD method_17475 putBook (Lnet/minecraft/class_1297;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_1799;)V
+	METHOD method_17475 putBook (Lnet/minecraft/class_1309;Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_1799;)V
 		ARG 0 user
 		ARG 1 world
 		ARG 2 pos

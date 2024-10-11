@@ -10,7 +10,7 @@ To use yarn-deobfuscated Minecraft for Minecraft modding or as a dependency in a
 
 To obtain a deobfuscated Minecraft jar, [`./gradlew mapNamedJar`](#mapNamedJar) will generate a jar named like `<minecraft version>-named.jar`, which can be sent to a decompiler for deobfuscated code.
 
-Please note to run the yarn build script **Java 16** or higher is required!
+Please note to run the yarn build script **Java 17** or higher is required!
 
 ## Contributing
 
@@ -56,3 +56,6 @@ Downloads the client and server Minecraft jars for the current Minecraft version
 
 ### `mergeJars`
 Merges the client and server jars into one merged jar, located at `VERSION-merged.jar` in the mappings directory where `VERSION` is the current Minecraft version.
+
+### `formatMappings`
+Formats and sorts the mappings, ensuring that they are in a consistent order.

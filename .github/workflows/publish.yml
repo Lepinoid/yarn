@@ -7,4 +7,4 @@ jobs:
     uses: Lepinoid/WorkflowCollections/.github/workflows/publish_to_maven-repo.yml@main
     secrets: inherit
     with:
-      java_version: 18
+      java_version: 21

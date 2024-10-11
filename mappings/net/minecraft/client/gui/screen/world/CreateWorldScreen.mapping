@@ -7,15 +7,15 @@ CLASS net/minecraft/class_525 net/minecraft/client/gui/screen/world/CreateWorldS
 	FIELD field_3187 parent Lnet/minecraft/class_437;
 	FIELD field_32434 TEMP_DIR_PREFIX Ljava/lang/String;
 	FIELD field_37911 PREPARING_TEXT Lnet/minecraft/class_2561;
-	FIELD field_42163 grid Lnet/minecraft/class_7845;
 	FIELD field_42164 tabNavigation Lnet/minecraft/class_8089;
 	FIELD field_42169 ALLOW_COMMANDS_INFO_TEXT Lnet/minecraft/class_2561;
 	FIELD field_42172 worldCreator Lnet/minecraft/class_8100;
 	FIELD field_42173 tabManager Lnet/minecraft/class_8088;
 	FIELD field_42501 EXPERIMENTS_TEXT Lnet/minecraft/class_2561;
 	FIELD field_42502 recreated Z
-	FIELD field_43081 HEADER_SEPARATOR_TEXTURE Lnet/minecraft/class_2960;
-	FIELD field_43082 FOOTER_SEPARATOR_TEXTURE Lnet/minecraft/class_2960;
+	FIELD field_45568 symlinkFinder Lnet/minecraft/class_8580;
+	FIELD field_49557 layout Lnet/minecraft/class_8132;
+	FIELD field_49902 TAB_HEADER_BACKGROUND_TEXTURE Lnet/minecraft/class_2960;
 	METHOD <init> (Lnet/minecraft/class_310;Lnet/minecraft/class_437;Lnet/minecraft/class_7193;Ljava/util/Optional;Ljava/util/OptionalLong;)V
 		ARG 1 client
 		ARG 2 parent
@@ -116,6 +116,8 @@ CLASS net/minecraft/class_525 net/minecraft/client/gui/screen/world/CreateWorldS
 		ARG 1 resourcePackManager
 	METHOD method_49629 (Ljava/util/function/Consumer;Ljava/lang/Void;Ljava/lang/Throwable;)Ljava/lang/Object;
 		ARG 3 throwable
+	METHOD method_59841 (Lnet/minecraft/class_7193;)Lnet/minecraft/class_7193;
+		ARG 0 generatorOptionsHolder
 	CLASS class_7749 WorldCreationSettings
 	CLASS class_8093 GameTab
 		FIELD field_42175 GAME_TAB_TITLE_TEXT Lnet/minecraft/class_2561;
@@ -171,6 +173,9 @@ CLASS net/minecraft/class_525 net/minecraft/client/gui/screen/world/CreateWorldS
 			ARG 1 button
 		METHOD method_48671 getWorldTypeNarrationMessage (Lnet/minecraft/class_5676;)Lnet/minecraft/class_5250;
 			ARG 0 worldTypeButton
+		METHOD method_48672 (Lnet/minecraft/class_5676;Lnet/minecraft/class_8100$class_8101;)V
+			ARG 1 button
+			ARG 2 worldType
 		METHOD method_48673 (Lnet/minecraft/class_5676;Lnet/minecraft/class_8100;)V
 			ARG 2 creator
 		METHOD method_48674 (Lnet/minecraft/class_7845$class_7939;Lnet/minecraft/class_8021;)V

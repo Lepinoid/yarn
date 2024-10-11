@@ -3,6 +3,7 @@ CLASS net/minecraft/class_5478 net/minecraft/world/biome/OverworldBiomeCreator
 	FIELD field_35341 DEFAULT_WATER_FOG_COLOR I
 	FIELD field_35342 DEFAULT_FOG_COLOR I
 	FIELD field_35436 DEFAULT_MUSIC Lnet/minecraft/class_5195;
+	FIELD field_51968 SWAMP_SKELETON_WEIGHT I
 	METHOD method_30683 createJungle (Lnet/minecraft/class_7871;Lnet/minecraft/class_7871;)Lnet/minecraft/class_1959;
 		ARG 0 featureLookup
 		ARG 1 carverLookup
@@ -36,7 +37,7 @@ CLASS net/minecraft/class_5478 net/minecraft/world/biome/OverworldBiomeCreator
 		ARG 1 carverLookup
 		ARG 2 windswept
 		ARG 3 plateau
-	METHOD method_30695 createJungleFeatures (Lnet/minecraft/class_7871;Lnet/minecraft/class_7871;FZZZLnet/minecraft/class_5483$class_5496;)Lnet/minecraft/class_1959;
+	METHOD method_30695 createJungleFeatures (Lnet/minecraft/class_7871;Lnet/minecraft/class_7871;FZZZLnet/minecraft/class_5483$class_5496;Lnet/minecraft/class_5195;)Lnet/minecraft/class_1959;
 		ARG 0 featureLookup
 		ARG 1 carverLookup
 		ARG 2 depth
@@ -44,6 +45,7 @@ CLASS net/minecraft/class_5478 net/minecraft/world/biome/OverworldBiomeCreator
 		ARG 4 sparse
 		ARG 5 unmodified
 		ARG 6 spawnSettings
+		ARG 7 music
 	METHOD method_30696 createBadlands (Lnet/minecraft/class_7871;Lnet/minecraft/class_7871;Z)Lnet/minecraft/class_1959;
 		ARG 0 featureLookup
 		ARG 1 carverLookup

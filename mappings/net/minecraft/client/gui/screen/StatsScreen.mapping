@@ -7,12 +7,21 @@ CLASS net/minecraft/class_447 net/minecraft/client/gui/screen/StatsScreen
 	FIELD field_2647 statHandler Lnet/minecraft/class_3469;
 	FIELD field_2648 parent Lnet/minecraft/class_437;
 	FIELD field_26546 DOWNLOADING_STATS_TEXT Lnet/minecraft/class_2561;
+	FIELD field_45418 SLOT_TEXTURE Lnet/minecraft/class_2960;
+	FIELD field_45419 HEADER_TEXTURE Lnet/minecraft/class_2960;
+	FIELD field_45420 SORT_UP_TEXTURE Lnet/minecraft/class_2960;
+	FIELD field_45421 SORT_DOWN_TEXTURE Lnet/minecraft/class_2960;
+	FIELD field_46185 NONE_TEXT Lnet/minecraft/class_2561;
+	FIELD field_49516 TITLE_TEXT Lnet/minecraft/class_2561;
+	FIELD field_49517 GENERAL_BUTTON_TEXT Lnet/minecraft/class_2561;
+	FIELD field_49518 ITEM_BUTTON_TEXT Lnet/minecraft/class_2561;
+	FIELD field_49519 MOBS_BUTTON_TEXT Lnet/minecraft/class_2561;
+	FIELD field_49523 layout Lnet/minecraft/class_8132;
 	METHOD <init> (Lnet/minecraft/class_437;Lnet/minecraft/class_3469;)V
 		ARG 1 parent
 		ARG 2 statHandler
 	METHOD method_19390 selectStatList (Lnet/minecraft/class_4280;)V
 		ARG 1 list
-	METHOD method_19399 getSelectedStatList ()Lnet/minecraft/class_4280;
 	METHOD method_19866 (Lnet/minecraft/class_4185;)V
 		ARG 1 button
 	METHOD method_19867 (Lnet/minecraft/class_4185;)V
@@ -23,21 +32,11 @@ CLASS net/minecraft/class_447 net/minecraft/client/gui/screen/StatsScreen
 		ARG 1 button
 	METHOD method_2267 createButtons ()V
 	METHOD method_2270 createLists ()V
-	METHOD method_2282 renderIcon (Lnet/minecraft/class_4587;IIII)V
-		ARG 1 matrices
-		ARG 2 x
-		ARG 3 y
-		ARG 4 u
-		ARG 5 v
-	METHOD method_2285 getColumnX (I)I
-		ARG 1 index
-	METHOD method_2289 renderStatItem (Lnet/minecraft/class_4587;IILnet/minecraft/class_1792;)V
-		ARG 1 matrices
-		ARG 2 x
-		ARG 3 y
-		ARG 4 item
+	METHOD method_2300 onStatsReady ()V
 	METHOD method_27027 getStatTranslationKey (Lnet/minecraft/class_3445;)Ljava/lang/String;
 		ARG 0 stat
+	METHOD method_57739 (Lnet/minecraft/class_447;Lnet/minecraft/class_364;)V
+		ARG 1 child
 	CLASS class_4198 GeneralStatsListWidget
 		METHOD <init> (Lnet/minecraft/class_447;Lnet/minecraft/class_310;)V
 			ARG 2 client
@@ -50,43 +49,36 @@ CLASS net/minecraft/class_447 net/minecraft/client/gui/screen/StatsScreen
 				ARG 2 stat
 			METHOD method_37074 getFormatted ()Ljava/lang/String;
 	CLASS class_4200 ItemStatsListWidget
-		FIELD field_18753 HEADER_ICON_SPRITE_INDICES [I
 		FIELD field_18754 blockStatTypes Ljava/util/List;
 		FIELD field_18755 itemStatTypes Ljava/util/List;
 		FIELD field_18756 selectedHeaderColumn I
 		FIELD field_18758 comparator Ljava/util/Comparator;
 		FIELD field_18759 selectedStatType Lnet/minecraft/class_3448;
 		FIELD field_18760 listOrder I
+		FIELD field_45422 headerIconTextures [Lnet/minecraft/class_2960;
 		METHOD <init> (Lnet/minecraft/class_447;Lnet/minecraft/class_310;)V
 			ARG 2 client
-		METHOD method_19406 getText (Lnet/minecraft/class_1792;)Lnet/minecraft/class_2561;
-			ARG 1 item
-		METHOD method_19407 render (Lnet/minecraft/class_4587;Lnet/minecraft/class_2561;II)V
-			ARG 1 matrices
-			ARG 2 text
-			ARG 3 mouseX
-			ARG 4 mouseY
 		METHOD method_19408 selectStatType (Lnet/minecraft/class_3448;)V
 			ARG 1 statType
 		METHOD method_19409 getHeaderIndex (Lnet/minecraft/class_3448;)I
 			ARG 1 statType
 		METHOD method_19410 getStatType (I)Lnet/minecraft/class_3448;
 			ARG 1 headerColumn
-		CLASS class_450 ItemComparator
-			METHOD compare (Ljava/lang/Object;Ljava/lang/Object;)I
-				ARG 1 a
-				ARG 2 b
 		CLASS class_4199 Entry
 			FIELD field_33830 item Lnet/minecraft/class_1792;
 			METHOD <init> (Lnet/minecraft/class_447$class_4200;Lnet/minecraft/class_1792;)V
 				ARG 2 item
-			METHOD method_19405 render (Lnet/minecraft/class_4587;Lnet/minecraft/class_3445;IIZ)V
-				ARG 1 matrices
+			METHOD method_19405 render (Lnet/minecraft/class_332;Lnet/minecraft/class_3445;IIZ)V
+				ARG 1 context
 				ARG 2 stat
 				ARG 3 x
 				ARG 4 y
 				ARG 5 white
 			METHOD method_37307 getItem ()Lnet/minecraft/class_1792;
+		CLASS class_450 ItemComparator
+			METHOD compare (Ljava/lang/Object;Ljava/lang/Object;)I
+				ARG 1 a
+				ARG 2 b
 	CLASS class_4202 EntityStatsListWidget
 		FIELD field_18763 screen Lnet/minecraft/class_447;
 		METHOD <init> (Lnet/minecraft/class_447;Lnet/minecraft/class_310;)V

@@ -26,6 +26,11 @@ CLASS net/minecraft/class_4722 net/minecraft/client/render/TexturedRenderLayers
 	FIELD field_42071 ARMOR_TRIMS_ATLAS_TEXTURE Lnet/minecraft/class_2960;
 	FIELD field_42910 DECORATED_POT_ATLAS_TEXTURE Lnet/minecraft/class_2960;
 	FIELD field_42911 DECORATED_POT_PATTERN_TEXTURES Ljava/util/Map;
+	FIELD field_46070 ARMOR_TRIMS_DECAL_RENDER_LAYER Lnet/minecraft/class_1921;
+	FIELD field_49769 BANNER_BASE Lnet/minecraft/class_4730;
+	FIELD field_49770 SHIELD_BASE Lnet/minecraft/class_4730;
+	FIELD field_51914 DECORATED_POT_BASE Lnet/minecraft/class_4730;
+	FIELD field_51915 DECORATED_POT_SIDE Lnet/minecraft/class_4730;
 	METHOD method_24059 getBannerPatterns ()Lnet/minecraft/class_1921;
 	METHOD method_24061 (Lnet/minecraft/class_1767;)Lnet/minecraft/class_4730;
 		ARG 0 color
@@ -42,8 +47,6 @@ CLASS net/minecraft/class_4722 net/minecraft/client/render/TexturedRenderLayers
 		ARG 0 type
 	METHOD method_24065 createChestTextureId (Ljava/lang/String;)Lnet/minecraft/class_4730;
 		ARG 0 variant
-	METHOD method_24066 addDefaultTextures (Ljava/util/function/Consumer;)V
-		ARG 0 adder
 	METHOD method_24067 getShieldPatterns ()Lnet/minecraft/class_1921;
 	METHOD method_24068 (Ljava/lang/String;)Lnet/minecraft/class_4730;
 		ARG 0 colorName
@@ -55,23 +58,24 @@ CLASS net/minecraft/class_4722 net/minecraft/client/render/TexturedRenderLayers
 	METHOD method_24074 getEntityCutout ()Lnet/minecraft/class_1921;
 	METHOD method_24076 getEntityTranslucentCull ()Lnet/minecraft/class_1921;
 	METHOD method_29382 getItemEntityTranslucentCull ()Lnet/minecraft/class_1921;
-	METHOD method_33081 getBannerPatternTextureId (Lnet/minecraft/class_5321;)Lnet/minecraft/class_4730;
-		ARG 0 bannerPattern
+	METHOD method_33081 getBannerPatternTextureId (Lnet/minecraft/class_6880;)Lnet/minecraft/class_4730;
+		ARG 0 pattern
 	METHOD method_33082 getSignTextureId (Lnet/minecraft/class_4719;)Lnet/minecraft/class_4730;
 		ARG 0 signType
-	METHOD method_33083 getShieldPatternTextureId (Lnet/minecraft/class_5321;)Lnet/minecraft/class_4730;
-		ARG 0 bannerPattern
-	METHOD method_33084 createBannerPatternTextureId (Lnet/minecraft/class_5321;)Lnet/minecraft/class_4730;
-		ARG 0 bannerPattern
-	METHOD method_33085 createShieldPatternTextureId (Lnet/minecraft/class_5321;)Lnet/minecraft/class_4730;
-		ARG 0 bannerPattern
+	METHOD method_33083 getShieldPatternTextureId (Lnet/minecraft/class_6880;)Lnet/minecraft/class_4730;
+		ARG 0 pattern
 	METHOD method_45781 getHangingSignTextureId (Lnet/minecraft/class_4719;)Lnet/minecraft/class_4730;
 		ARG 0 signType
 	METHOD method_45782 createHangingSignTextureId (Lnet/minecraft/class_4719;)Lnet/minecraft/class_4730;
 		ARG 0 type
 	METHOD method_45783 getHangingSign ()Lnet/minecraft/class_1921;
-	METHOD method_48480 getArmorTrims ()Lnet/minecraft/class_1921;
+	METHOD method_48480 getArmorTrims (Z)Lnet/minecraft/class_1921;
+		ARG 0 decal
 	METHOD method_49341 getDecoratedPotPatternTextureId (Lnet/minecraft/class_5321;)Lnet/minecraft/class_4730;
 		ARG 0 potPatternKey
-	METHOD method_49342 createDecoratedPotPatternTextureId (Lnet/minecraft/class_5321;)Lnet/minecraft/class_4730;
-		ARG 0 potPatternKey
+	METHOD method_49342 createDecoratedPotPatternTextureId (Lnet/minecraft/class_2960;)Lnet/minecraft/class_4730;
+		ARG 0 patternId
+	METHOD method_58138 (Lnet/minecraft/class_2960;)Lnet/minecraft/class_4730;
+		ARG 0 id
+	METHOD method_58139 (Lnet/minecraft/class_2960;)Lnet/minecraft/class_4730;
+		ARG 0 id

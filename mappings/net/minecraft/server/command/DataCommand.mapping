@@ -8,6 +8,7 @@ CLASS net/minecraft/class_3164 net/minecraft/server/command/DataCommand
 	FIELD field_13797 MODIFY_EXPECTED_OBJECT_EXCEPTION Lcom/mojang/brigadier/exceptions/DynamicCommandExceptionType;
 	FIELD field_13798 TARGET_OBJECT_TYPES Ljava/util/List;
 	FIELD field_41747 MODIFY_EXPECTED_VALUE_EXCEPTION Lcom/mojang/brigadier/exceptions/DynamicCommandExceptionType;
+	FIELD field_44916 MODIFY_INVALID_SUBSTRING_EXCEPTION Lcom/mojang/brigadier/exceptions/Dynamic2CommandExceptionType;
 	METHOD method_13885 executeRemove (Lnet/minecraft/class_2168;Lnet/minecraft/class_3162;Lnet/minecraft/class_2203$class_2209;)I
 		ARG 0 source
 		ARG 1 object
@@ -33,7 +34,7 @@ CLASS net/minecraft/class_3164 net/minecraft/server/command/DataCommand
 	METHOD method_13892 (Ljava/lang/Object;)Lcom/mojang/brigadier/Message;
 		ARG 0 path
 	METHOD method_13893 (Lnet/minecraft/class_3164$class_3167;Lnet/minecraft/class_3164$class_3165;Lnet/minecraft/class_3164$class_3167;Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
-		ARG 3 builder
+		ARG 3 builderx
 	METHOD method_13895 (Lcom/mojang/brigadier/builder/ArgumentBuilder;Lnet/minecraft/class_3164$class_3166;)V
 		ARG 0 builder
 		ARG 1 modifier
@@ -98,14 +99,16 @@ CLASS net/minecraft/class_3164 net/minecraft/server/command/DataCommand
 		ARG 3 elements
 	METHOD method_47953 (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/class_2487;Lnet/minecraft/class_2203$class_2209;Ljava/util/List;)I
 		ARG 0 context
+		ARG 1 sourceNbt
 		ARG 2 path
 		ARG 3 elements
 	METHOD method_47954 (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/class_2487;Lnet/minecraft/class_2203$class_2209;Ljava/util/List;)I
 		ARG 0 context
+		ARG 1 sourceNbt
 		ARG 2 path
 		ARG 3 elements
 	METHOD method_48088 (Lnet/minecraft/class_3164$class_3167;Lnet/minecraft/class_3164$class_3165;Lnet/minecraft/class_3164$class_3167;Lcom/mojang/brigadier/builder/ArgumentBuilder;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
-		ARG 3 builder
+		ARG 3 builderx
 	METHOD method_48089 (Lnet/minecraft/class_3164$class_3167;Lnet/minecraft/class_3164$class_3165;Lnet/minecraft/class_3164$class_3167;Lcom/mojang/brigadier/context/CommandContext;)I
 		ARG 3 context
 	METHOD method_48090 (Lnet/minecraft/class_3164$class_3167;Lnet/minecraft/class_3164$class_3167;Lnet/minecraft/class_3164$class_3165;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
@@ -119,9 +122,9 @@ CLASS net/minecraft/class_3164 net/minecraft/server/command/DataCommand
 		ARG 0 nbt
 	METHOD method_48094 (Ljava/lang/String;)Ljava/lang/String;
 		ARG 0 value
-	METHOD method_48095 mapValues (Ljava/util/List;Ljava/util/function/Function;)Ljava/util/List;
+	METHOD method_48095 mapValues (Ljava/util/List;Lnet/minecraft/class_3164$class_8569;)Ljava/util/List;
 		ARG 0 list
-		ARG 1 function
+		ARG 1 processor
 	METHOD method_48096 asString (Lnet/minecraft/class_2520;)Ljava/lang/String;
 		ARG 0 nbt
 	METHOD method_48097 (Lnet/minecraft/class_3164$class_3167;Lnet/minecraft/class_3164$class_3165;Lnet/minecraft/class_3164$class_3167;Lcom/mojang/brigadier/context/CommandContext;)I
@@ -141,6 +144,23 @@ CLASS net/minecraft/class_3164 net/minecraft/server/command/DataCommand
 		ARG 3 context
 	METHOD method_48104 (Lnet/minecraft/class_3164$class_3167;Lnet/minecraft/class_3164$class_3165;Lnet/minecraft/class_3164$class_3167;Lcom/mojang/brigadier/context/CommandContext;)I
 		ARG 3 context
+	METHOD method_51824 getSubstringIndex (II)I
+		ARG 0 index
+		ARG 1 length
+	METHOD method_51825 substring (Ljava/lang/String;I)Ljava/lang/String;
+		ARG 0 string
+		ARG 1 startIndex
+	METHOD method_51826 substring (Ljava/lang/String;II)Ljava/lang/String;
+		ARG 0 string
+		ARG 1 startIndex
+		ARG 2 endIndex
+	METHOD method_52164 (Ljava/lang/Object;Ljava/lang/Object;)Lcom/mojang/brigadier/Message;
+		ARG 0 startIndex
+		ARG 1 endIndex
+	METHOD method_52165 substringInternal (Ljava/lang/String;II)Ljava/lang/String;
+		ARG 0 string
+		ARG 1 startIndex
+		ARG 2 endIndex
 	CLASS class_3165 ModifyOperation
 		METHOD modify (Lcom/mojang/brigadier/context/CommandContext;Lnet/minecraft/class_2487;Lnet/minecraft/class_2203$class_2209;Ljava/util/List;)I
 			ARG 1 context
@@ -156,3 +176,6 @@ CLASS net/minecraft/class_3164 net/minecraft/server/command/DataCommand
 		METHOD method_13925 addArgumentsToBuilder (Lcom/mojang/brigadier/builder/ArgumentBuilder;Ljava/util/function/Function;)Lcom/mojang/brigadier/builder/ArgumentBuilder;
 			ARG 1 argument
 			ARG 2 argumentAdder
+	CLASS class_8569 Processor
+		METHOD process (Ljava/lang/String;)Ljava/lang/String;
+			ARG 1 string

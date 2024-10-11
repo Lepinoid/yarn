@@ -55,7 +55,7 @@ CLASS net/minecraft/class_6686 net/minecraft/world/gen/surfacebuilder/MaterialRu
 		ARG 1 addSurfaceDepth
 		ARG 2 secondaryDepthRange
 		ARG 3 verticalSurfaceType
-	METHOD method_42377 register (Lnet/minecraft/class_2378;Ljava/lang/String;Lnet/minecraft/class_7243;)Lcom/mojang/serialization/Codec;
+	METHOD method_42377 register (Lnet/minecraft/class_2378;Ljava/lang/String;Lnet/minecraft/class_7243;)Lcom/mojang/serialization/MapCodec;
 		ARG 0 registry
 		ARG 1 id
 		ARG 2 codecHolder
@@ -83,7 +83,7 @@ CLASS net/minecraft/class_6686 net/minecraft/world/gen/surfacebuilder/MaterialRu
 	CLASS class_6693 MaterialCondition
 		FIELD field_35232 CODEC Lcom/mojang/serialization/Codec;
 		METHOD method_39064 codec ()Lnet/minecraft/class_7243;
-		METHOD method_39070 registerAndGetDefault (Lnet/minecraft/class_2378;)Lcom/mojang/serialization/Codec;
+		METHOD method_39070 registerAndGetDefault (Lnet/minecraft/class_2378;)Lcom/mojang/serialization/MapCodec;
 			ARG 0 registry
 	CLASS class_6694 MaterialRuleContext
 		FIELD field_35233 surfaceBuilder Lnet/minecraft/class_6724;
@@ -107,6 +107,9 @@ CLASS net/minecraft/class_6686 net/minecraft/world/gen/surfacebuilder/MaterialRu
 		FIELD field_35619 stoneDepthBelow I
 		FIELD field_35620 stoneDepthAbove I
 		FIELD field_35676 chunkNoiseSampler Lnet/minecraft/class_6568;
+		FIELD field_35678 secondaryDepth D
+		FIELD field_36278 packedChunkPos J
+		FIELD field_36279 estimatedSurfaceHeights [I
 		FIELD field_37703 noiseConfig Lnet/minecraft/class_7138;
 		METHOD <init> (Lnet/minecraft/class_6724;Lnet/minecraft/class_7138;Lnet/minecraft/class_2791;Lnet/minecraft/class_6568;Ljava/util/function/Function;Lnet/minecraft/class_2378;Lnet/minecraft/class_5868;)V
 			ARG 1 surfaceBuilder
@@ -125,6 +128,12 @@ CLASS net/minecraft/class_6686 net/minecraft/world/gen/surfacebuilder/MaterialRu
 			ARG 4 blockX
 			ARG 5 blockY
 			ARG 6 blockZ
+		METHOD method_39550 getSecondaryDepth ()D
+		METHOD method_39551 estimateSurfaceHeight ()I
+		METHOD method_39903 blockToChunkCoord (I)I
+			ARG 0 blockCoord
+		METHOD method_39904 chunkToBlockCoord (I)I
+			ARG 0 chunkCoord
 		CLASS class_6695 NegativeRunDepthPredicate
 		CLASS class_6696 SteepSlopePredicate
 		CLASS class_6771 SurfacePredicate
@@ -158,7 +167,7 @@ CLASS net/minecraft/class_6686 net/minecraft/world/gen/surfacebuilder/MaterialRu
 	CLASS class_6708 MaterialRule
 		FIELD field_35252 CODEC Lcom/mojang/serialization/Codec;
 		METHOD method_39061 codec ()Lnet/minecraft/class_7243;
-		METHOD method_39085 registerAndGetDefault (Lnet/minecraft/class_2378;)Lcom/mojang/serialization/Codec;
+		METHOD method_39085 registerAndGetDefault (Lnet/minecraft/class_2378;)Lcom/mojang/serialization/MapCodec;
 			ARG 0 registry
 	CLASS class_6709 SequenceBlockStateRule
 		COMMENT Applies the given block state rules in sequence, and returns the first result that

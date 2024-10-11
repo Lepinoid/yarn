@@ -11,13 +11,12 @@ CLASS net/minecraft/class_2794 net/minecraft/world/gen/chunk/ChunkGenerator
 	METHOD <init> (Lnet/minecraft/class_1966;Ljava/util/function/Function;)V
 		ARG 1 biomeSource
 		ARG 2 generationSettingsGetter
-	METHOD method_12088 populateNoise (Ljava/util/concurrent/Executor;Lnet/minecraft/class_6748;Lnet/minecraft/class_7138;Lnet/minecraft/class_5138;Lnet/minecraft/class_2791;)Ljava/util/concurrent/CompletableFuture;
+	METHOD method_12088 populateNoise (Lnet/minecraft/class_6748;Lnet/minecraft/class_7138;Lnet/minecraft/class_5138;Lnet/minecraft/class_2791;)Ljava/util/concurrent/CompletableFuture;
 		COMMENT Generates the base shape of the chunk out of the basic block states as decided by this chunk generator's config.
-		ARG 1 executor
-		ARG 2 blender
-		ARG 3 noiseConfig
-		ARG 4 structureAccessor
-		ARG 5 chunk
+		ARG 1 blender
+		ARG 2 noiseConfig
+		ARG 3 structureAccessor
+		ARG 4 chunk
 	METHOD method_12098 getBiomeSource ()Lnet/minecraft/class_1966;
 	METHOD method_12100 getSpawnHeight (Lnet/minecraft/class_5539;)I
 		ARG 1 world
@@ -103,7 +102,7 @@ CLASS net/minecraft/class_2794 net/minecraft/world/gen/chunk/ChunkGenerator
 		ARG 2 z
 		ARG 3 world
 		ARG 4 noiseConfig
-	METHOD method_28506 getCodec ()Lcom/mojang/serialization/Codec;
+	METHOD method_28506 getCodec ()Lcom/mojang/serialization/MapCodec;
 	METHOD method_33730 getMinimumY ()I
 	METHOD method_38264 getStructureReferences (Lnet/minecraft/class_5138;Lnet/minecraft/class_2791;Lnet/minecraft/class_4076;Lnet/minecraft/class_3195;)I
 		ARG 0 structureAccessor
@@ -114,19 +113,18 @@ CLASS net/minecraft/class_2794 net/minecraft/world/gen/chunk/ChunkGenerator
 		ARG 6 start
 	METHOD method_38268 (Lnet/minecraft/class_3195;)Ljava/lang/Integer;
 		ARG 0 structureType
-	METHOD method_38275 populateBiomes (Ljava/util/concurrent/Executor;Lnet/minecraft/class_7138;Lnet/minecraft/class_6748;Lnet/minecraft/class_5138;Lnet/minecraft/class_2791;)Ljava/util/concurrent/CompletableFuture;
-		ARG 1 executor
-		ARG 2 noiseConfig
-		ARG 3 blender
-		ARG 4 structureAccessor
-		ARG 5 chunk
+	METHOD method_38275 populateBiomes (Lnet/minecraft/class_7138;Lnet/minecraft/class_6748;Lnet/minecraft/class_5138;Lnet/minecraft/class_2791;)Ljava/util/concurrent/CompletableFuture;
+		ARG 1 noiseConfig
+		ARG 2 blender
+		ARG 3 structureAccessor
+		ARG 4 chunk
 	METHOD method_39301 getCodecKey ()Ljava/util/Optional;
 	METHOD method_39462 getBlockBoxForChunk (Lnet/minecraft/class_2791;)Lnet/minecraft/class_3341;
 		ARG 0 chunk
 	METHOD method_39787 (Lnet/minecraft/class_5281;Ljava/util/Set;Lnet/minecraft/class_1923;)V
-		ARG 0 pos
+		ARG 2 pos
 	METHOD method_39788 (Lit/unimi/dsi/fastutil/ints/IntSet;Lnet/minecraft/class_7510$class_6827;Lnet/minecraft/class_6796;)V
-		ARG 0 feature
+		ARG 2 feature
 	METHOD method_40146 locateRandomSpreadStructure (Ljava/util/Set;Lnet/minecraft/class_4538;Lnet/minecraft/class_5138;IIIZJLnet/minecraft/class_6872;)Lcom/mojang/datafixers/util/Pair;
 		ARG 0 structures
 		ARG 1 world
@@ -190,3 +188,4 @@ CLASS net/minecraft/class_2794 net/minecraft/world/gen/chunk/ChunkGenerator
 		ARG 1 structureSetRegistry
 		ARG 2 noiseConfig
 		ARG 3 seed
+	METHOD method_59825 initializeIndexedFeaturesList ()V

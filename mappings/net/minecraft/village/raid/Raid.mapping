@@ -15,8 +15,6 @@ CLASS net/minecraft/class_3765 net/minecraft/village/raid/Raid
 	FIELD field_16623 badOmenLevel I
 	FIELD field_16625 id I
 	FIELD field_19016 EVENT_TEXT Lnet/minecraft/class_2561;
-	FIELD field_19017 VICTORY_SUFFIX_TEXT Lnet/minecraft/class_2561;
-	FIELD field_19018 DEFEAT_SUFFIX_TEXT Lnet/minecraft/class_2561;
 	FIELD field_19019 VICTORY_TITLE Lnet/minecraft/class_2561;
 	FIELD field_19020 DEFEAT_TITLE Lnet/minecraft/class_2561;
 	FIELD field_19021 heroesOfTheVillage Ljava/util/Set;
@@ -26,7 +24,7 @@ CLASS net/minecraft/class_3765 net/minecraft/village/raid/Raid
 	FIELD field_19172 preCalculatedRavagerSpawnLocation Ljava/util/Optional;
 	FIELD field_30670 MAX_DESPAWN_COUNTER I
 	FIELD field_30675 SQUARED_MAX_RAIDER_DISTANCE I
-	FIELD field_30683 OMINOUS_BANNER_TRANSLATION_KEY Ljava/lang/String;
+	FIELD field_30683 OMINOUS_BANNER_TRANSLATION_KEY Lnet/minecraft/class_2561;
 	FIELD field_30684 RAIDERS_REMAINING_TRANSLATION_KEY Ljava/lang/String;
 	FIELD field_30686 DEFAULT_PRE_RAID_TICKS I
 	FIELD field_30689 MAX_ACTIVE_TICKS I
@@ -62,22 +60,22 @@ CLASS net/minecraft/class_3765 net/minecraft/village/raid/Raid
 		ARG 2 entity
 	METHOD method_16506 invalidate ()V
 	METHOD method_16508 (Ljava/lang/Integer;)Ljava/util/Set;
-		ARG 0 wave
+		ARG 0 wavex
 	METHOD method_16509 tick ()V
 	METHOD method_16510 removeFromWave (Lnet/minecraft/class_3763;Z)V
 		ARG 1 entity
 		ARG 2 countHealth
 	METHOD method_16513 getCurrentRaiderHealth ()F
 	METHOD method_16514 getMaxAcceptableBadOmenLevel ()I
-	METHOD method_16515 getOminousBanner ()Lnet/minecraft/class_1799;
+	METHOD method_16515 getOminousBanner (Lnet/minecraft/class_7871;)Lnet/minecraft/class_1799;
+		ARG 0 bannerPatternLookup
 	METHOD method_16516 addRaider (ILnet/minecraft/class_3763;Lnet/minecraft/class_2338;Z)V
 		ARG 1 wave
 		ARG 2 raider
 		ARG 3 pos
 		ARG 4 existing
 	METHOD method_16517 getRaiderCount ()I
-	METHOD method_16518 start (Lnet/minecraft/class_1657;)V
-		ARG 1 player
+	METHOD method_16518 start (Lnet/minecraft/class_3222;)Z
 	METHOD method_16519 canSpawnRaiders ()Z
 	METHOD method_16520 markDirty ()V
 	METHOD method_16521 playRaidHorn (Lnet/minecraft/class_2338;)V

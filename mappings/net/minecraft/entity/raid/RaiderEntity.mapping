@@ -16,9 +16,10 @@ CLASS net/minecraft/class_3763 net/minecraft/entity/raid/RaiderEntity
 	METHOD method_16482 hasActiveRaid ()Z
 	METHOD method_16483 (Lnet/minecraft/class_1542;)Z
 		ARG 0 itemEntity
-	METHOD method_16484 addBonusForWave (IZ)V
-		ARG 1 wave
-		ARG 2 unused
+	METHOD method_16484 addBonusForWave (Lnet/minecraft/class_3218;IZ)V
+		ARG 1 world
+		ARG 2 wave
+		ARG 3 unused
 	METHOD method_16486 getWave ()I
 	METHOD method_16835 setOutOfRaidCounter (I)V
 		ARG 1 outOfRaidCounter
@@ -27,6 +28,8 @@ CLASS net/minecraft/class_3763 net/minecraft/entity/raid/RaiderEntity
 	METHOD method_20034 isCelebrating ()Z
 	METHOD method_20036 setCelebrating (Z)V
 		ARG 1 celebrating
+	METHOD method_58646 isCaptain ()Z
+	METHOD method_58647 hasRaid ()Z
 	CLASS class_3764 PickupBannerAsLeaderGoal
 		FIELD field_16603 actor Lnet/minecraft/class_3763;
 		METHOD <init> (Lnet/minecraft/class_3763;Lnet/minecraft/class_3763;)V
@@ -36,6 +39,7 @@ CLASS net/minecraft/class_3763 net/minecraft/entity/raid/RaiderEntity
 		FIELD field_18883 raider Lnet/minecraft/class_3763;
 		FIELD field_18884 squaredDistance F
 		METHOD <init> (Lnet/minecraft/class_3763;Lnet/minecraft/class_1543;F)V
+			ARG 1 raider
 			ARG 2 illager
 			ARG 3 distance
 	CLASS class_4260 CelebrateGoal

@@ -11,7 +11,7 @@ CLASS net/minecraft/class_2852 net/minecraft/world/ChunkSerializer
 	FIELD field_37663 SECTIONS_KEY Ljava/lang/String;
 	FIELD field_37664 BLOCK_LIGHT_KEY Ljava/lang/String;
 	FIELD field_37665 SKY_LIGHT_KEY Ljava/lang/String;
-	METHOD method_12377 getChunkType (Lnet/minecraft/class_2487;)Lnet/minecraft/class_2806$class_2808;
+	METHOD method_12377 getChunkType (Lnet/minecraft/class_2487;)Lnet/minecraft/class_2808;
 		ARG 0 nbt
 	METHOD method_12385 writeStructures (Lnet/minecraft/class_6625;Lnet/minecraft/class_1923;Ljava/util/Map;Ljava/util/Map;)Lnet/minecraft/class_2487;
 		ARG 0 context
@@ -31,11 +31,12 @@ CLASS net/minecraft/class_2852 net/minecraft/world/ChunkSerializer
 		ARG 2 worldSeed
 	METHOD method_12393 toNbt ([Lit/unimi/dsi/fastutil/shorts/ShortList;)Lnet/minecraft/class_2499;
 		ARG 0 lists
-	METHOD method_12395 deserialize (Lnet/minecraft/class_3218;Lnet/minecraft/class_4153;Lnet/minecraft/class_1923;Lnet/minecraft/class_2487;)Lnet/minecraft/class_2839;
+	METHOD method_12395 deserialize (Lnet/minecraft/class_3218;Lnet/minecraft/class_4153;Lnet/minecraft/class_9240;Lnet/minecraft/class_1923;Lnet/minecraft/class_2487;)Lnet/minecraft/class_2839;
 		ARG 0 world
 		ARG 1 poiStorage
-		ARG 2 chunkPos
-		ARG 3 nbt
+		ARG 2 key
+		ARG 3 chunkPos
+		ARG 4 nbt
 	METHOD method_12410 serialize (Lnet/minecraft/class_3218;Lnet/minecraft/class_2791;)Lnet/minecraft/class_2487;
 		ARG 0 world
 		ARG 1 chunk
@@ -72,3 +73,6 @@ CLASS net/minecraft/class_2852 net/minecraft/world/ChunkSerializer
 		ARG 1 key
 	METHOD method_39797 (Lnet/minecraft/class_2499;Lnet/minecraft/class_3218;Lnet/minecraft/class_2499;Lnet/minecraft/class_2818;)V
 		ARG 3 chunk
+	CLASS class_9314 ChunkLoadingException
+		METHOD <init> (Ljava/lang/String;)V
+			ARG 1 message

@@ -24,25 +24,25 @@ repositories {
 		url 'https://maven.fabricmc.net'
 	}
 	mavenCentral()
+	mavenLocal()
 }
 
 dependencies {
 	implementation "org.ow2.asm:asm:${properties.asm_version}"
 	implementation "org.ow2.asm:asm-tree:${properties.asm_version}"
 	implementation "cuchaz:enigma:$properties.enigma_version"
+	implementation "cuchaz:enigma-cli:$properties.enigma_version"
 	implementation "net.fabricmc.unpick:unpick:$properties.unpick_version"
 	implementation "net.fabricmc.unpick:unpick-format-utils:$properties.unpick_version"
-	implementation "net.fabricmc:tiny-mappings-parser:$properties.tiny_mappings_parser_version"
+	implementation "net.fabricmc.unpick:unpick-cli:$properties.unpick_version"
 	implementation "net.fabricmc:tiny-remapper:$properties.tiny_remapper_version"
 	implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.4.2'
+	implementation 'net.fabricmc:mapping-io:0.5.1'
+	implementation 'net.fabricmc:javapoet:0.1.1'
 
 	// Contains a number of useful utilities we can re-use.
-	implementation ("net.fabricmc:fabric-loom:1.0.7") {
-		transitive = true
-	}
-
-	implementation ('net.fabricmc:stitch:0.6.2') {
-		exclude module: 'enigma'
+	implementation ("net.fabricmc:fabric-loom:1.5.7") {
+		transitive = false
 	}
 
 	testImplementation platform("org.junit:junit-bom:$properties.junit_version")
@@ -61,7 +61,14 @@ test {
 
 checkstyle {
 	configFile = file('checkstyle.xml')
-	toolVersion = '10.3.3'
+	toolVersion = '10.13.0'
+}
+
+// Workaround https://github.com/gradle/gradle/issues/27035
+configurations.checkstyle {
+	resolutionStrategy.capabilitiesResolution.withCapability("com.google.collections:google-collections") {
+		select("com.google.guava:guava:0")
+	}
 }
 
 gradlePlugin {
@@ -91,7 +98,7 @@ publishing {
 /**
  * Run this task to download the gradle sources next to the api jar, you may need to manually attach the sources jar
  */
-task downloadGradleSources() {
+tasks.register('downloadGradleSources') {
 	doLast {
 		// Awful hack to find the gradle api location
 		def gradleApiFile = project.configurations.detachedConfiguration(dependencies.gradleApi()).files.stream()

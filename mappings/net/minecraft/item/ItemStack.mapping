@@ -1,6 +1,6 @@
 CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 	COMMENT Represents a stack of items. This is a data container that holds the item count
-	COMMENT and the stack's NBT. Logics for items (such as the action for using it) are delegated
+	COMMENT and the stack's components. Logics for items (such as the action for using it) are delegated
 	COMMENT to the stack's logic container, {@link Item}. Instances can be created using one of
 	COMMENT the constructors and are usually stored in an {@link net.minecraft.inventory.Inventory}.
 	COMMENT
@@ -8,18 +8,20 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 	COMMENT method. This also means they cannot be used as a map key. To check if an item stack
 	COMMENT is of a certain item, use {@link #isOf(Item)}. To compare two item stacks, use {@link
 	COMMENT #areItemsEqual} to check the item only, or {@link #areEqual} to also check the item
-	COMMENT count and the NBT. Use {@link #isEmpty} to check if an item stack is empty instead of
-	COMMENT doing {@code stack == ItemStack.EMPTY}.
+	COMMENT count and the components. Use {@link #isEmpty} to check if an item stack is empty instead
+	COMMENT of doing {@code stack == ItemStack.EMPTY}.
 	COMMENT
 	COMMENT <p>When storing an item stack in an inventory or other places, make sure that an instance
 	COMMENT is never stored in multiple places. When two inventories hold the same instance, it
 	COMMENT will duplicate the item stack (and become two instances) when one is saved and reloaded.
 	COMMENT
-	COMMENT <h2 id="nbt-operations">NBT operations</h2>
+	COMMENT <h2 id="components">Components</h2>
+	COMMENT <p>Components can be used to store data specific to the item stack.
+	COMMENT Use {@link ComponentHolder#get} or {@link ComponentHolder#getOrDefault} to
+	COMMENT get the component values. Use {@link #set} or {@link #remove} to set the components.
 	COMMENT
-	COMMENT <h3>NBT serialization</h3>
-	COMMENT
-	COMMENT An Item Stack can be serialized with {@link #writeNbt(NbtCompound)}, and deserialized with {@link #fromNbt(NbtCompound)}.
+	COMMENT <h2 id="nbt-serialization">NBT serialization</h2>
+	COMMENT <p>An Item Stack can be serialized with {@link #encode(RegistryWrapper.WrapperLookup)}, and deserialized with {@link #fromNbt(RegistryWrapper.WrapperLookup, NbtCompound)}.
 	COMMENT
 	COMMENT <div class="fabric">
 	COMMENT <table border=1>
@@ -31,85 +33,30 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 	COMMENT   <td>{@code id}</td><td>{@link net.minecraft.nbt.NbtString}</td><td>The identifier of the item.</td>
 	COMMENT </tr>
 	COMMENT <tr>
-	COMMENT   <td>{@code Count}</td><td>{@link net.minecraft.nbt.NbtByte}</td><td>The count of items in the stack.</td>
+	COMMENT   <td>{@code count}</td><td>{@link net.minecraft.nbt.NbtInt}</td><td>The count of items in the stack.</td>
 	COMMENT </tr>
 	COMMENT <tr>
-	COMMENT   <td>{@code tag}</td><td>{@link NbtCompound}</td><td>The item stack's custom NBT.</td>
+	COMMENT   <td>{@code components}</td><td>{@link ComponentChanges}</td><td>The item stack's components.</td>
 	COMMENT </tr>
 	COMMENT </table>
 	COMMENT </div>
-	COMMENT
-	COMMENT <h3>Custom NBT</h3>
-	COMMENT
-	COMMENT The item stack's custom NBT may be used to store extra information,
-	COMMENT like the block entity data for shulker boxes,
-	COMMENT or the damage of a damageable item, etc.
-	COMMENT <p>
-	COMMENT Various methods are available to interact with the custom NBT, some methods might refer to a "sub NBT",
-	COMMENT a sub NBT is a child element of the custom NBT.
-	COMMENT
-	COMMENT <div class="fabric">
-	COMMENT <table border=1>
-	COMMENT <caption>Custom NBT operations</caption>
-	COMMENT <tr>
-	COMMENT   <th>Category</th><th>Method</th><th>Summary</th>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Custom NBT</td><td>{@link #hasNbt()}</td><td>Returns whether the item stack has custom NBT.</td>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Custom NBT</td><td>{@link #getNbt()}</td><td>Returns the custom NBT of the item stack.</td>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Custom NBT</td><td>{@link #getOrCreateNbt()}</td><td>Returns the custom NBT of the item stack, or creates one if absent, mutating the stack.</td>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Custom NBT</td><td>{@link #setNbt(NbtCompound)}</td><td>Sets the custom NBT of the item stack.</td>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Sub Custom NBT</td><td>{@link #getSubNbt(String)}</td><td>Returns the sub NBT compound at the specified key.</td>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Sub Custom NBT</td><td>{@link #getOrCreateSubNbt(String)}</td><td>Returns the sub NBT compound at the specified key, or create one if absent, mutating the stack.</td>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Sub Custom NBT</td><td>{@link #removeSubNbt(String)}</td><td>Removes the sub NBT element at the specified key.</td>
-	COMMENT </tr>
-	COMMENT <tr>
-	COMMENT   <td>Sub Custom NBT</td><td>{@link #setSubNbt(String, NbtElement)}</td><td>Sets the sub NBT element at the specified key.</td>
-	COMMENT </tr>
-	COMMENT </table>
-	COMMENT </div>
-	FIELD field_24092 LORE_STYLE Lnet/minecraft/class_2583;
 	FIELD field_24093 holder Lnet/minecraft/class_1297;
 	FIELD field_24671 CODEC Lcom/mojang/serialization/Codec;
-	FIELD field_30890 ENCHANTMENTS_KEY Ljava/lang/String;
-		COMMENT The key of the enchantments in an item stack's custom NBT, whose value is {@value}.
-	FIELD field_30893 DISPLAY_KEY Ljava/lang/String;
-		COMMENT The key of the display NBT in an item stack's custom NBT, whose value is {@value}.
-	FIELD field_30894 NAME_KEY Ljava/lang/String;
-		COMMENT The key of the item stack's name in the {@linkplain #DISPLAY_KEY display NBT}, whose value is {@value}.
-	FIELD field_30895 LORE_KEY Ljava/lang/String;
-		COMMENT The key of the item stack's lore in the {@linkplain #DISPLAY_KEY display NBT}, whose value is {@value}.
-	FIELD field_30896 DAMAGE_KEY Ljava/lang/String;
-		COMMENT The key of the damage in an item stack's custom NBT, whose value is {@value}.
-	FIELD field_30897 COLOR_KEY Ljava/lang/String;
-		COMMENT The key of the item's color in the {@linkplain #DISPLAY_KEY display NBT}, whose value is {@value}.
-	FIELD field_30898 UNBREAKABLE_KEY Ljava/lang/String;
-		COMMENT The key of the unbreakable boolean in an item stack's custom NBT, whose value is {@value}.
-	FIELD field_30899 REPAIR_COST_KEY Ljava/lang/String;
-		COMMENT The key of the repair cost in an item stack's custom NBT, whose value is {@value}.
-	FIELD field_30900 CAN_DESTROY_KEY Ljava/lang/String;
-	FIELD field_30901 CAN_PLACE_ON_KEY Ljava/lang/String;
-	FIELD field_30902 HIDE_FLAGS_KEY Ljava/lang/String;
-	FIELD field_34453 destroyChecker Lnet/minecraft/class_6538;
-	FIELD field_34454 placeChecker Lnet/minecraft/class_6538;
 	FIELD field_40211 DISABLED_TEXT Lnet/minecraft/class_2561;
-	FIELD field_8029 MODIFIER_FORMAT Ljava/text/DecimalFormat;
+	FIELD field_47312 ITEM_CODEC Lcom/mojang/serialization/Codec;
+	FIELD field_48349 PACKET_CODEC Lnet/minecraft/class_9139;
+	FIELD field_48350 LIST_PACKET_CODEC Lnet/minecraft/class_9139;
+	FIELD field_49266 OPTIONAL_CODEC Lcom/mojang/serialization/Codec;
+	FIELD field_49267 REGISTRY_ENTRY_CODEC Lcom/mojang/serialization/Codec;
+	FIELD field_49268 OPTIONAL_PACKET_CODEC Lnet/minecraft/class_9139;
+	FIELD field_49269 OPTIONAL_LIST_PACKET_CODEC Lnet/minecraft/class_9139;
+	FIELD field_49270 components Lnet/minecraft/class_9335;
+	FIELD field_49747 UNCOUNTED_CODEC Lcom/mojang/serialization/Codec;
+	FIELD field_51397 VALIDATED_CODEC Lcom/mojang/serialization/Codec;
+	FIELD field_51398 VALIDATED_UNCOUNTED_CODEC Lcom/mojang/serialization/Codec;
 	FIELD field_8030 bobbingAnimationTime I
 	FIELD field_8031 count I
 	FIELD field_8033 LOGGER Lorg/slf4j/Logger;
-	FIELD field_8036 empty Z
 	FIELD field_8037 EMPTY Lnet/minecraft/class_1799;
 		COMMENT The empty item stack that holds no item.
 		COMMENT
@@ -117,39 +64,28 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		COMMENT
 		COMMENT @see ItemStack#isEmpty
 	FIELD field_8038 item Lnet/minecraft/class_1792;
-	FIELD field_8040 nbt Lnet/minecraft/class_2487;
-		COMMENT Represents the item stack's custom NBT.
-		COMMENT <p>
-		COMMENT Stored at the key {@code tag} in the serialized item stack NBT.
-		COMMENT
-		COMMENT @see <a href="nbt-operations">Item Stack NBT Operations</a>
+	METHOD <init> (Ljava/lang/Void;)V
+		ARG 1 v
 	METHOD <init> (Lnet/minecraft/class_1935;)V
 		ARG 1 item
 	METHOD <init> (Lnet/minecraft/class_1935;I)V
 		ARG 1 item
 		ARG 2 count
-	METHOD <init> (Lnet/minecraft/class_1935;ILjava/util/Optional;)V
+	METHOD <init> (Lnet/minecraft/class_1935;ILnet/minecraft/class_9335;)V
 		ARG 1 item
 		ARG 2 count
-		ARG 3 nbt
-	METHOD <init> (Lnet/minecraft/class_2487;)V
-		ARG 1 nbt
+		ARG 3 components
 	METHOD <init> (Lnet/minecraft/class_6880;)V
 		ARG 1 entry
 	METHOD <init> (Lnet/minecraft/class_6880;I)V
 		ARG 1 itemEntry
 		ARG 2 count
-	METHOD method_17869 (Ljava/util/List;Lnet/minecraft/class_2487;Lnet/minecraft/class_1887;)V
-		ARG 2 e
-	METHOD method_17870 (Ljava/util/List;Lnet/minecraft/class_2499;)V
-		COMMENT appendEnchantments
-		ARG 0 tooltip
-		ARG 1 enchantments
-	METHOD method_19267 isFood ()Z
+	METHOD <init> (Lnet/minecraft/class_6880;ILnet/minecraft/class_9326;)V
+		ARG 1 item
+		ARG 2 count
+		ARG 3 changes
 	METHOD method_21832 getDrinkSound ()Lnet/minecraft/class_3414;
 	METHOD method_21833 getEatSound ()Lnet/minecraft/class_3414;
-	METHOD method_26963 (Ljava/text/DecimalFormat;)V
-		ARG 0 decimalFormat
 	METHOD method_27319 getHolder ()Lnet/minecraft/class_1297;
 		COMMENT {@return the entity that holds the stack, or {@code null} if inapplicable}
 		COMMENT
@@ -166,21 +102,6 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		COMMENT @see #getFrame
 		COMMENT @see #getHolder
 		ARG 1 holder
-	METHOD method_28376 (Lcom/mojang/serialization/codecs/RecordCodecBuilder$Instance;)Lcom/mojang/datafixers/kinds/App;
-		ARG 0 instance
-	METHOD method_28377 (Lnet/minecraft/class_1799;)Ljava/util/Optional;
-		ARG 0 stack
-	METHOD method_28378 (Lnet/minecraft/class_1799;)Ljava/lang/Integer;
-		ARG 0 stack
-	METHOD method_28379 (Lnet/minecraft/class_1799;)Lnet/minecraft/class_1792;
-		ARG 0 stack
-	METHOD method_30266 getHideFlags ()I
-	METHOD method_30267 isSectionVisible (ILnet/minecraft/class_1799$class_5422;)Z
-		COMMENT Determines whether the given tooltip section will be visible according to the given flags.
-		ARG 0 flags
-		ARG 1 tooltipSection
-	METHOD method_30268 addHideFlag (Lnet/minecraft/class_1799$class_5422;)V
-		ARG 1 tooltipSection
 	METHOD method_31573 isIn (Lnet/minecraft/class_6862;)Z
 		COMMENT {@return whether the item is in {@code tag}}
 		ARG 1 tag
@@ -197,8 +118,8 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		ARG 3 clickType
 		ARG 4 player
 		ARG 5 cursorStackReference
-	METHOD method_31577 canCombine (Lnet/minecraft/class_1799;Lnet/minecraft/class_1799;)Z
-		COMMENT {@return whether the given item stacks' items and NBT are equal}
+	METHOD method_31577 areItemsAndComponentsEqual (Lnet/minecraft/class_1799;Lnet/minecraft/class_1799;)Z
+		COMMENT {@return whether the given item stacks' items and components are equal}
 		COMMENT
 		COMMENT <p>If this returns {@code true}, the two item stacks can be combined into one,
 		COMMENT as long as the resulting item count does not exceed {@linkplain Item#getMaxCount
@@ -236,7 +157,213 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 	METHOD method_45435 isItemEnabled (Lnet/minecraft/class_7699;)Z
 		ARG 1 enabledFeatures
 	METHOD method_46651 copyWithCount (I)Lnet/minecraft/class_1799;
+		COMMENT {@return a copy of this item stack, including the components, and {@linkplain #getBobbingAnimationTime bobbing animation time}},
+		COMMENT with the item count set to {@code count}
+		COMMENT
+		COMMENT @see #copy
+		COMMENT @see #copyComponentsToNewStack
+		COMMENT @see #copyComponentsToNewStackIgnoreEmpty
 		ARG 1 count
+			COMMENT the item count of the resultant stack
+	METHOD method_51164 copyAndEmpty ()Lnet/minecraft/class_1799;
+	METHOD method_53187 isIn (Lnet/minecraft/class_6885;)Z
+		ARG 1 registryEntryList
+	METHOD method_54466 onCraftByCrafter (Lnet/minecraft/class_1937;)V
+		ARG 1 world
+	METHOD method_56097 (Lnet/minecraft/class_1309;Lnet/minecraft/class_1304;Lnet/minecraft/class_1792;)V
+		ARG 2 item
+	METHOD method_56700 (Lnet/minecraft/class_1799;)Ljava/util/Optional;
+		ARG 0 stack
+	METHOD method_56701 copyComponentsToNewStack (Lnet/minecraft/class_1935;I)Lnet/minecraft/class_1799;
+		COMMENT {@return a new item stack with the components copied from this item stack}
+		COMMENT
+		COMMENT @see #copy
+		COMMENT @see #copyWithCount
+		COMMENT @see #copyComponentsToNewStackIgnoreEmpty
+		ARG 1 item
+			COMMENT the item of the resultant stack
+		ARG 2 count
+			COMMENT the item count of the resultant stack
+	METHOD method_56702 createOptionalCodec (Ljava/lang/String;)Lcom/mojang/serialization/MapCodec;
+		ARG 0 fieldName
+	METHOD method_56703 (Ljava/util/Optional;)Lnet/minecraft/class_1799;
+		ARG 0 optional
+	METHOD method_56704 copyComponentsToNewStackIgnoreEmpty (Lnet/minecraft/class_1935;I)Lnet/minecraft/class_1799;
+		COMMENT {@return a new item stack with the components copied from this item stack, even if this stack is empty}
+		COMMENT
+		COMMENT @see #copy
+		COMMENT @see #copyWithCount
+		COMMENT @see #copyComponentsToNewStack
+		ARG 1 item
+			COMMENT the item of the resultant stack
+		ARG 2 count
+			COMMENT the item count of the resultant stack
+	METHOD method_57008 decrementUnlessCreative (ILnet/minecraft/class_1309;)V
+		COMMENT Decrements the count of items in this item stack, unless {@code entity}
+		COMMENT is a creative mode player.
+		ARG 1 amount
+		ARG 2 entity
+	METHOD method_57351 getBreakSound ()Lnet/minecraft/class_3414;
+	METHOD method_57354 applyAttributeModifiers (Lnet/minecraft/class_1304;Ljava/util/function/BiConsumer;)V
+		ARG 1 slot
+		ARG 2 attributeModifierConsumer
+	METHOD method_57355 hashCode (Lnet/minecraft/class_1799;)I
+		ARG 0 stack
+	METHOD method_57356 (Lnet/minecraft/class_6880;ILnet/minecraft/class_9304$class_9305;)V
+		ARG 2 builder
+	METHOD method_57357 canPlaceOn (Lnet/minecraft/class_2694;)Z
+		ARG 1 pos
+	METHOD method_57358 encode (Lnet/minecraft/class_7225$class_7874;)Lnet/minecraft/class_2520;
+		ARG 1 registries
+	METHOD method_57359 fromNbtOrEmpty (Lnet/minecraft/class_7225$class_7874;Lnet/minecraft/class_2487;)Lnet/minecraft/class_1799;
+		ARG 0 registries
+		ARG 1 nbt
+	METHOD method_57360 fromNbt (Lnet/minecraft/class_7225$class_7874;Lnet/minecraft/class_2520;)Ljava/util/Optional;
+		ARG 0 registries
+		ARG 1 nbt
+	METHOD method_57361 listHashCode (Ljava/util/List;)I
+		ARG 0 stacks
+	METHOD method_57362 stacksEqual (Ljava/util/List;Ljava/util/List;)Z
+		ARG 0 left
+		ARG 1 right
+	METHOD method_57363 appendAttributeModifiersTooltip (Ljava/util/function/Consumer;Lnet/minecraft/class_1657;)V
+		ARG 1 textConsumer
+		ARG 2 player
+	METHOD method_57364 appendAttributeModifierTooltip (Ljava/util/function/Consumer;Lnet/minecraft/class_1657;Lnet/minecraft/class_6880;Lnet/minecraft/class_1322;)V
+		ARG 1 textConsumer
+		ARG 2 player
+		ARG 3 attribute
+		ARG 4 modifier
+	METHOD method_57365 applyComponentsFrom (Lnet/minecraft/class_9323;)V
+		ARG 1 components
+	METHOD method_57366 applyUnvalidatedChanges (Lnet/minecraft/class_9326;)V
+		ARG 1 changes
+	METHOD method_57367 apply (Lnet/minecraft/class_9331;Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;
+		COMMENT Sets the component {@code type} by passing the current value and {@code change}
+		COMMENT to {@code applier}, then setting its return value as the value. If the component is
+		COMMENT missing, {@code defaultValue} is used as the default.
+		COMMENT
+		COMMENT <p>In practice, {@code applier} is a reference to a method of the component
+		COMMENT class with one parameter, that returns a new instance of the component with the
+		COMMENT specific value changed to {@code change}. For example, adding a lore can be accomplished
+		COMMENT by passing reference to {@link net.minecraft.component.type.LoreComponent#with}
+		COMMENT and the added lore, like
+		COMMENT {@code stack.apply(DataComponentTypes.LORE, LoreComponent.DEFAULT, text, LoreComponent::with)}.
+		COMMENT
+		COMMENT @implNote This is the same as setting {@code applier.apply(stack.getOrDefault(type, defaultValue), change)}.
+		COMMENT
+		COMMENT @return the previous value set
+		COMMENT @see #apply(DataComponentType, Object, UnaryOperator)
+		COMMENT @see #set
+		ARG 1 type
+		ARG 2 defaultValue
+		ARG 3 change
+		ARG 4 applier
+	METHOD method_57368 apply (Lnet/minecraft/class_9331;Ljava/lang/Object;Ljava/util/function/UnaryOperator;)Ljava/lang/Object;
+		COMMENT Sets the component {@code type} by passing the current value (or {@code defaultValue}
+		COMMENT if the component is missing) to {@code applier} and then setting its return value as
+		COMMENT the value.
+		COMMENT
+		COMMENT @implNote This is the same as setting {@code applier.apply(stack.getOrDefault(type, defaultValue))}.
+		COMMENT
+		COMMENT @return the previous value set
+		COMMENT @see #set
+		COMMENT @see #apply(DataComponentType, Object, Object, BiFunction)
+		ARG 1 type
+		ARG 2 defaultValue
+		ARG 3 applier
+	METHOD method_57369 appendTooltip (Lnet/minecraft/class_9331;Lnet/minecraft/class_1792$class_9635;Ljava/util/function/Consumer;Lnet/minecraft/class_1836;)V
+		ARG 1 componentType
+		ARG 2 context
+		ARG 3 textConsumer
+		ARG 4 type
+	METHOD method_57370 (Lorg/apache/commons/lang3/mutable/MutableBoolean;Ljava/util/function/Consumer;Lnet/minecraft/class_9274;Lnet/minecraft/class_1657;Lnet/minecraft/class_6880;Lnet/minecraft/class_1322;)V
+		ARG 5 attribute
+		ARG 6 modifier
+	METHOD method_57371 (Lcom/mojang/serialization/codecs/RecordCodecBuilder$Instance;)Lcom/mojang/datafixers/kinds/App;
+		ARG 0 instance
+	METHOD method_57372 validate (Lnet/minecraft/class_1799;)Lcom/mojang/serialization/DataResult;
+		ARG 0 stack
+	METHOD method_57373 canBreak (Lnet/minecraft/class_2694;)Z
+		ARG 1 pos
+	METHOD method_57374 (Lnet/minecraft/class_6880;)Lcom/mojang/serialization/DataResult;
+		ARG 0 entry
+	METHOD method_57375 encodeAllowEmpty (Lnet/minecraft/class_7225$class_7874;)Lnet/minecraft/class_2520;
+		ARG 1 registries
+	METHOD method_57376 encode (Lnet/minecraft/class_7225$class_7874;Lnet/minecraft/class_2520;)Lnet/minecraft/class_2520;
+		ARG 1 registries
+		ARG 2 prefix
+	METHOD method_57377 (Ljava/lang/String;)V
+		ARG 0 error
+	METHOD method_57378 (Ljava/util/Optional;)Lnet/minecraft/class_1799;
+		ARG 0 optional
+	METHOD method_57379 set (Lnet/minecraft/class_9331;Ljava/lang/Object;)Ljava/lang/Object;
+		COMMENT Sets the component {@code type} for this item stack to {@code value}.
+		COMMENT
+		COMMENT <p>If {@code value} is {@code null}, the component is removed and the base component
+		COMMENT is unset. To reverse the stack-specific change, instead pass the default value
+		COMMENT as {@code value}.
+		COMMENT
+		COMMENT @return the previous value set
+		COMMENT @see #apply(DataComponentType, Object, UnaryOperator)
+		COMMENT @see #apply(DataComponentType, Object, Object, BiFunction)
+		ARG 1 type
+		ARG 2 value
+	METHOD method_57380 getComponentChanges ()Lnet/minecraft/class_9326;
+	METHOD method_57381 remove (Lnet/minecraft/class_9331;)Ljava/lang/Object;
+		COMMENT Removes the component {@code type}. If it is in the stack's base component,
+		COMMENT it is unset and the component becomes missing. To reverse the stack-specific change,
+		COMMENT instead pass the default value as {@code value}.
+		COMMENT
+		COMMENT @return the previous value set
+		ARG 1 type
+	METHOD method_57382 (Lnet/minecraft/class_1799;)Ljava/util/Optional;
+		ARG 0 stack
+	METHOD method_57383 (Lnet/minecraft/class_1799;Lnet/minecraft/class_3902;)Lnet/minecraft/class_1799;
+		ARG 1 v
+	METHOD method_57385 (Lnet/minecraft/class_1799;)Lnet/minecraft/class_9326;
+		ARG 0 stack
+	METHOD method_58092 (Lcom/mojang/serialization/codecs/RecordCodecBuilder$Instance;)Lcom/mojang/datafixers/kinds/App;
+		ARG 0 instance
+	METHOD method_58093 (Lnet/minecraft/class_6880;Lnet/minecraft/class_9326;)Lnet/minecraft/class_1799;
+		ARG 0 item
+		ARG 1 components
+	METHOD method_58094 (Lnet/minecraft/class_1799;)Lnet/minecraft/class_9326;
+		ARG 0 stack
+	METHOD method_58407 takesDamageFrom (Lnet/minecraft/class_1282;)Z
+		ARG 1 source
+	METHOD method_58408 capCount (I)V
+		COMMENT Sets the count of items in this item stack to not exceed {@code maxCount}.
+		ARG 1 maxCount
+	METHOD method_58657 getEnchantments ()Lnet/minecraft/class_9304;
+	METHOD method_58658 getDefaultComponents ()Lnet/minecraft/class_9323;
+	METHOD method_59691 validateComponents (Lnet/minecraft/class_9323;)Lcom/mojang/serialization/DataResult;
+		ARG 0 components
+	METHOD method_59692 applyChanges (Lnet/minecraft/class_9326;)V
+		ARG 1 changes
+	METHOD method_59693 createExtraValidatingPacketCodec (Lnet/minecraft/class_9139;)Lnet/minecraft/class_9139;
+		COMMENT {@return a packet codec that ensures the validity of the decoded stack by
+		COMMENT checking if it can be re-encoded}
+		COMMENT
+		COMMENT <p>This should be used when serializing {@link ItemStack} in C2S packets.
+		COMMENT Encoding is unaffected.
+		ARG 0 basePacketCodec
+	METHOD method_59979 postDamageEntity (Lnet/minecraft/class_1309;Lnet/minecraft/class_1657;)V
+		ARG 1 target
+		ARG 2 player
+	METHOD method_60503 withItem (Lnet/minecraft/class_1935;)Lnet/minecraft/class_1799;
+		ARG 1 item
+	METHOD method_60504 splitUnlessCreative (ILnet/minecraft/class_1309;)Lnet/minecraft/class_1799;
+		ARG 1 amount
+		ARG 2 entity
+	METHOD method_60617 applyAttributeModifier (Lnet/minecraft/class_9274;Ljava/util/function/BiConsumer;)V
+		ARG 1 slot
+		ARG 2 attributeModifierConsumer
+	METHOD method_60986 damage (ILnet/minecraft/class_1935;Lnet/minecraft/class_1309;Lnet/minecraft/class_1304;)Lnet/minecraft/class_1799;
+		ARG 1 amount
+		ARG 2 itemAfterBreaking
+		ARG 3 entity
+		ARG 4 slot
 	METHOD method_7909 getItem ()Lnet/minecraft/class_1792;
 		COMMENT {@return the item of this stack}
 		COMMENT
@@ -244,15 +371,6 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 	METHOD method_7910 finishUsing (Lnet/minecraft/class_1937;Lnet/minecraft/class_1309;)Lnet/minecraft/class_1799;
 		ARG 1 world
 		ARG 2 user
-	METHOD method_7911 getOrCreateSubNbt (Ljava/lang/String;)Lnet/minecraft/class_2487;
-		COMMENT {@return the compound NBT at the specified key in this item stack's NBT, or a
-		COMMENT new compound added to the stack if absent}
-		COMMENT
-		COMMENT <p>This should not be used when reading the NBT, as this can modify the item stack.
-		COMMENT Use {@link #getSubNbt} with a check for {@code null} instead.
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-		ARG 1 key
 	METHOD method_7912 setBobbingAnimationTime (I)V
 		ARG 1 bobbingAnimationTime
 	METHOD method_7913 use (Lnet/minecraft/class_1937;Lnet/minecraft/class_1657;Lnet/minecraft/class_1268;)Lnet/minecraft/class_1271;
@@ -260,19 +378,6 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		ARG 2 user
 		ARG 3 hand
 	METHOD method_7914 getMaxCount ()I
-	METHOD method_7915 fromNbt (Lnet/minecraft/class_2487;)Lnet/minecraft/class_1799;
-		COMMENT {@return the item stack deserialized from the NBT, or {@link #EMPTY} if
-		COMMENT it fails to deserialize}
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-		ARG 0 nbt
-	METHOD method_7916 addAttributeModifier (Lnet/minecraft/class_1320;Lnet/minecraft/class_1322;Lnet/minecraft/class_1304;)V
-		COMMENT Adds an attribute modifier to this stack.
-		COMMENT
-		COMMENT @see #getAttributeModifiers
-		ARG 1 attribute
-		ARG 2 modifier
-		ARG 3 slot
 	METHOD method_7917 inventoryTick (Lnet/minecraft/class_1937;Lnet/minecraft/class_1297;IZ)V
 		ARG 1 world
 		ARG 2 entity
@@ -281,9 +386,8 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 	METHOD method_7919 getDamage ()I
 		COMMENT {@return the damage (lost durability) of the item stack}
 		COMMENT
-		COMMENT <p>The damage is stored in NBT under {@value #DAMAGE_KEY} key. Note that this method
-		COMMENT does not check if the item is {@linkplain #isDamageable damageable}, unlike {@link
-		COMMENT #isDamaged}.
+		COMMENT <p>Note that this method does not check if the item is {@linkplain #isDamageable
+		COMMENT damageable}, unlike {@link #isDamaged}.
 		COMMENT
 		COMMENT @see #isDamageable
 		COMMENT @see #isDamaged
@@ -292,50 +396,14 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		ARG 1 user
 		ARG 2 entity
 		ARG 3 hand
-	METHOD method_7921 getMinecraftEnchantments ()Lnet/minecraft/class_2499;
-		COMMENT {@return an NBT list of enchantments}
-		COMMENT
-		COMMENT <p>This will return an empty list for enchanted books, as the book itself is not
-		COMMENT enchanted and therefore does not store enchantments under {@value #ENCHANTMENTS_KEY} key.
-		COMMENT
-		COMMENT @see net.minecraft.enchantment.EnchantmentHelper#getLevel
-		COMMENT @see #addEnchantment
-		COMMENT @see #hasEnchantments
 	METHOD method_7922 getTranslationKey ()Ljava/lang/String;
 	METHOD method_7923 isMinecraftEnchantable ()Z
 		COMMENT isEnchantable
 		COMMENT {@return whether this item stack can be enchanted with an enchanting table}
 		COMMENT
 		COMMENT <p>This is not used for other methods of enchanting like anvils.
-	METHOD method_7923 isMinecraftEnchantable ()Z
-		COMMENT isEnchantable
 	METHOD method_7924 getMiningSpeedMultiplier (Lnet/minecraft/class_2680;)F
 		ARG 1 state
-	METHOD method_7925 removeCustomName ()V
-		COMMENT Removes the custom name and other NBT compounds that are now empty after the
-		COMMENT removal of the custom name from this item stack.
-		COMMENT
-		COMMENT @see #setCustomName
-		COMMENT @see #hasCustomName
-	METHOD method_7926 getAttributeModifiers (Lnet/minecraft/class_1304;)Lcom/google/common/collect/Multimap;
-		COMMENT {@return a multimap of attribute modifiers for {@code slot}}
-		COMMENT
-		COMMENT <p>If a custom attribute modifier exists under the {@code AttributeModifiers} key,
-		COMMENT this returns those modifiers only; otherwise, this returns the item's default
-		COMMENT attribute modifier.
-		COMMENT
-		COMMENT @see Item#getAttributeModifiers
-		COMMENT @see #addAttributeModifier
-		ARG 1 slot
-	METHOD method_7927 setRepairCost (I)V
-		COMMENT Sets the stack's repair cost used in anvils to {@code repairCost}.
-		COMMENT
-		COMMENT <p>This is the the value of the {@value #REPAIR_COST_KEY} key in NBT.
-		ARG 1 repairCost
-	METHOD method_7928 getRepairCost ()I
-		COMMENT {@return the stack's repair cost used in anvils}
-		COMMENT
-		COMMENT <p>This is the the value of the {@value #REPAIR_COST_KEY} key in NBT.
 	METHOD method_7930 onStoppedUsing (Lnet/minecraft/class_1937;Lnet/minecraft/class_1309;I)V
 		ARG 1 world
 		ARG 2 user
@@ -349,38 +417,22 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		COMMENT Decrements the count of items in this item stack.
 		ARG 1 amount
 			COMMENT the amount to decrement
-	METHOD method_7935 getMaxUseTime ()I
+	METHOD method_7935 getMaxUseTime (Lnet/minecraft/class_1309;)I
+		ARG 1 user
 	METHOD method_7936 getMaxDamage ()I
-	METHOD method_7937 parseBlockTag (Ljava/lang/String;)Ljava/util/Collection;
-		ARG 0 tag
-	METHOD method_7938 hasCustomName ()Z
-		COMMENT {@return whether this item stack has a custom name}
-		COMMENT
-		COMMENT @see #setCustomName
-		COMMENT @see #removeCustomName
 	METHOD method_7939 setCount (I)V
 		COMMENT Sets the count of items in this item stack.
 		ARG 1 count
 			COMMENT the count of items
-	METHOD method_7940 canDestroy (Lnet/minecraft/class_2378;Lnet/minecraft/class_2694;)Z
-		ARG 1 blockRegistry
-		ARG 2 pos
-	METHOD method_7941 getSubNbt (Ljava/lang/String;)Lnet/minecraft/class_2487;
-		COMMENT {@return the NBT compound at the specified key in this item stack's custom NBT, may be {@code null}}
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-		ARG 1 key
 	METHOD method_7942 hasMinecraftEnchantments ()Z
 		COMMENT hasEnchantments
 		COMMENT {@return whether the item stack has any enchantments}
 		COMMENT
 		COMMENT <p>This will return {@code false} for enchanted books, as the book itself is not
-		COMMENT enchanted and therefore does not store enchantments under {@value #ENCHANTMENTS_KEY} key.
+		COMMENT enchanted and therefore does not store enchantments under {@link
+		COMMENT net.minecraft.component.DataComponentTypes#ENCHANTMENTS}.
 		COMMENT
-		COMMENT @see #getEnchantments
-	METHOD method_7944 canPlaceOn (Lnet/minecraft/class_2378;Lnet/minecraft/class_2694;)Z
-		ARG 1 blockRegistry
-		ARG 2 pos
+		COMMENT @see net.minecraft.enchantment.EnchantmentHelper#getEnchantments
 	METHOD method_7945 getFrame ()Lnet/minecraft/class_1533;
 		COMMENT {@return the item frame that holds the stack, or {@code null} if inapplicable}
 		COMMENT
@@ -394,78 +446,48 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		COMMENT than {@code 1} and cannot be damaged.
 	METHOD method_7947 getCount ()I
 		COMMENT {@return the count of items in this item stack}
-	METHOD method_7948 getOrCreateNbt ()Lnet/minecraft/class_2487;
-		COMMENT Returns the custom NBT of this item stack, or creates the custom NBT if the
-		COMMENT item stack did not have a custom NBT previously, mutating the stack.
-		COMMENT
-		COMMENT <p>This should not be used when reading the NBT, as this can modify the item stack.
-		COMMENT Use {@link #getNbt} with a check for {@code null} instead.
-		COMMENT
-		COMMENT @return the custom NBT of this item stack
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
 	METHOD method_7949 usageTick (Lnet/minecraft/class_1937;Lnet/minecraft/class_1309;I)V
 		ARG 1 world
 		ARG 2 user
 		ARG 3 remainingUseTicks
-	METHOD method_7950 getTooltip (Lnet/minecraft/class_1657;Lnet/minecraft/class_1836;)Ljava/util/List;
-		ARG 1 player
-		ARG 2 context
+	METHOD method_7950 getTooltip (Lnet/minecraft/class_1792$class_9635;Lnet/minecraft/class_1657;Lnet/minecraft/class_1836;)Ljava/util/List;
+		ARG 1 context
+		ARG 2 player
+		ARG 3 type
 	METHOD method_7951 isSuitableFor (Lnet/minecraft/class_2680;)Z
 		COMMENT Determines whether this item can be used as a suitable tool for mining the specified block.
 		COMMENT <p>
 		COMMENT Depending on block implementation, when combined together, the correct item and block may achieve a better mining speed and yield
 		COMMENT drops that would not be obtained when mining otherwise.
 		COMMENT
-		COMMENT @return values consistent with calls to {@link Item#isSuitableFor}
-		COMMENT @see Item#isSuitableFor(BlockState)
+		COMMENT @return values consistent with calls to {@link Item#isCorrectForDrops}
+		COMMENT @see Item#isCorrectForDrops(ItemStack, BlockState)
 		ARG 1 state
 	METHOD method_7952 postMine (Lnet/minecraft/class_1937;Lnet/minecraft/class_2680;Lnet/minecraft/class_2338;Lnet/minecraft/class_1657;)V
 		ARG 1 world
 		ARG 2 state
 		ARG 3 pos
 		ARG 4 miner
-	METHOD method_7953 writeNbt (Lnet/minecraft/class_2487;)Lnet/minecraft/class_2487;
-		COMMENT Writes the serialized item stack into the given {@link NbtCompound}.
-		COMMENT
-		COMMENT @return the written NBT compound
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-		ARG 1 nbt
-			COMMENT the NBT compound to write to
 	METHOD method_7954 toHoverableText ()Lnet/minecraft/class_2561;
 		COMMENT {@return a text consisting of the bracketed {@linkplain #getName stack name} that
 		COMMENT can be hovered to show the item stack's tooltip}
-	METHOD method_7956 damage (ILnet/minecraft/class_1309;Ljava/util/function/Consumer;)V
-		COMMENT Damages this item stack. This method should be used when an entity, including a player,
-		COMMENT damages the stack. This does not damage {@linkplain #isDamageable non-damageable}
-		COMMENT stacks, and the {@linkplain net.minecraft.enchantment.UnbreakingEnchantment
-		COMMENT unbreaking enchantment} is applied to {@code amount} before damaging. Additionally,
-		COMMENT if {@code entity} is a player in creative mode, the stack will not be damaged.
+	METHOD method_7956 damage (ILnet/minecraft/class_3218;Lnet/minecraft/class_3222;Ljava/util/function/Consumer;)V
+		COMMENT Damages this item stack. This method should be used when a non-entity, such as a
+		COMMENT dispenser, damages the stack. This does not damage {@linkplain #isDamageable non-damageable}
+		COMMENT stacks, and the enchantments are applied to {@code amount} before damaging.
 		COMMENT
-		COMMENT <p>If {@code entity} is a player, this triggers {@link
+		COMMENT <p>If {@code player} is not {@code null}, this triggers {@link
 		COMMENT net.minecraft.advancement.criterion.Criteria#ITEM_DURABILITY_CHANGED}.
 		COMMENT
-		COMMENT <p>If the stack's damage is equal to or above {@linkplain Item#getMaxDamage the maximum
-		COMMENT damage} (i.e. the item is "broken"), this will call {@code breakCallback}, decrement the
-		COMMENT stack, and increment {@link net.minecraft.stat.Stats#BROKEN} if the stack is held
-		COMMENT by a player. The callback should call {@link LivingEntity#sendEquipmentBreakStatus}
-		COMMENT or {@link LivingEntity#sendToolBreakStatus}.
+		COMMENT <p>When the item "breaks", that is, the stack's damage is equal to or above
+		COMMENT {@linkplain #getMaxDamage the maximum damage}, {@code breakCallback} is run.
+		COMMENT Note that this method automatically decrements the stack size.
 		ARG 1 amount
-		ARG 2 entity
-			COMMENT the entity that holds the stack to be damaged
-		ARG 3 breakCallback
-			COMMENT the callback that takes the entity holding the stack and is executed
-			COMMENT when the item breaks
-	METHOD method_7957 updateEmptyState ()V
+		ARG 2 world
+		ARG 3 player
+			COMMENT the player that damaged the stack, or {@code null} if no player is involved
+		ARG 4 breakCallback
 	METHOD method_7958 hasGlint ()Z
-	METHOD method_7959 setSubNbt (Ljava/lang/String;Lnet/minecraft/class_2520;)V
-		COMMENT Sets the given NBT element in the item stack's custom NBT at the specified key.
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-		ARG 1 key
-			COMMENT the key where to put the given {@link NbtElement}
-		ARG 2 element
-			COMMENT the NBT element to put
 	METHOD method_7960 isEmpty ()Z
 		COMMENT {@return whether this item stack is empty}
 	METHOD method_7961 isInFrame ()Z
@@ -474,15 +496,13 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		COMMENT @see #setHolder
 		COMMENT @see #getFrame
 		COMMENT @see #getHolder
-	METHOD method_7962 isItemEqual (Lnet/minecraft/class_1799;)Z
-		ARG 1 stack
 	METHOD method_7963 isDamageable ()Z
 		COMMENT {@return whether the item can be damaged (lose durability)}
 		COMMENT
-		COMMENT <p>Items with {@linkplain Item#getMaxDamage 0 max damage} or item stacks with {@value
-		COMMENT #UNBREAKABLE_KEY} NBT set to {@code 1b} cannot be damaged.
+		COMMENT <p>Items with {@linkplain #getMaxDamage 0 max damage} or item stacks with {@link
+		COMMENT net.minecraft.component.DataComponentTypes#UNBREAKABLE} component cannot be damaged.
 		COMMENT
-		COMMENT @see Item#getMaxDamage
+		COMMENT @see #getMaxDamage
 		COMMENT @see #isDamaged
 		COMMENT @see #getDamage
 	METHOD method_7964 getName ()Lnet/minecraft/class_2561;
@@ -491,31 +511,24 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 	METHOD method_7966 (Lnet/minecraft/class_2583;)Lnet/minecraft/class_2583;
 		ARG 1 style
 	METHOD method_7967 isUsedOnRelease ()Z
-	METHOD method_7968 isEqual (Lnet/minecraft/class_1799;)Z
-		COMMENT {@return whether this stack and {@code stack} are equal, including the item count and NBT}
-		ARG 1 stack
-	METHOD method_7969 getNbt ()Lnet/minecraft/class_2487;
-		COMMENT {@return the custom NBT of this item stack, may be {@code null}}
+	METHOD method_7970 damage (ILnet/minecraft/class_1309;Lnet/minecraft/class_1304;)V
+		COMMENT Damages this item stack. This method should be used when an entity, including a player,
+		COMMENT damages the stack. This does not damage {@linkplain #isDamageable non-damageable}
+		COMMENT stacks, and the enchantments are applied to {@code amount} before damaging. Additionally,
+		COMMENT if {@code entity} is a player in creative mode, the stack will not be damaged.
 		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-	METHOD method_7970 damage (ILnet/minecraft/class_5819;Lnet/minecraft/class_3222;)Z
-		COMMENT Damages this item stack. This method should be used when a non-entity, such as a
-		COMMENT dispenser, damages the stack. This does not damage {@linkplain #isDamageable non-damageable}
-		COMMENT stacks, and the {@linkplain net.minecraft.enchantment.UnbreakingEnchantment
-		COMMENT unbreaking enchantment} is applied to {@code amount} before damaging.
-		COMMENT
-		COMMENT <p>If {@code player} is not {@code null}, this triggers {@link
+		COMMENT <p>If {@code entity} is a player, this triggers {@link
 		COMMENT net.minecraft.advancement.criterion.Criteria#ITEM_DURABILITY_CHANGED}.
 		COMMENT
-		COMMENT <p>This method does not decrement the item count when the item "breaks". Callers should
-		COMMENT check the returned value and decrement themselves.
-		COMMENT
-		COMMENT @return whether the stack's damage is equal to or above {@linkplain Item#getMaxDamage
-		COMMENT the maximum damage} (i.e. whether the item is "broken")
+		COMMENT <p>If the stack's damage is equal to or above {@linkplain #getMaxDamage the maximum
+		COMMENT damage} (i.e. the item is "broken"), this will {@linkplain
+		COMMENT LivingEntity#sendEquipmentBreakStatus send the equipment break status}, decrement the
+		COMMENT stack, and increment {@link net.minecraft.stat.Stats#BROKEN} if the stack is held
+		COMMENT by a player.
 		ARG 1 amount
-		ARG 2 random
-		ARG 3 player
-			COMMENT the player that holds the stack to be damaged, or {@code null} if inapplicable
+		ARG 2 entity
+		ARG 3 slot
+			COMMENT the slot in which the stack is held
 	METHOD method_7971 split (I)Lnet/minecraft/class_1799;
 		COMMENT {@return the copy of the stack "split" from the current stack with item count
 		COMMENT being at most {@code amount}}
@@ -536,82 +549,61 @@ CLASS net/minecraft/class_1799 net/minecraft/item/ItemStack
 		COMMENT }</pre>
 		ARG 1 amount
 	METHOD method_7972 copy ()Lnet/minecraft/class_1799;
-		COMMENT {@return a copy of this item stack, including the item count, NBT, and
+		COMMENT {@return a copy of this item stack, including the item count, components, and
 		COMMENT {@linkplain #getBobbingAnimationTime bobbing animation time}}
+		COMMENT
+		COMMENT @see #copyWithCount
+		COMMENT @see #copyComponentsToNewStack
+		COMMENT @see #copyComponentsToNewStackIgnoreEmpty
 	METHOD method_7973 areEqual (Lnet/minecraft/class_1799;Lnet/minecraft/class_1799;)Z
-		COMMENT {@return whether the given item stacks are equal, including the item count and NBT}
+		COMMENT {@return whether the given item stacks are equal, including the item count and components}
 		COMMENT
 		COMMENT @see #areItemsEqual
-		COMMENT @see #canCombine
+		COMMENT @see #areItemsAndComponentsEqual
 		ARG 0 left
 		ARG 1 right
 	METHOD method_7974 setDamage (I)V
 		COMMENT Sets the stack's damage to {@code damage}.
 		COMMENT
-		COMMENT <p>This does not break the item if the damage reaches {@linkplain Item#getMaxDamage
-		COMMENT the maximum}, unlike {@link #damage(int, LivingEntity, Consumer)}.
+		COMMENT <p>This does not break the item if the damage reaches {@linkplain #getMaxDamage
+		COMMENT the maximum}, unlike {@link #damage(int, LivingEntity, EquipmentSlot)}.
 		COMMENT
 		COMMENT @see #getDamage
-		COMMENT @see #damage(int, Random, ServerPlayerEntity)
-		COMMENT @see #damage(int, LivingEntity, Consumer)
+		COMMENT @see #damage(int, ServerWorld, ServerPlayerEntity, Consumer)
+		COMMENT @see #damage(int, LivingEntity, EquipmentSlot)
 		ARG 1 damage
-	METHOD method_7975 areNbtEqual (Lnet/minecraft/class_1799;Lnet/minecraft/class_1799;)Z
-		COMMENT {@return whether the given item stacks have equivalent NBT data}
-		ARG 0 left
-		ARG 1 right
 	METHOD method_7976 getUseAction ()Lnet/minecraft/class_1839;
-	METHOD method_7977 setCustomName (Lnet/minecraft/class_2561;)Lnet/minecraft/class_1799;
-		COMMENT Sets the custom name of this item stack to {@code name}. If {@code null} is
-		COMMENT passed, this will remove the custom name (but does not remove other NBT compounds
-		COMMENT even if they are empty).
-		COMMENT
-		COMMENT @return this item stack
-		COMMENT
-		COMMENT @see #removeCustomName
-		COMMENT @see #hasCustomName
-		ARG 1 name
-	METHOD method_7978 addMinecraftEnchantment (Lnet/minecraft/class_1887;I)V
+	METHOD method_7978 addMinecraftEnchantment (Lnet/minecraft/class_6880;I)V
 		COMMENT addEnchantment
 		COMMENT Enchants this item with the given enchantment and level.
 		COMMENT
 		COMMENT <p>This should not be used with enchanted books, as the book itself is not
-		COMMENT enchanted and therefore does not store enchantments under {@value #ENCHANTMENTS_KEY} key.
+		COMMENT enchanted and therefore does not store enchantments under {@link
+		COMMENT net.minecraft.component.DataComponentTypes#ENCHANTMENTS}.
 		COMMENT
 		COMMENT @see net.minecraft.enchantment.EnchantmentHelper
 		ARG 1 enchantment
 		ARG 2 level
-	METHOD method_7979 postHit (Lnet/minecraft/class_1309;Lnet/minecraft/class_1657;)V
+	METHOD method_7979 postHit (Lnet/minecraft/class_1309;Lnet/minecraft/class_1657;)Z
 		ARG 1 target
-		ARG 2 attacker
-	METHOD method_7980 setNbt (Lnet/minecraft/class_2487;)V
-		COMMENT Sets the custom NBT of this item stack.
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-		ARG 1 nbt
-			COMMENT the custom NBT compound, may be {@code null} to reset
+		ARG 2 player
 	METHOD method_7981 useOnBlock (Lnet/minecraft/class_1838;)Lnet/minecraft/class_1269;
 		ARG 1 context
-	METHOD method_7982 onCraft (Lnet/minecraft/class_1937;Lnet/minecraft/class_1657;I)V
+	METHOD method_7982 onCraftByPlayer (Lnet/minecraft/class_1937;Lnet/minecraft/class_1657;I)V
 		ARG 1 world
 		ARG 2 player
 		ARG 3 amount
-	METHOD method_7983 removeSubNbt (Ljava/lang/String;)V
-		COMMENT Removes the sub NBT element at the specified key in this item stack's custom NBT.
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
-		ARG 1 key
 	METHOD method_7984 areItemsEqual (Lnet/minecraft/class_1799;Lnet/minecraft/class_1799;)Z
+		COMMENT {@return whether the given item stacks contain the same item, regardless of item count or components}
+		COMMENT
+		COMMENT @see #areEqual
+		COMMENT @see #areItemsAndComponentsEqual
 		ARG 0 left
 		ARG 1 right
-	METHOD method_7985 hasNbt ()Z
-		COMMENT {@return whether this item stack has custom NBT}
-		COMMENT
-		COMMENT @see <a href="#nbt-operations">Item Stack NBT Operations</a>
 	METHOD method_7986 isDamaged ()Z
 		COMMENT {@return whether the item stack is {@linkplain #isDamageable damageable} and has damage}
 		COMMENT
 		COMMENT @see #isDamageable
 		COMMENT @see #getDamage
-	CLASS class_5422 TooltipSection
-		FIELD field_25775 flag I
-		METHOD method_30269 getFlag ()I
+	CLASS 1
+		FIELD field_48351 ITEM_PACKET_CODEC Lnet/minecraft/class_9139;

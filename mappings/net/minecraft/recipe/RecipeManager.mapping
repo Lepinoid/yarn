@@ -4,14 +4,17 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 	COMMENT from data packs' JSON files.
 	FIELD field_19359 GSON Lcom/google/gson/Gson;
 	FIELD field_36308 recipesById Ljava/util/Map;
-	FIELD field_9023 recipes Ljava/util/Map;
+	FIELD field_48848 registryLookup Lnet/minecraft/class_7225$class_7874;
+	FIELD field_51481 recipesByType Lcom/google/common/collect/Multimap;
 	FIELD field_9024 errored Z
 		COMMENT This isn't quite indicating an errored state; its value is only set to
 		COMMENT {@code false} and is never {@code true}, and isn't used anywhere.
 	FIELD field_9027 LOGGER Lorg/slf4j/Logger;
-	METHOD method_17717 getAllOfType (Lnet/minecraft/class_3956;)Ljava/util/Map;
+	METHOD <init> (Lnet/minecraft/class_7225$class_7874;)V
+		ARG 1 registryLookup
+	METHOD method_17717 getAllOfType (Lnet/minecraft/class_3956;)Ljava/util/Collection;
 		ARG 1 type
-	METHOD method_17720 deserialize (Lnet/minecraft/class_2960;Lcom/google/gson/JsonObject;)Lnet/minecraft/class_1860;
+	METHOD method_17720 deserialize (Lnet/minecraft/class_2960;Lcom/google/gson/JsonObject;Lnet/minecraft/class_7225$class_7874;)Lnet/minecraft/class_8786;
 		COMMENT Reads a recipe from a JSON object.
 		COMMENT
 		COMMENT @implNote Even though a recipe's {@linkplain Recipe#getSerializer() serializer}
@@ -21,18 +24,13 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 		COMMENT
 		COMMENT @throws com.google.gson.JsonParseException if the recipe JSON is invalid
 		COMMENT @return the read recipe
-		COMMENT @see RecipeSerializer#read
 		ARG 0 id
 			COMMENT the recipe's ID
 		ARG 1 json
-			COMMENT the recipe JSON
-	METHOD method_17722 (Ljava/util/Map;)Ljava/util/stream/Stream;
-		ARG 0 map
-	METHOD method_17723 (Ljava/util/Map;)Ljava/util/stream/Stream;
-		ARG 0 map
-	METHOD method_17876 (Lnet/minecraft/class_1937;Lnet/minecraft/class_1860;)Ljava/lang/String;
-		ARG 1 recipe
-	METHOD method_17877 getAllMatches (Lnet/minecraft/class_3956;Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;)Ljava/util/List;
+		ARG 2 registryLookup
+	METHOD method_17876 (Lnet/minecraft/class_1937;Lnet/minecraft/class_8786;)Ljava/lang/String;
+		ARG 1 entry
+	METHOD method_17877 getAllMatches (Lnet/minecraft/class_3956;Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;)Ljava/util/List;
 		COMMENT Creates a list of all recipes of the given {@code type} that match the
 		COMMENT given {@code inventory} and {@code world}. The list is ordered by the
 		COMMENT translation key of the output item stack of each recipe.
@@ -43,8 +41,7 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 		COMMENT @return the created list of matching recipes
 		ARG 1 type
 			COMMENT the desired recipe type
-		ARG 2 inventory
-			COMMENT the input inventory
+		ARG 2 input
 		ARG 3 world
 			COMMENT the input world
 	METHOD method_20702 setRecipes (Ljava/lang/Iterable;)V
@@ -52,14 +49,6 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 		COMMENT side recipes.
 		ARG 1 recipes
 			COMMENT the recipes to set
-	METHOD method_20703 (Ljava/util/Map$Entry;)Ljava/util/Map;
-		ARG 0 entry
-	METHOD method_20704 (Ljava/util/Map;Lcom/google/common/collect/ImmutableMap$Builder;Lnet/minecraft/class_1860;)V
-		ARG 2 recipe
-	METHOD method_20706 (Lnet/minecraft/class_3956;)Ljava/util/Map;
-		ARG 0 t
-	METHOD method_20707 (Lnet/minecraft/class_3956;)Lcom/google/common/collect/ImmutableMap$Builder;
-		ARG 0 recipeType
 	METHOD method_30027 listAllOfType (Lnet/minecraft/class_3956;)Ljava/util/List;
 		COMMENT Creates a list of all recipes of the given {@code type}. The list has an
 		COMMENT arbitrary order.
@@ -73,23 +62,31 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 	METHOD method_35227 isErrored ()Z
 		COMMENT {@return the {@link #errored} field} This is unused in vanilla and will only
 		COMMENT return {@code false} without mods.
-	METHOD method_42297 (Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;Lnet/minecraft/class_1860;)Z
+	METHOD method_42297 (Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;Lnet/minecraft/class_8786;)Z
 		ARG 2 recipe
-	METHOD method_42298 (Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;Ljava/util/Map$Entry;)Z
-		ARG 2 entry
-	METHOD method_42299 getFirstMatch (Lnet/minecraft/class_3956;Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;Lnet/minecraft/class_2960;)Ljava/util/Optional;
+	METHOD method_42299 getFirstMatch (Lnet/minecraft/class_3956;Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;Lnet/minecraft/class_2960;)Ljava/util/Optional;
 		ARG 1 type
-		ARG 2 inventory
+		ARG 2 input
 		ARG 3 world
 		ARG 4 id
-	METHOD method_42300 (Ljava/util/Map$Entry;)Lcom/mojang/datafixers/util/Pair;
-		ARG 0 entry
-	METHOD method_42301 (Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;Lnet/minecraft/class_1860;)Z
+	METHOD method_42301 (Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;Lnet/minecraft/class_8786;)Z
 		ARG 2 recipe
 	METHOD method_42302 createCachedMatchGetter (Lnet/minecraft/class_3956;)Lnet/minecraft/class_1863$class_7266;
 		COMMENT Creates a cached match getter. This is optimized for getting matches of the same
 		COMMENT recipe repeatedly, such as furnaces.
 		ARG 0 type
+	METHOD method_59821 get (Lnet/minecraft/class_3956;Lnet/minecraft/class_2960;)Lnet/minecraft/class_8786;
+		COMMENT {@return a recipe with the given {@code id} and {@code type}, or empty if there is no such recipe}
+		ARG 1 type
+			COMMENT the type of the desired recipe
+		ARG 2 id
+			COMMENT the ID of the desired recipe
+	METHOD method_59822 sortedValues ()Ljava/util/Collection;
+	METHOD method_59993 getFirstMatch (Lnet/minecraft/class_3956;Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;Lnet/minecraft/class_8786;)Ljava/util/Optional;
+		ARG 1 type
+		ARG 2 input
+		ARG 3 world
+		ARG 4 recipe
 	METHOD method_8126 values ()Ljava/util/Collection;
 		COMMENT {@return all recipes in this manager}
 		COMMENT
@@ -103,7 +100,7 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 		COMMENT
 		COMMENT @apiNote This is used by the command sources to suggest recipe IDs for command
 		COMMENT arguments.
-	METHOD method_8128 getRemainingStacks (Lnet/minecraft/class_3956;Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;)Lnet/minecraft/class_2371;
+	METHOD method_8128 getRemainingStacks (Lnet/minecraft/class_3956;Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;)Lnet/minecraft/class_2371;
 		COMMENT {@return the remainder of a recipe of the given {@code type} that match
 		COMMENT the given {@code inventory} and {@code world}, or a shallow copy of the
 		COMMENT {@code inventory}}
@@ -115,15 +112,14 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 		COMMENT @see Recipe#getRemainder(Inventory)
 		ARG 1 type
 			COMMENT the desired recipe type
-		ARG 2 inventory
-			COMMENT the input inventory
+		ARG 2 input
 		ARG 3 world
 			COMMENT the input world
 	METHOD method_8130 get (Lnet/minecraft/class_2960;)Ljava/util/Optional;
 		COMMENT {@return a recipe with the given {@code id}, or empty if there is no such recipe}
 		ARG 1 id
 			COMMENT the ID of the desired recipe
-	METHOD method_8132 getFirstMatch (Lnet/minecraft/class_3956;Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;)Ljava/util/Optional;
+	METHOD method_8132 getFirstMatch (Lnet/minecraft/class_3956;Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;)Ljava/util/Optional;
 		COMMENT {@return a recipe of the given {@code type} that match the given
 		COMMENT {@code inventory} and {@code world}}
 		COMMENT
@@ -132,13 +128,12 @@ CLASS net/minecraft/class_1863 net/minecraft/recipe/RecipeManager
 		COMMENT manager are updated.
 		ARG 1 type
 			COMMENT the desired recipe type
-		ARG 2 inventory
-			COMMENT the input inventory
+		ARG 2 input
 		ARG 3 world
 			COMMENT the input world
 	CLASS 1
 		FIELD field_38221 id Lnet/minecraft/class_2960;
 	CLASS class_7266 MatchGetter
-		METHOD method_42303 getFirstMatch (Lnet/minecraft/class_1263;Lnet/minecraft/class_1937;)Ljava/util/Optional;
-			ARG 1 inventory
+		METHOD method_42303 getFirstMatch (Lnet/minecraft/class_9695;Lnet/minecraft/class_1937;)Ljava/util/Optional;
+			ARG 1 input
 			ARG 2 world

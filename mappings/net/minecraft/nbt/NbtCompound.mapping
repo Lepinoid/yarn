@@ -2,8 +2,7 @@ CLASS net/minecraft/class_2487 net/minecraft/nbt/NbtCompound
 	COMMENT Represents an NBT compound object. This mutable object holds unordered key-value pairs
 	COMMENT with distinct case-sensitive string keys. This can effectively be used like a
 	COMMENT {@code HashMap<String, NbtElement>}. Note that this <strong>does not</strong> implement
-	COMMENT {@link java.util.Map}. Its type is {@value NbtElement#COMPOUND_TYPE}. To get the compound
-	COMMENT as a map, use {@link #toMap()}.
+	COMMENT {@link java.util.Map}. Its type is {@value NbtElement#COMPOUND_TYPE}.
 	COMMENT
 	COMMENT <p>There are two ways to use this compound; one is to create NBT instances yourself and use
 	COMMENT {@link #get(String)} or {@link #put(String, NbtElement)}. Manual casting is required in
@@ -52,9 +51,6 @@ CLASS net/minecraft/class_2487 net/minecraft/nbt/NbtCompound
 		ARG 1 key
 	METHOD method_10541 getKeys ()Ljava/util/Set;
 		COMMENT {@return the set of keys in this compound}
-	METHOD method_10542 readByte (Ljava/io/DataInput;Lnet/minecraft/class_2505;)B
-		ARG 0 input
-		ARG 1 tracker
 	METHOD method_10543 copyFrom (Lnet/minecraft/class_2487;)Lnet/minecraft/class_2487;
 		COMMENT Merges the entries of {@code source} to this compound. The passed compound will not
 		COMMENT be modified. If both compounds contain a compound with the same key, they will be
@@ -108,9 +104,6 @@ CLASS net/minecraft/class_2487 net/minecraft/nbt/NbtCompound
 	METHOD method_10551 remove (Ljava/lang/String;)V
 		COMMENT Removes the entry with the specified {@code key}. Does nothing if there is none.
 		ARG 1 key
-	METHOD method_10552 readString (Ljava/io/DataInput;Lnet/minecraft/class_2505;)Ljava/lang/String;
-		ARG 0 input
-		ARG 1 tracker
 	METHOD method_10554 getList (Ljava/lang/String;I)Lnet/minecraft/class_2499;
 		COMMENT {@return the list associated with {@code key}, or an empty list if there is no
 		COMMENT list stored with the key and the type}
@@ -264,12 +257,11 @@ CLASS net/minecraft/class_2487 net/minecraft/nbt/NbtCompound
 		COMMENT
 		COMMENT @see #put(String, NbtElement)
 		ARG 1 key
-	METHOD method_10581 read (Lnet/minecraft/class_4614;Ljava/lang/String;Ljava/io/DataInput;ILnet/minecraft/class_2505;)Lnet/minecraft/class_2520;
+	METHOD method_10581 read (Lnet/minecraft/class_4614;Ljava/lang/String;Ljava/io/DataInput;Lnet/minecraft/class_2505;)Lnet/minecraft/class_2520;
 		ARG 0 reader
 		ARG 1 key
 		ARG 2 input
-		ARG 3 depth
-		ARG 4 tracker
+		ARG 3 tracker
 	METHOD method_10582 putString (Ljava/lang/String;Ljava/lang/String;)V
 		COMMENT Puts a {@link String} to this compound.
 		COMMENT
@@ -311,12 +303,10 @@ CLASS net/minecraft/class_2487 net/minecraft/nbt/NbtCompound
 		COMMENT Returns {@code true} if this {@code NbtCompound} contains a valid UUID representation associated with the given key.
 		COMMENT A valid UUID is represented by an int array of length 4.
 		ARG 1 key
+	METHOD method_29141 (Lcom/mojang/serialization/Dynamic;)Lcom/mojang/serialization/DataResult;
+		ARG 0 dynamic
 	METHOD method_29142 (Lnet/minecraft/class_2487;)Lcom/mojang/serialization/Dynamic;
 		ARG 0 nbt
-	METHOD method_29143 toMap ()Ljava/util/Map;
-		COMMENT {@return the compound as an unmodifiable map}
-		COMMENT
-		COMMENT <p>Changes to this compound will be propagated to the returned map.
 	METHOD method_33133 isEmpty ()Z
 		COMMENT {@return whether the compound has no entries}
 	METHOD method_36110 putByteArray (Ljava/lang/String;Ljava/util/List;)V
@@ -326,3 +316,16 @@ CLASS net/minecraft/class_2487 net/minecraft/nbt/NbtCompound
 		COMMENT @see #putByteArray(String, byte[])
 		ARG 1 key
 		ARG 2 value
+	METHOD method_59873 shallowCopy ()Lnet/minecraft/class_2487;
+	METHOD method_59874 entrySet ()Ljava/util/Set;
+	CLASS 1
+		METHOD method_53888 scanCompound (Ljava/io/DataInput;Lnet/minecraft/class_6836;Lnet/minecraft/class_2505;)Lnet/minecraft/class_6836$class_6838;
+			ARG 0 input
+			ARG 1 visitor
+			ARG 2 tracker
+		METHOD method_53889 readCompound (Ljava/io/DataInput;Lnet/minecraft/class_2505;)Lnet/minecraft/class_2487;
+			ARG 0 input
+			ARG 1 tracker
+		METHOD method_53907 readString (Ljava/io/DataInput;Lnet/minecraft/class_2505;)Ljava/lang/String;
+			ARG 0 input
+			ARG 1 tracker

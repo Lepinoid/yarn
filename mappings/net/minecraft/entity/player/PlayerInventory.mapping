@@ -6,7 +6,7 @@ CLASS net/minecraft/class_1661 net/minecraft/entity/player/PlayerInventory
 	FIELD field_30639 OFF_HAND_SLOT I
 		COMMENT Zero-based index of the offhand slot.
 		COMMENT
-		COMMENT <p>This value is the result of the sum {@code MAIN_SIZE (36) + ARMOR_SIZE (4)}.</p>
+		COMMENT <p>This value is the result of the sum {@code MAIN_SIZE (36) + ARMOR_SIZE (4)}.
 	FIELD field_30640 NOT_FOUND I
 		COMMENT The slot index ({@value}) used to indicate no result
 		COMMENT (item not present / no available space) when querying the inventory's contents
@@ -14,7 +14,7 @@ CLASS net/minecraft/class_1661 net/minecraft/entity/player/PlayerInventory
 	FIELD field_30641 HOTBAR_SIZE I
 		COMMENT The number of columns ({@value}) in the inventory.
 		COMMENT
-		COMMENT <p>The same value dictates the size of the player's hotbar, excluding the offhand slot.</p>
+		COMMENT <p>The same value dictates the size of the player's hotbar, excluding the offhand slot.
 	FIELD field_33767 ARMOR_SLOTS [I
 	FIELD field_33768 HELMET_SLOTS [I
 	FIELD field_7542 changeCount I
@@ -26,8 +26,6 @@ CLASS net/minecraft/class_1661 net/minecraft/entity/player/PlayerInventory
 	FIELD field_7548 armor Lnet/minecraft/class_2371;
 	METHOD <init> (Lnet/minecraft/class_1657;)V
 		ARG 1 player
-	METHOD method_20265 (ILnet/minecraft/class_1657;)V
-		ARG 1 player
 	METHOD method_29280 remove (Ljava/util/function/Predicate;ILnet/minecraft/class_1263;)I
 		ARG 1 shouldRemove
 		ARG 2 maxCount
@@ -37,6 +35,8 @@ CLASS net/minecraft/class_1661 net/minecraft/entity/player/PlayerInventory
 		ARG 2 notifiesClient
 	METHOD method_37417 dropSelectedItem (Z)Lnet/minecraft/class_1799;
 		ARG 1 entireStack
+	METHOD method_55753 contains (Ljava/util/function/Predicate;)Z
+		ARG 1 predicate
 	METHOD method_7364 getChangeCount ()I
 	METHOD method_7365 swapSlotWithHotbar (I)V
 		ARG 1 slot
@@ -60,10 +60,6 @@ CLASS net/minecraft/class_1661 net/minecraft/entity/player/PlayerInventory
 		ARG 1 scrollAmount
 	METHOD method_7374 addPickBlock (Lnet/minecraft/class_1799;)V
 		ARG 1 stack
-	METHOD method_7375 damageArmor (Lnet/minecraft/class_1282;F[I)V
-		ARG 1 damageSource
-		ARG 2 amount
-		ARG 3 slots
 	METHOD method_7376 getEmptySlot ()I
 	METHOD method_7377 clone (Lnet/minecraft/class_1661;)V
 		ARG 1 other

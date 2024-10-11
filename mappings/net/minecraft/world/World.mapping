@@ -24,12 +24,10 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 	FIELD field_9226 ambientDarkness I
 	FIELD field_9229 random Lnet/minecraft/class_5819;
 	FIELD field_9232 properties Lnet/minecraft/class_5269;
-	FIELD field_9233 DIRECTIONS [Lnet/minecraft/class_2350;
 	FIELD field_9234 thunderGradient F
 	FIELD field_9235 rainGradient F
 	FIELD field_9236 isClient Z
 	FIELD field_9238 lcgBlockSeedIncrement I
-	FIELD field_9247 dimension Lnet/minecraft/class_5321;
 	FIELD field_9249 iteratingTickingBlockEntities Z
 	FIELD field_9251 thunderGradientPrev F
 	FIELD field_9253 rainGradientPrev F
@@ -58,11 +56,11 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 9 velocityX
 		ARG 11 velocityY
 		ARG 13 velocityZ
-	METHOD method_17889 getNextMapId ()I
-	METHOD method_17890 putMapState (Ljava/lang/String;Lnet/minecraft/class_22;)V
+	METHOD method_17889 increaseAndGetMapId ()Lnet/minecraft/class_9209;
+	METHOD method_17890 putMapState (Lnet/minecraft/class_9209;Lnet/minecraft/class_22;)V
 		ARG 1 id
 		ARG 2 state
-	METHOD method_17891 getMapState (Ljava/lang/String;)Lnet/minecraft/class_22;
+	METHOD method_17891 getMapState (Lnet/minecraft/class_9209;)Lnet/minecraft/class_22;
 		ARG 1 id
 	METHOD method_18471 tickBlockEntities ()V
 	METHOD method_18472 tickEntity (Ljava/util/function/Consumer;Lnet/minecraft/class_1297;)V
@@ -149,7 +147,9 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 	METHOD method_43126 getSpawnPos ()Lnet/minecraft/class_2338;
 	METHOD method_43127 getSpawnAngle ()F
 	METHOD method_43128 playSound (Lnet/minecraft/class_1657;DDDLnet/minecraft/class_3414;Lnet/minecraft/class_3419;FF)V
-		ARG 1 except
+		ARG 1 source
+			COMMENT the player that caused the sound and therefore plays the sound directly in
+			COMMENT the client, or {@code null}
 		ARG 2 x
 		ARG 4 y
 		ARG 6 z
@@ -158,15 +158,16 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 10 volume
 		ARG 11 pitch
 	METHOD method_43129 playSoundFromEntity (Lnet/minecraft/class_1657;Lnet/minecraft/class_1297;Lnet/minecraft/class_3414;Lnet/minecraft/class_3419;FF)V
-		ARG 1 except
+		ARG 1 source
+			COMMENT the player that caused the sound and therefore plays the sound directly in
+			COMMENT the client, or {@code null}
 		ARG 2 entity
 		ARG 3 sound
 		ARG 4 category
 		ARG 5 volume
 		ARG 6 pitch
-	METHOD method_44013 getDimensionKey ()Lnet/minecraft/class_5321;
 	METHOD method_45445 playSound (Lnet/minecraft/class_1297;Lnet/minecraft/class_2338;Lnet/minecraft/class_3414;Lnet/minecraft/class_3419;FF)V
-		ARG 1 except
+		ARG 1 source
 		ARG 2 pos
 		ARG 3 sound
 		ARG 4 category
@@ -190,7 +191,7 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 5 power
 		ARG 6 createFire
 		ARG 7 explosionSourceType
-	METHOD method_46668 createExplosion (Lnet/minecraft/class_1297;Lnet/minecraft/class_1282;Lnet/minecraft/class_5362;DDDFZLnet/minecraft/class_1937$class_7867;Z)Lnet/minecraft/class_1927;
+	METHOD method_46668 createExplosion (Lnet/minecraft/class_1297;Lnet/minecraft/class_1282;Lnet/minecraft/class_5362;DDDFZLnet/minecraft/class_1937$class_7867;ZLnet/minecraft/class_2394;Lnet/minecraft/class_2394;Lnet/minecraft/class_6880;)Lnet/minecraft/class_1927;
 		ARG 1 entity
 		ARG 2 damageSource
 		ARG 3 behavior
@@ -201,6 +202,9 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 11 createFire
 		ARG 12 explosionSourceType
 		ARG 13 particles
+		ARG 14 particle
+		ARG 15 emitterParticle
+		ARG 16 soundEvent
 	METHOD method_46669 getDestructionType (Lnet/minecraft/class_1928$class_4313;)Lnet/minecraft/class_1927$class_4179;
 		ARG 1 gameRuleKey
 	METHOD method_47574 collectEntitiesByType (Lnet/minecraft/class_5575;Lnet/minecraft/class_238;Ljava/util/function/Predicate;Ljava/util/List;)V
@@ -221,7 +225,9 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 	METHOD method_47576 (Ljava/util/function/Predicate;Ljava/util/List;ILnet/minecraft/class_5575;Lnet/minecraft/class_1297;)Lnet/minecraft/class_7927$class_7928;
 		ARG 4 entity
 	METHOD method_47967 playSound (Lnet/minecraft/class_1657;DDDLnet/minecraft/class_3414;Lnet/minecraft/class_3419;FFJ)V
-		ARG 1 except
+		ARG 1 source
+			COMMENT the player that caused the sound and therefore plays the sound directly in
+			COMMENT the client, or {@code null}
 		ARG 2 x
 		ARG 4 y
 		ARG 6 z
@@ -234,6 +240,40 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 1 entity
 		ARG 2 damageSource
 	METHOD method_48963 getDamageSources ()Lnet/minecraft/class_8109;
+	METHOD method_54719 getTickManager ()Lnet/minecraft/class_8921;
+	METHOD method_54762 playSound (Lnet/minecraft/class_1657;DDDLnet/minecraft/class_3414;Lnet/minecraft/class_3419;)V
+		ARG 1 source
+		ARG 2 x
+		ARG 4 y
+		ARG 6 z
+		ARG 8 sound
+		ARG 9 category
+	METHOD method_55116 playSoundFromEntity (Lnet/minecraft/class_1297;Lnet/minecraft/class_3414;Lnet/minecraft/class_3419;FF)V
+		ARG 1 entity
+		ARG 2 sound
+		ARG 3 category
+		ARG 4 volume
+		ARG 5 pitch
+	METHOD method_55117 createExplosion (Lnet/minecraft/class_1297;Lnet/minecraft/class_1282;Lnet/minecraft/class_5362;DDDFZLnet/minecraft/class_1937$class_7867;)Lnet/minecraft/class_1927;
+		ARG 1 entity
+		ARG 2 damageSource
+		ARG 3 behavior
+		ARG 4 x
+		ARG 6 y
+		ARG 8 z
+		ARG 10 power
+		ARG 11 createFire
+		ARG 12 explosionSourceType
+	METHOD method_59547 getBrewingRecipeRegistry ()Lnet/minecraft/class_1845;
+	METHOD method_60511 playSound (Lnet/minecraft/class_1657;DDDLnet/minecraft/class_6880;Lnet/minecraft/class_3419;FF)V
+		ARG 1 source
+		ARG 2 x
+		ARG 4 y
+		ARG 6 z
+		ARG 8 sound
+		ARG 9 category
+		ARG 10 volume
+		ARG 11 pitch
 	METHOD method_8413 updateListeners (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_2680;I)V
 		ARG 1 pos
 		ARG 2 oldState
@@ -277,8 +317,9 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 	METHOD method_8442 getSkyAngleRadians (F)F
 		ARG 1 tickDelta
 	METHOD method_8449 playSoundFromEntity (Lnet/minecraft/class_1657;Lnet/minecraft/class_1297;Lnet/minecraft/class_6880;Lnet/minecraft/class_3419;FFJ)V
-		ARG 1 except
-			COMMENT the player that should not receive the sound, or {@code null}
+		ARG 1 source
+			COMMENT the player that caused the sound and therefore plays the sound directly in
+			COMMENT the client, or {@code null}
 		ARG 2 entity
 		ARG 3 sound
 		ARG 4 category
@@ -292,7 +333,7 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		COMMENT @see #updateNeighborsExcept(BlockPos, Block, Direction)
 		ARG 1 pos
 		ARG 2 sourceBlock
-	METHOD method_8454 createExplosion (Lnet/minecraft/class_1297;Lnet/minecraft/class_1282;Lnet/minecraft/class_5362;DDDFZLnet/minecraft/class_1937$class_7867;)Lnet/minecraft/class_1927;
+	METHOD method_8454 createExplosion (Lnet/minecraft/class_1297;Lnet/minecraft/class_1282;Lnet/minecraft/class_5362;DDDFZLnet/minecraft/class_1937$class_7867;Lnet/minecraft/class_2394;Lnet/minecraft/class_2394;Lnet/minecraft/class_6880;)Lnet/minecraft/class_1927;
 		COMMENT Creates an explosion.
 		ARG 1 entity
 			COMMENT the entity that exploded (like TNT) or {@code null} to indicate no entity exploded
@@ -308,16 +349,17 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 11 createFire
 			COMMENT whether the explosion should create fire
 		ARG 12 explosionSourceType
+		ARG 13 particle
+		ARG 14 emitterParticle
+		ARG 15 soundEvent
 	METHOD method_8455 updateComparators (Lnet/minecraft/class_2338;Lnet/minecraft/class_2248;)V
 		ARG 1 pos
 		ARG 2 block
 	METHOD method_8458 isSavingDisabled ()Z
-	METHOD method_8459 isEmittingRedstonePower (Lnet/minecraft/class_2338;Lnet/minecraft/class_2350;)Z
-		ARG 1 pos
-		ARG 2 direction
 	METHOD method_8465 playSound (Lnet/minecraft/class_1657;DDDLnet/minecraft/class_6880;Lnet/minecraft/class_3419;FFJ)V
-		ARG 1 except
-			COMMENT the player that should not receive the sound, or {@code null}
+		ARG 1 source
+			COMMENT the player that caused the sound and therefore plays the sound directly in
+			COMMENT the client, or {@code null}
 		ARG 2 x
 		ARG 4 y
 		ARG 6 z
@@ -351,10 +393,6 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 1 pos
 	METHOD method_8478 getThunderGradient (F)F
 		ARG 1 delta
-	METHOD method_8479 isReceivingRedstonePower (Lnet/minecraft/class_2338;)Z
-		ARG 1 pos
-	METHOD method_8482 getReceivedRedstonePower (Lnet/minecraft/class_2338;)I
-		ARG 1 pos
 	METHOD method_8486 playSound (DDDLnet/minecraft/class_3414;Lnet/minecraft/class_3419;FFZ)V
 		ARG 1 x
 		ARG 3 y
@@ -364,8 +402,6 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 9 volume
 		ARG 10 pitch
 		ARG 11 useDistance
-	METHOD method_8488 getReceivedStrongRedstonePower (Lnet/minecraft/class_2338;)I
-		ARG 1 pos
 	METHOD method_8492 updateNeighbor (Lnet/minecraft/class_2338;Lnet/minecraft/class_2248;Lnet/minecraft/class_2338;)V
 		COMMENT Triggers a neighbor update originating from {@code sourcePos} at
 		COMMENT {@code pos}.
@@ -384,9 +420,6 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 		ARG 12 velocityZ
 	METHOD method_8496 setThunderGradient (F)V
 		ARG 1 thunderGradient
-	METHOD method_8499 getEmittedRedstonePower (Lnet/minecraft/class_2338;Lnet/minecraft/class_2350;)I
-		ARG 1 pos
-		ARG 2 direction
 	METHOD method_8500 getWorldChunk (Lnet/minecraft/class_2338;)Lnet/minecraft/class_2818;
 		COMMENT {@return the chunk that contains {@code pos}}
 		ARG 1 pos
@@ -474,14 +507,18 @@ CLASS net/minecraft/class_1937 net/minecraft/world/World
 	METHOD method_8544 removeBlockEntity (Lnet/minecraft/class_2338;)V
 		ARG 1 pos
 	METHOD method_8546 isThundering ()Z
-	METHOD method_8547 addFireworkParticle (DDDDDDLnet/minecraft/class_2487;)V
+	METHOD method_8547 addFireworkParticle (DDDDDDLjava/util/List;)V
 		ARG 1 x
 		ARG 3 y
 		ARG 5 z
 		ARG 7 velocityX
 		ARG 9 velocityY
 		ARG 11 velocityZ
-		ARG 13 nbt
+		ARG 13 explosions
 	METHOD method_8558 isValidHorizontally (Lnet/minecraft/class_2338;)Z
 		ARG 0 pos
 	CLASS class_7867 ExplosionSourceType
+		FIELD field_51780 CODEC Lcom/mojang/serialization/Codec;
+		FIELD field_51781 id Ljava/lang/String;
+		METHOD <init> (Ljava/lang/String;ILjava/lang/String;)V
+			ARG 3 id

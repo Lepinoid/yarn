@@ -25,7 +25,6 @@ CLASS net/minecraft/class_5250 net/minecraft/text/MutableText
 	METHOD method_27693 append (Ljava/lang/String;)Lnet/minecraft/class_5250;
 		COMMENT Appends a literal text with content {@code text} to this text's siblings.
 		ARG 1 text
-			COMMENT the literal text content
 	METHOD method_27694 styled (Ljava/util/function/UnaryOperator;)Lnet/minecraft/class_5250;
 		COMMENT Updates the style of this text.
 		COMMENT
@@ -48,3 +47,6 @@ CLASS net/minecraft/class_5250 net/minecraft/text/MutableText
 		COMMENT Creates a piece of mutable text with the given content, with no sibling
 		COMMENT and style.
 		ARG 0 content
+	METHOD method_54663 withColor (I)Lnet/minecraft/class_5250;
+		COMMENT {@return the text with the RGB color {@code color}}
+		ARG 1 color

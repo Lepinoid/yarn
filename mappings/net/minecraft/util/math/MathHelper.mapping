@@ -4,13 +4,32 @@ CLASS net/minecraft/class_3532 net/minecraft/util/math/MathHelper
 	COMMENT
 	COMMENT <p>Trigonometric functions defined in this class use the "sine table", a pre-calculated
 	COMMENT table of {@code sin(N)} ({@code 0 <= N < pi * 2}).
-	FIELD field_15722 COSINE_TABLE [D
+	FIELD field_15722 COSINE_OF_ARCSINE_TABLE [D
+		COMMENT Holds values of cos(arcsin(x)): {@code COSINE_OF_ARCSINE_TABLE[i]} is equal to
+		COMMENT {@code Math.cos(Math.arcsin(i / 256.0))}.
+		COMMENT
+		COMMENT <p>This is used by {@link MathHelper#atan2} to approximate the inverse
+		COMMENT tangent function.
 	FIELD field_15723 MULTIPLY_DE_BRUIJN_BIT_POSITION [I
 	FIELD field_15724 SQUARE_ROOT_OF_TWO F
 	FIELD field_15725 SINE_TABLE [F
 	FIELD field_15726 RANDOM Lnet/minecraft/class_5819;
 	FIELD field_15727 ARCSINE_TABLE [D
-	FIELD field_15728 SMALLEST_FRACTION_FREE_DOUBLE D
+		COMMENT Holds values of arcsin(x): {@code ARCSINE_TABLE[i]} is equal to
+		COMMENT {@code Math.arcsin(i / 256.0)}.
+		COMMENT
+		COMMENT <p>This is used by {@link MathHelper#atan2} to approximate the inverse
+		COMMENT tangent function.
+	FIELD field_15728 ROUNDER_256THS D
+		COMMENT A constant for rounding a double to the nearest multiple of 1/256.
+		COMMENT
+		COMMENT <p>When this constant is added to a double that is not too large, then the
+		COMMENT bits of the result's mantissa reflect the original number times 256.
+		COMMENT Consequently, adding this constant and then subtracting it rounds such
+		COMMENT doubles to the nearest multiple of 1/256.
+		COMMENT
+		COMMENT <p>This is used by {@link MathHelper#atan2} to produce an index into
+		COMMENT {@link MathHelper#ARCSINE_TABLE} and {@link MathHelper#COSINE_OF_ARCSINE_TABLE}.
 	FIELD field_29844 PI F
 	FIELD field_29845 HALF_PI F
 	FIELD field_29846 TAU F
@@ -20,6 +39,18 @@ CLASS net/minecraft/class_3532 net/minecraft/util/math/MathHelper
 	FIELD field_29849 EPSILON F
 	FIELD field_29853 HALF_PI_RADIANS_SINE_TABLE_INDEX J
 	FIELD field_29856 DEGREES_TO_SINE_TABLE_INDEX F
+	FIELD field_29857 ARCSINE_MACLAURIN_3 D
+		COMMENT Used for the third-order Maclaurin series approximation of the arcsin function,
+		COMMENT x + x^3/6.
+	FIELD field_29859 ARCSINE_TABLE_LENGTH I
+		COMMENT The total number of entries in {@link MathHelper#ARCSINE_TABLE} and
+		COMMENT {@link MathHelper#COSINE_OF_ARCSINE_TABLE}.
+		COMMENT
+		COMMENT <p>These tables have 257 elements because they store values for multiples of
+		COMMENT 1/256 from 0 to 1, inclusive.
+	FIELD field_46242 Y_AXIS Lorg/joml/Vector3f;
+	FIELD field_46243 X_AXIS Lorg/joml/Vector3f;
+	FIELD field_46244 Z_AXIS Lorg/joml/Vector3f;
 	METHOD method_15338 wrapDegrees (D)D
 		COMMENT Wraps an angle in degrees to the interval {@code [-180, 180)}.
 		ARG 0 degrees
@@ -59,6 +90,18 @@ CLASS net/minecraft/class_3532 net/minecraft/util/math/MathHelper
 		ARG 1 to
 		ARG 2 step
 	METHOD method_15349 atan2 (DD)D
+		COMMENT {@return an approximation of {@code Math.atan2(y, x)}}
+		COMMENT
+		COMMENT @implNote This implementation transforms the arguments such that they
+		COMMENT lie in the first quadrant. If {@code y > x}, then {@code x} and {@code y}
+		COMMENT are swapped to minimize the error of the initial approximation.
+		COMMENT {@code x} and {@code y} are normalized, and an initial approximation
+		COMMENT of the result and the sine of the deviation from the true value are
+		COMMENT obtained using the {@link MathHelper#ARCSINE_TABLE} and
+		COMMENT {@link MathHelper#COSINE_OF_ARCSINE_TABLE} lookup tables. The error
+		COMMENT itself is approximated using the third-order Maclaurin series polynomial
+		COMMENT for arcsin. Finally, the implementation undoes any transformations that
+		COMMENT were performed initially.
 		ARG 0 y
 		ARG 2 x
 	METHOD method_15350 clamp (DDD)D
@@ -340,6 +383,10 @@ CLASS net/minecraft/class_3532 net/minecraft/util/math/MathHelper
 		ARG 0 a
 		ARG 2 b
 		ARG 4 c
+	METHOD method_34945 (Lnet/minecraft/class_243;Lnet/minecraft/class_243;Lnet/minecraft/class_238;)Z
+		ARG 0 origin
+		ARG 1 direction
+		ARG 2 box
 	METHOD method_34954 square (I)I
 		ARG 0 n
 	METHOD method_34956 perlinFadeDerivative (D)D
@@ -451,3 +498,42 @@ CLASS net/minecraft/class_3532 net/minecraft/util/math/MathHelper
 		ARG 0 delta
 		ARG 1 start
 		ARG 2 end
+	METHOD method_52468 lerpAngleDegrees (DDD)D
+		ARG 0 delta
+		ARG 2 start
+		ARG 4 end
+	METHOD method_53062 clamp (JJJ)J
+		ARG 0 value
+		ARG 2 min
+		ARG 4 max
+	METHOD method_53063 lerpPositive (FII)I
+		COMMENT {@return linear interpolation of {@code delta} between {@code start} and {@code end},
+		COMMENT except that for any positive {@code delta} the value is positive}
+		COMMENT
+		COMMENT <p>Like {@link #lerp(float, int, int)}, {@code lerpPositive(0, 0, 10)} returns {@code 0}.
+		COMMENT However, if the delta is {@code 0.01f}, the {@code lerp} method would return {@code 0}
+		COMMENT since {@code 0.01 * 10} floored is {@code 0}. This method returns {@code 1} in this
+		COMMENT situation.
+		COMMENT
+		COMMENT @apiNote This is used to calculate redstone comparator output and boss bar percentage.
+		COMMENT
+		COMMENT @see #lerp(float, int, int)
+		ARG 0 delta
+		ARG 1 start
+		ARG 2 end
+	METHOD method_53948 rotateAround (Lorg/joml/Vector3f;Lorg/joml/Quaternionf;Lorg/joml/Quaternionf;)Lorg/joml/Quaternionf;
+		ARG 0 axis
+		ARG 1 rotation
+		ARG 2 result
+	METHOD method_59515 multiplyFraction (Lorg/apache/commons/lang3/math/Fraction;I)I
+		ARG 0 fraction
+		ARG 1 multiplier
+	METHOD method_60599 hsvToArgb (FFFI)I
+		ARG 0 hue
+		ARG 1 saturation
+		ARG 2 value
+		ARG 3 alpha
+	METHOD method_60677 magnitude (FFF)F
+		ARG 0 a
+		ARG 1 b
+		ARG 2 c

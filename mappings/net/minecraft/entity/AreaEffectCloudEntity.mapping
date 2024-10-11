@@ -1,14 +1,11 @@
 CLASS net/minecraft/class_1295 net/minecraft/entity/AreaEffectCloudEntity
 	FIELD field_29971 MAX_RADIUS F
-	FIELD field_5928 customColor Z
+	FIELD field_49209 potionContentsComponent Lnet/minecraft/class_1844;
 	FIELD field_5929 radiusOnUse F
 	FIELD field_5930 radiusGrowth F
 	FIELD field_5931 PARTICLE_ID Lnet/minecraft/class_2940;
 	FIELD field_5932 durationOnUse I
-	FIELD field_5933 potion Lnet/minecraft/class_1842;
-	FIELD field_5934 effects Ljava/util/List;
 	FIELD field_5935 LOGGER Lorg/slf4j/Logger;
-	FIELD field_5936 COLOR Lnet/minecraft/class_2940;
 	FIELD field_5937 reapplicationDelay I
 	FIELD field_5938 RADIUS Lnet/minecraft/class_2940;
 	FIELD field_5939 duration I
@@ -30,7 +27,8 @@ CLASS net/minecraft/class_1295 net/minecraft/entity/AreaEffectCloudEntity
 	METHOD method_35045 getRadiusGrowth ()F
 	METHOD method_35046 getDurationOnUse ()I
 	METHOD method_35047 getWaitTime ()I
-	METHOD method_35048 getPotion ()Lnet/minecraft/class_1842;
+	METHOD method_48564 (I)I
+		ARG 0 duration
 	METHOD method_5595 setWaitTime (I)V
 		ARG 1 waitTime
 	METHOD method_5596 setRadiusGrowth (F)V
@@ -40,14 +38,11 @@ CLASS net/minecraft/class_1295 net/minecraft/entity/AreaEffectCloudEntity
 		ARG 1 waiting
 	METHOD method_5599 getRadius ()F
 	METHOD method_5600 getParticleType ()Lnet/minecraft/class_2394;
-	METHOD method_5602 setColor (I)V
-		ARG 1 rgb
 	METHOD method_5603 setRadius (F)V
 		ARG 1 radius
 	METHOD method_5604 setDuration (I)V
 		ARG 1 duration
 	METHOD method_5605 getDuration ()I
-	METHOD method_5606 getColor ()I
 	METHOD method_5607 setOwner (Lnet/minecraft/class_1309;)V
 		ARG 1 owner
 	METHOD method_5608 setParticleType (Lnet/minecraft/class_2394;)V
@@ -57,5 +52,5 @@ CLASS net/minecraft/class_1295 net/minecraft/entity/AreaEffectCloudEntity
 	METHOD method_5610 addEffect (Lnet/minecraft/class_1293;)V
 		ARG 1 effect
 	METHOD method_5611 isWaiting ()Z
-	METHOD method_5612 setPotion (Lnet/minecraft/class_1842;)V
-		ARG 1 potion
+	METHOD method_57280 setPotionContents (Lnet/minecraft/class_1844;)V
+		ARG 1 potionContentsComponent

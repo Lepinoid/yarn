@@ -17,7 +17,6 @@ CLASS net/minecraft/class_8052 net/minecraft/item/SmithingTemplateItem
 	FIELD field_41973 emptyAdditionsSlotTextures Ljava/util/List;
 	FIELD field_41974 TITLE_FORMATTING Lnet/minecraft/class_124;
 	FIELD field_41975 DESCRIPTION_FORMATTING Lnet/minecraft/class_124;
-	FIELD field_41976 TRANSLATION_KEY Ljava/lang/String;
 	FIELD field_41977 INGREDIENTS_TEXT Lnet/minecraft/class_2561;
 	FIELD field_41978 APPLIES_TO_TEXT Lnet/minecraft/class_2561;
 	FIELD field_41979 NETHERITE_UPGRADE_TEXT Lnet/minecraft/class_2561;
@@ -36,7 +35,7 @@ CLASS net/minecraft/class_8052 net/minecraft/item/SmithingTemplateItem
 	FIELD field_41992 EMPTY_SLOT_HOE_TEXTURE Lnet/minecraft/class_2960;
 	FIELD field_41993 EMPTY_SLOT_AXE_TEXTURE Lnet/minecraft/class_2960;
 	FIELD field_42472 EMPTY_SLOT_AMETHYST_SHARD_TEXTURE Lnet/minecraft/class_2960;
-	METHOD <init> (Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Ljava/util/List;Ljava/util/List;)V
+	METHOD <init> (Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Lnet/minecraft/class_2561;Ljava/util/List;Ljava/util/List;[Lnet/minecraft/class_7696;)V
 		ARG 1 appliesToText
 		ARG 2 ingredientsText
 		ARG 3 titleText
@@ -44,15 +43,18 @@ CLASS net/minecraft/class_8052 net/minecraft/item/SmithingTemplateItem
 		ARG 5 additionsSlotDescriptionText
 		ARG 6 emptyBaseSlotTextures
 		ARG 7 emptyAdditionsSlotTextures
+		ARG 8 requiredFeatures
 	METHOD method_48413 getEmptyAdditionsSlotTextures ()Ljava/util/List;
 	METHOD method_48414 getArmorTrimEmptyBaseSlotTextures ()Ljava/util/List;
 	METHOD method_48415 getArmorTrimEmptyAdditionsSlotTextures ()Ljava/util/List;
 	METHOD method_48416 getNetheriteUpgradeEmptyBaseSlotTextures ()Ljava/util/List;
 	METHOD method_48417 getNetheriteUpgradeEmptyAdditionsSlotTextures ()Ljava/util/List;
-	METHOD method_48418 of (Lnet/minecraft/class_5321;)Lnet/minecraft/class_8052;
+	METHOD method_48418 of (Lnet/minecraft/class_5321;[Lnet/minecraft/class_7696;)Lnet/minecraft/class_8052;
 		ARG 0 trimPattern
-	METHOD method_48419 of (Lnet/minecraft/class_2960;)Lnet/minecraft/class_8052;
+		ARG 1 requiredFeatures
+	METHOD method_48419 of (Lnet/minecraft/class_2960;[Lnet/minecraft/class_7696;)Lnet/minecraft/class_8052;
 		ARG 0 trimPatternIn
+		ARG 1 requiredFeatures
 	METHOD method_48420 createNetheriteUpgrade ()Lnet/minecraft/class_8052;
 	METHOD method_48421 getBaseSlotDescription ()Lnet/minecraft/class_2561;
 	METHOD method_48422 getAdditionsSlotDescription ()Lnet/minecraft/class_2561;

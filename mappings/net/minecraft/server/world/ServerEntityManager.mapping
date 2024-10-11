@@ -36,7 +36,7 @@ CLASS net/minecraft/class_5579 net/minecraft/server/world/ServerEntityManager
 		ARG 2 chunkPos
 	METHOD method_31814 (Lnet/minecraft/class_4456;Lnet/minecraft/class_5579$class_5581;J)V
 		ARG 3 sectionPos
-	METHOD method_31815 updateTrackingStatus (Lnet/minecraft/class_1923;Lnet/minecraft/class_3193$class_3194;)V
+	METHOD method_31815 updateTrackingStatus (Lnet/minecraft/class_1923;Lnet/minecraft/class_3194;)V
 		COMMENT Updates the tracking status of tracking sections in a chunk at {@code
 		COMMENT chunkPos} given the {@code levelType}.
 		COMMENT
@@ -140,6 +140,7 @@ CLASS net/minecraft/class_5579 net/minecraft/server/world/ServerEntityManager
 		ARG 1 pos
 	METHOD method_40022 shouldTick (Lnet/minecraft/class_2338;)Z
 		ARG 1 pos
+	METHOD method_54490 getIndexSize ()I
 	CLASS class_5580 Listener
 		FIELD field_27271 manager Lnet/minecraft/class_5579;
 		FIELD field_27272 entity Lnet/minecraft/class_5568;

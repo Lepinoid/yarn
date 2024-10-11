@@ -24,15 +24,16 @@ CLASS net/minecraft/class_3324 net/minecraft/server/PlayerManager
 	FIELD field_29790 LATENCY_UPDATE_INTERVAL I
 	FIELD field_34895 simulationDistance I
 	FIELD field_39921 FILTERED_FULL_TEXT Lnet/minecraft/class_2561;
-	FIELD field_40966 syncedRegistryManager Lnet/minecraft/class_5455$class_6890;
+	FIELD field_45061 DUPLICATE_LOGIN_TEXT Lnet/minecraft/class_2561;
 	METHOD <init> (Lnet/minecraft/server/MinecraftServer;Lnet/minecraft/class_7780;Lnet/minecraft/class_29;I)V
 		ARG 1 server
 		ARG 2 registryManager
 		ARG 3 saveHandler
 		ARG 4 maxPlayers
-	METHOD method_14556 respawnPlayer (Lnet/minecraft/class_3222;Z)Lnet/minecraft/class_3222;
+	METHOD method_14556 respawnPlayer (Lnet/minecraft/class_3222;ZLnet/minecraft/class_1297$class_5529;)Lnet/minecraft/class_3222;
 		ARG 1 player
 		ARG 2 alive
+		ARG 3 removalReason
 	METHOD method_14557 setWhitelistEnabled (Z)V
 		ARG 1 whitelistEnabled
 	METHOD method_14559 getPlayersByIp (Ljava/lang/String;)Ljava/util/List;
@@ -55,9 +56,10 @@ CLASS net/minecraft/class_3324 net/minecraft/server/PlayerManager
 	METHOD method_14568 getViewDistance ()I
 	METHOD method_14569 isOperator (Lcom/mojang/authlib/GameProfile;)Z
 		ARG 1 profile
-	METHOD method_14570 onPlayerConnect (Lnet/minecraft/class_2535;Lnet/minecraft/class_3222;)V
+	METHOD method_14570 onPlayerConnect (Lnet/minecraft/class_2535;Lnet/minecraft/class_3222;Lnet/minecraft/class_8792;)V
 		ARG 1 connection
 		ARG 2 player
+		ARG 3 clientData
 	METHOD method_14571 getPlayerList ()Ljava/util/List;
 		COMMENT Gets a list of all players on a Minecraft server.
 		COMMENT This list should not be modified!
@@ -101,7 +103,7 @@ CLASS net/minecraft/class_3324 net/minecraft/server/PlayerManager
 		ARG 2 permissionLevel
 	METHOD method_14597 disconnectAllPlayers ()V
 	METHOD method_14599 reloadWhitelist ()V
-	METHOD method_14600 loadPlayerData (Lnet/minecraft/class_3222;)Lnet/minecraft/class_2487;
+	METHOD method_14600 loadPlayerData (Lnet/minecraft/class_3222;)Ljava/util/Optional;
 		ARG 1 player
 	METHOD method_14601 updatePlayerLatency ()V
 	METHOD method_14602 getPlayer (Ljava/util/UUID;)Lnet/minecraft/class_3222;
@@ -128,8 +130,9 @@ CLASS net/minecraft/class_3324 net/minecraft/server/PlayerManager
 		ARG 1 profile
 	METHOD method_14611 remove (Lnet/minecraft/class_3222;)V
 		ARG 1 player
-	METHOD method_14613 createPlayer (Lcom/mojang/authlib/GameProfile;)Lnet/minecraft/class_3222;
+	METHOD method_14613 createPlayer (Lcom/mojang/authlib/GameProfile;Lnet/minecraft/class_8791;)Lnet/minecraft/class_3222;
 		ARG 1 profile
+		ARG 2 syncedOptions
 	METHOD method_14614 isWhitelistEnabled ()Z
 	METHOD method_14617 saveAllPlayerData ()V
 	METHOD method_18241 (Lnet/minecraft/class_3218;Lnet/minecraft/class_1297;)Lnet/minecraft/class_1297;
@@ -165,8 +168,6 @@ CLASS net/minecraft/class_3324 net/minecraft/server/PlayerManager
 		COMMENT @see #broadcast(SignedMessage, ServerPlayerEntity, MessageType.Parameters)
 		ARG 1 message
 		ARG 2 overlay
-	METHOD method_43670 (Lnet/minecraft/class_3222;Lnet/minecraft/server/MinecraftServer$class_7460;)V
-		ARG 1 properties
 	METHOD method_43673 broadcast (Lnet/minecraft/class_7471;Lnet/minecraft/class_3222;Lnet/minecraft/class_2556$class_7602;)V
 		COMMENT Broadcasts a chat message to all players and the server console.
 		COMMENT
@@ -224,3 +225,12 @@ CLASS net/minecraft/class_3324 net/minecraft/server/PlayerManager
 		COMMENT @implNote This only affects the server log. Unverified messages are still broadcast
 		COMMENT to other clients.
 		ARG 1 message
+	METHOD method_52449 disconnectDuplicateLogins (Lcom/mojang/authlib/GameProfile;)Z
+		ARG 1 profile
+	METHOD method_55634 (Lnet/minecraft/class_2487;)Ljava/util/Optional;
+		ARG 0 nbt
+	METHOD method_60597 sendStatusEffects (Lnet/minecraft/class_1309;Lnet/minecraft/class_3244;)V
+		ARG 1 entity
+		ARG 2 networkHandler
+	METHOD method_60598 sendStatusEffects (Lnet/minecraft/class_3222;)V
+		ARG 1 player

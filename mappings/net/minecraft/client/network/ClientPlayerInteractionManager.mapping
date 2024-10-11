@@ -38,7 +38,6 @@ CLASS net/minecraft/class_636 net/minecraft/client/network/ClientPlayerInteracti
 		ARG 2 direction
 	METHOD method_2903 copyAbilities (Lnet/minecraft/class_1657;)V
 		ARG 1 player
-	METHOD method_2904 getReachDistance ()F
 	METHOD method_2905 interactEntity (Lnet/minecraft/class_1657;Lnet/minecraft/class_1297;Lnet/minecraft/class_1268;)Lnet/minecraft/class_1269;
 		ARG 1 player
 		ARG 2 entity
@@ -60,7 +59,7 @@ CLASS net/minecraft/class_636 net/minecraft/client/network/ClientPlayerInteracti
 		ARG 1 pos
 		ARG 2 direction
 	METHOD method_2911 syncSelectedSlot ()V
-	METHOD method_2912 clickRecipe (ILnet/minecraft/class_1860;Z)V
+	METHOD method_2912 clickRecipe (ILnet/minecraft/class_8786;Z)V
 		ARG 1 syncId
 		ARG 2 recipe
 		ARG 3 craftAll
@@ -87,7 +86,6 @@ CLASS net/minecraft/class_636 net/minecraft/client/network/ClientPlayerInteracti
 	METHOD method_2923 isBreakingBlock ()Z
 	METHOD method_2924 hasLimitedAttackSpeed ()Z
 	METHOD method_2925 cancelBlockBreaking ()V
-	METHOD method_2926 hasExtendedReach ()Z
 	METHOD method_2927 tick ()V
 	METHOD method_2928 isFlyingLocked ()Z
 	METHOD method_29357 createPlayer (Lnet/minecraft/class_638;Lnet/minecraft/class_3469;Lnet/minecraft/class_299;)Lnet/minecraft/class_746;
@@ -116,3 +114,8 @@ CLASS net/minecraft/class_636 net/minecraft/client/network/ClientPlayerInteracti
 		ARG 3 sequence
 	METHOD method_41936 (Lnet/minecraft/class_2338;Lnet/minecraft/class_2350;I)Lnet/minecraft/class_2596;
 		ARG 3 sequence
+	METHOD method_51888 getBlockBreakingProgress ()I
+	METHOD method_54634 slotChangedState (IIZ)V
+		ARG 1 slot
+		ARG 2 screenHandlerId
+		ARG 3 newState

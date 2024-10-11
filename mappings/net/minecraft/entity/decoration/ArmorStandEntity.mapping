@@ -38,6 +38,7 @@ CLASS net/minecraft/class_1531 net/minecraft/entity/decoration/ArmorStandEntity
 	METHOD method_18059 canClip ()Z
 	METHOD method_31168 getDimensions (Z)Lnet/minecraft/class_4048;
 		ARG 1 marker
+	METHOD method_55745 createArmorStandAttributes ()Lnet/minecraft/class_5132$class_5133;
 	METHOD method_6898 spawnBreakParticles ()V
 	METHOD method_6900 getRightLegRotation ()Lnet/minecraft/class_2379;
 	METHOD method_6901 shouldHideBasePlate ()Z
@@ -49,17 +50,19 @@ CLASS net/minecraft/class_1531 net/minecraft/entity/decoration/ArmorStandEntity
 		ARG 2 slot
 		ARG 3 stack
 		ARG 4 hand
-	METHOD method_6905 updateHealth (Lnet/minecraft/class_1282;F)V
-		ARG 1 damageSource
-		ARG 2 amount
+	METHOD method_6905 updateHealth (Lnet/minecraft/class_3218;Lnet/minecraft/class_1282;F)V
+		ARG 1 world
+		ARG 2 damageSource
+		ARG 3 amount
 	METHOD method_6906 setBitField (BIZ)B
 		ARG 1 value
 		ARG 2 bitField
 		ARG 3 set
 	METHOD method_6907 setHideBasePlate (Z)V
 		ARG 1 hideBasePlate
-	METHOD method_6908 onBreak (Lnet/minecraft/class_1282;)V
-		ARG 1 damageSource
+	METHOD method_6908 onBreak (Lnet/minecraft/class_3218;Lnet/minecraft/class_1282;)V
+		ARG 1 world
+		ARG 2 damageSource
 	METHOD method_6909 setLeftLegRotation (Lnet/minecraft/class_2379;)V
 		ARG 1 angle
 	METHOD method_6910 setLeftArmRotation (Lnet/minecraft/class_2379;)V
@@ -83,8 +86,9 @@ CLASS net/minecraft/class_1531 net/minecraft/entity/decoration/ArmorStandEntity
 	METHOD method_6922 setSmall (Z)V
 		ARG 1 small
 	METHOD method_6923 getBodyRotation ()Lnet/minecraft/class_2379;
-	METHOD method_6924 breakAndDropItem (Lnet/minecraft/class_1282;)V
-		ARG 1 damageSource
+	METHOD method_6924 breakAndDropItem (Lnet/minecraft/class_3218;Lnet/minecraft/class_1282;)V
+		ARG 1 world
+		ARG 2 damageSource
 	METHOD method_6925 setRightArmRotation (Lnet/minecraft/class_2379;)V
 		ARG 1 angle
 	METHOD method_6926 setRightLegRotation (Lnet/minecraft/class_2379;)V

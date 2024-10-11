@@ -1,15 +1,17 @@
 CLASS net/minecraft/class_2035 net/minecraft/predicate/item/EnchantmentPredicate
-	FIELD field_20687 ARRAY_OF_ANY [Lnet/minecraft/class_2035;
-	FIELD field_9569 enchantment Lnet/minecraft/class_1887;
-	FIELD field_9570 levels Lnet/minecraft/class_2096$class_2100;
-	FIELD field_9571 ANY Lnet/minecraft/class_2035;
-	METHOD <init> (Lnet/minecraft/class_1887;Lnet/minecraft/class_2096$class_2100;)V
+	FIELD comp_1749 levels Lnet/minecraft/class_2096$class_2100;
+	FIELD field_45741 CODEC Lcom/mojang/serialization/Codec;
+	METHOD <init> (Lnet/minecraft/class_6880;Lnet/minecraft/class_2096$class_2100;)V
 		ARG 1 enchantment
 		ARG 2 levels
-	METHOD method_8879 deserializeAll (Lcom/google/gson/JsonElement;)[Lnet/minecraft/class_2035;
-		ARG 0 el
-	METHOD method_8880 test (Ljava/util/Map;)Z
+	METHOD <init> (Lnet/minecraft/class_6885;Lnet/minecraft/class_2096$class_2100;)V
 		ARG 1 enchantments
-	METHOD method_8881 serialize ()Lcom/google/gson/JsonElement;
-	METHOD method_8882 deserialize (Lcom/google/gson/JsonElement;)Lnet/minecraft/class_2035;
-		ARG 0 el
+		ARG 2 levels
+	METHOD comp_1749 levels ()Lnet/minecraft/class_2096$class_2100;
+	METHOD method_53126 (Lcom/mojang/serialization/codecs/RecordCodecBuilder$Instance;)Lcom/mojang/datafixers/kinds/App;
+		ARG 0 instance
+	METHOD method_59916 testLevel (Lnet/minecraft/class_9304;Lnet/minecraft/class_6880;)Z
+		ARG 1 enchantmentsComponent
+		ARG 2 enchantment
+	METHOD method_8880 test (Lnet/minecraft/class_9304;)Z
+		ARG 1 enchantmentsComponent

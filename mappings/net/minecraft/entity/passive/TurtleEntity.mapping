@@ -1,5 +1,6 @@
 CLASS net/minecraft/class_1481 net/minecraft/entity/passive/TurtleEntity
-	FIELD field_28406 BREEDING_ITEM Lnet/minecraft/class_1856;
+	FIELD field_47774 BABY_SCALE F
+	FIELD field_47775 BABY_BASE_DIMENSIONS Lnet/minecraft/class_4048;
 	FIELD field_6918 sandDiggingCounter I
 	FIELD field_6919 HAS_EGG Lnet/minecraft/class_2940;
 	FIELD field_6920 HOME_POS Lnet/minecraft/class_2940;
@@ -15,6 +16,8 @@ CLASS net/minecraft/class_1481 net/minecraft/entity/passive/TurtleEntity
 		ARG 3 pos
 		ARG 4 random
 	METHOD method_26896 createTurtleAttributes ()Lnet/minecraft/class_5132$class_5133;
+	METHOD method_58376 (Lnet/minecraft/class_1799;)Z
+		ARG 0 stack
 	METHOD method_6676 setDiggingSand (Z)V
 		ARG 1 diggingSand
 	METHOD method_6679 hasEgg ()Z

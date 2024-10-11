@@ -357,6 +357,69 @@ CLASS net/minecraft/class_1802 net/minecraft/item/Items
 	FIELD field_42703 CHERRY_FENCE_GATE Lnet/minecraft/class_1792;
 	FIELD field_42704 CHERRY_PRESSURE_PLATE Lnet/minecraft/class_1792;
 	FIELD field_42705 CHERRY_DOOR Lnet/minecraft/class_1792;
+	FIELD field_43191 SUSPICIOUS_GRAVEL Lnet/minecraft/class_1792;
+	FIELD field_43192 PITCHER_PLANT Lnet/minecraft/class_1792;
+	FIELD field_43193 SNIFFER_EGG Lnet/minecraft/class_1792;
+	FIELD field_43194 CALIBRATED_SCULK_SENSOR Lnet/minecraft/class_1792;
+	FIELD field_46249 PUMPKIN_SEEDS Lnet/minecraft/class_1792;
+	FIELD field_46250 MELON_SEEDS Lnet/minecraft/class_1792;
+	FIELD field_46791 CRAFTER Lnet/minecraft/class_1792;
+	FIELD field_46974 CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46975 EXPOSED_CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46976 WEATHERED_CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46977 OXIDIZED_CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46978 WAXED_CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46979 WAXED_EXPOSED_CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46980 WAXED_WEATHERED_CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46981 WAXED_OXIDIZED_CHISELED_COPPER Lnet/minecraft/class_1792;
+	FIELD field_46982 COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46983 EXPOSED_COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46984 WEATHERED_COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46985 OXIDIZED_COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46986 WAXED_COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46987 WAXED_EXPOSED_COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46988 WAXED_WEATHERED_COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46989 TUFF_SLAB Lnet/minecraft/class_1792;
+	FIELD field_46990 WAXED_OXIDIZED_COPPER_DOOR Lnet/minecraft/class_1792;
+	FIELD field_46991 COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46992 EXPOSED_COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46993 WEATHERED_COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46994 OXIDIZED_COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46995 WAXED_COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46996 WAXED_EXPOSED_COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46997 WAXED_WEATHERED_COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46998 WAXED_OXIDIZED_COPPER_TRAPDOOR Lnet/minecraft/class_1792;
+	FIELD field_46999 TUFF_STAIRS Lnet/minecraft/class_1792;
+	FIELD field_47000 TUFF_WALL Lnet/minecraft/class_1792;
+	FIELD field_47001 CHISELED_TUFF Lnet/minecraft/class_1792;
+	FIELD field_47002 POLISHED_TUFF Lnet/minecraft/class_1792;
+	FIELD field_47003 POLISHED_TUFF_SLAB Lnet/minecraft/class_1792;
+	FIELD field_47004 POLISHED_TUFF_STAIRS Lnet/minecraft/class_1792;
+	FIELD field_47005 POLISHED_TUFF_WALL Lnet/minecraft/class_1792;
+	FIELD field_47006 TUFF_BRICKS Lnet/minecraft/class_1792;
+	FIELD field_47007 TUFF_BRICK_SLAB Lnet/minecraft/class_1792;
+	FIELD field_47008 TUFF_BRICK_STAIRS Lnet/minecraft/class_1792;
+	FIELD field_47009 COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47010 EXPOSED_COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47011 WEATHERED_COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47012 OXIDIZED_COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47013 WAXED_COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47014 WAXED_EXPOSED_COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47015 WAXED_WEATHERED_COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47016 TUFF_BRICK_WALL Lnet/minecraft/class_1792;
+	FIELD field_47017 WAXED_OXIDIZED_COPPER_GRATE Lnet/minecraft/class_1792;
+	FIELD field_47018 COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47019 EXPOSED_COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47020 WEATHERED_COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47021 OXIDIZED_COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47022 WAXED_COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47023 WAXED_EXPOSED_COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47024 WAXED_WEATHERED_COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47025 WAXED_OXIDIZED_COPPER_BULB Lnet/minecraft/class_1792;
+	FIELD field_47026 CHISELED_TUFF_BRICKS Lnet/minecraft/class_1792;
+	FIELD field_47314 TRIAL_SPAWNER Lnet/minecraft/class_1792;
+	FIELD field_48847 VAULT Lnet/minecraft/class_1792;
+	FIELD field_49813 HEAVY_CORE Lnet/minecraft/class_1792;
 	FIELD field_8043 ORANGE_TERRACOTTA Lnet/minecraft/class_1792;
 	FIELD field_8047 JUNGLE_PRESSURE_PLATE Lnet/minecraft/class_1792;
 	FIELD field_8048 SPRUCE_BUTTON Lnet/minecraft/class_1792;
@@ -645,7 +708,7 @@ CLASS net/minecraft/class_1802 net/minecraft/item/Items
 	FIELD field_8595 STONE_SLAB Lnet/minecraft/class_1792;
 	FIELD field_8596 INFESTED_MOSSY_STONE_BRICKS Lnet/minecraft/class_1792;
 	FIELD field_8599 IRON_ORE Lnet/minecraft/class_1792;
-	FIELD field_8602 GRASS Lnet/minecraft/class_1792;
+	FIELD field_8602 SHORT_GRASS Lnet/minecraft/class_1792;
 	FIELD field_8603 DIAMOND_BLOCK Lnet/minecraft/class_1792;
 	FIELD field_8604 REDSTONE_ORE Lnet/minecraft/class_1792;
 	FIELD field_8605 ACACIA_BUTTON Lnet/minecraft/class_1792;
@@ -814,6 +877,42 @@ CLASS net/minecraft/class_1802 net/minecraft/item/Items
 	METHOD method_35220 register (Lnet/minecraft/class_2248;[Lnet/minecraft/class_2248;)Lnet/minecraft/class_1792;
 		ARG 0 block
 		ARG 1 blocks
+	METHOD method_51348 register (Lnet/minecraft/class_5321;Lnet/minecraft/class_1792;)Lnet/minecraft/class_1792;
+		ARG 0 key
+		ARG 1 item
+	METHOD method_58095 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58096 register (Lnet/minecraft/class_2248;Ljava/util/function/UnaryOperator;)Lnet/minecraft/class_1792;
+		ARG 0 block
+		ARG 1 settingsOperator
+	METHOD method_58097 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58098 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58099 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58100 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58101 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58102 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58103 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58104 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58105 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58106 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58107 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58108 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58109 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
+	METHOD method_58110 (Lnet/minecraft/class_1792$class_1793;)Lnet/minecraft/class_1792$class_1793;
+		ARG 0 settings
 	METHOD method_7989 register (Lnet/minecraft/class_2248;)Lnet/minecraft/class_1792;
 		ARG 0 block
 	METHOD method_7990 register (Lnet/minecraft/class_2960;Lnet/minecraft/class_1792;)Lnet/minecraft/class_1792;

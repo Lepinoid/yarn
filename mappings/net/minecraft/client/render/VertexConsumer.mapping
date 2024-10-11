@@ -17,22 +17,7 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		ARG 2 green
 		ARG 3 blue
 		ARG 4 alpha
-	METHOD method_1344 next ()V
-		COMMENT Starts consuming the next vertex.
-		COMMENT
-		COMMENT <p>This method must be called after specifying all elements in a vertex.
-	METHOD method_22901 fixedColor (IIII)V
-		COMMENT Makes this consumer always use the same color for subsequent vertices
-		COMMENT until {@link #unfixColor} is called.
-		COMMENT
-		COMMENT <p>The color will be automatically supplied when the color element is
-		COMMENT requested. Make sure not to specify the color yourself when using this
-		COMMENT method.
-		ARG 1 red
-		ARG 2 green
-		ARG 3 blue
-		ARG 4 alpha
-	METHOD method_22912 vertex (DDD)Lnet/minecraft/class_4588;
+	METHOD method_22912 vertex (FFF)Lnet/minecraft/class_4588;
 		COMMENT Specifies the {@linkplain VertexFormats#POSITION_ELEMENT
 		COMMENT position element} of the current vertex.
 		COMMENT
@@ -43,8 +28,8 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		COMMENT
 		COMMENT @return this consumer, for chaining
 		ARG 1 x
-		ARG 3 y
-		ARG 5 z
+		ARG 2 y
+		ARG 3 z
 	METHOD method_22913 texture (FF)Lnet/minecraft/class_4588;
 		COMMENT Specifies the {@linkplain VertexFormats#TEXTURE_ELEMENT
 		COMMENT texture element} of the current vertex.
@@ -79,25 +64,6 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		ARG 2 green
 		ARG 3 blue
 		ARG 4 alpha
-	METHOD method_22916 light (I)Lnet/minecraft/class_4588;
-		COMMENT Specifies the {@linkplain VertexFormats#LIGHT_ELEMENT
-		COMMENT light element} of the current vertex.
-		COMMENT
-		COMMENT @throws IllegalStateException if this consumer is not currently
-		COMMENT accepting a light element.
-		COMMENT
-		COMMENT @return this consumer, for chaining
-		ARG 1 uv
-	METHOD method_22917 overlay (II)Lnet/minecraft/class_4588;
-		COMMENT Specifies the {@linkplain VertexFormats#OVERLAY_ELEMENT
-		COMMENT overlay element} of the current vertex.
-		COMMENT
-		COMMENT @throws IllegalStateException if this consumer is not currently
-		COMMENT accepting an overlay element.
-		COMMENT
-		COMMENT @return this consumer, for chaining
-		ARG 1 u
-		ARG 2 v
 	METHOD method_22918 vertex (Lorg/joml/Matrix4f;FFF)Lnet/minecraft/class_4588;
 		COMMENT Specifies the {@linkplain VertexFormats#POSITION_ELEMENT
 		COMMENT position element} of the current vertex.
@@ -113,7 +79,7 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		ARG 2 x
 		ARG 3 y
 		ARG 4 z
-	METHOD method_22919 quad (Lnet/minecraft/class_4587$class_4665;Lnet/minecraft/class_777;FFFII)V
+	METHOD method_22919 quad (Lnet/minecraft/class_4587$class_4665;Lnet/minecraft/class_777;FFFFII)V
 		COMMENT Specifies the vertex elements from {@code quad} and starts consuming
 		COMMENT the next vertex.
 		COMMENT
@@ -124,9 +90,7 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		ARG 3 red
 		ARG 4 green
 		ARG 5 blue
-		ARG 6 light
-		ARG 7 overlay
-	METHOD method_22920 quad (Lnet/minecraft/class_4587$class_4665;Lnet/minecraft/class_777;[FFFF[IIZ)V
+	METHOD method_22920 quad (Lnet/minecraft/class_4587$class_4665;Lnet/minecraft/class_777;[FFFFF[IIZ)V
 		COMMENT Specifies the vertex elements from {@code quad} and starts consuming
 		COMMENT the next vertex.
 		COMMENT
@@ -138,9 +102,6 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		ARG 4 red
 		ARG 5 green
 		ARG 6 blue
-		ARG 7 lights
-		ARG 8 overlay
-		ARG 9 useQuadColorData
 	METHOD method_22921 light (II)Lnet/minecraft/class_4588;
 		COMMENT Specifies the {@linkplain VertexFormats#LIGHT_ELEMENT
 		COMMENT light element} of the current vertex.
@@ -160,22 +121,7 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		COMMENT
 		COMMENT @return this consumer, for chaining
 		ARG 1 uv
-	METHOD method_23763 normal (Lorg/joml/Matrix3f;FFF)Lnet/minecraft/class_4588;
-		COMMENT Specifies the {@linkplain VertexFormats#NORMAL_ELEMENT
-		COMMENT normal element} of the current vertex.
-		COMMENT
-		COMMENT @throws IllegalStateException if this consumer is not currently
-		COMMENT accepting a normal element.
-		COMMENT
-		COMMENT @return this consumer, for chaining
-		ARG 1 matrix
-			COMMENT the matrix that will be applied to the normal vector, typically {@link
-			COMMENT net.minecraft.client.util.math.MatrixStack.Entry#getNormalMatrix
-			COMMENT MatrixStack.Entry#getNormalMatrix}
-		ARG 2 x
-		ARG 3 y
-		ARG 4 z
-	METHOD method_23919 vertex (FFFFFFFFFIIFFF)V
+	METHOD method_23919 vertex (FFFIFFIIFFF)V
 		COMMENT Specifies the
 		COMMENT {@linkplain VertexFormats#POSITION_ELEMENT position},
 		COMMENT {@linkplain VertexFormats#COLOR_ELEMENT color},
@@ -190,19 +136,14 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		ARG 1 x
 		ARG 2 y
 		ARG 3 z
-		ARG 4 red
-		ARG 5 green
-		ARG 6 blue
-		ARG 7 alpha
-		ARG 8 u
-		ARG 9 v
-		ARG 10 overlay
-		ARG 11 light
-		ARG 12 normalX
-		ARG 13 normalY
-		ARG 14 normalZ
-	METHOD method_35666 unfixColor ()V
-		COMMENT Makes this consumer no longer use the color set in {@link #fixedColor}.
+		ARG 4 color
+		ARG 5 u
+		ARG 6 v
+		ARG 7 overlay
+		ARG 8 light
+		ARG 9 normalX
+		ARG 10 normalY
+		ARG 11 normalZ
 	METHOD method_39415 color (I)Lnet/minecraft/class_4588;
 		COMMENT Specifies the {@linkplain VertexFormats#COLOR_ELEMENT
 		COMMENT color element} of the current vertex.
@@ -213,3 +154,47 @@ CLASS net/minecraft/class_4588 net/minecraft/client/render/VertexConsumer
 		COMMENT
 		COMMENT @return this consumer, for chaining
 		ARG 1 argb
+	METHOD method_56824 vertex (Lnet/minecraft/class_4587$class_4665;FFF)Lnet/minecraft/class_4588;
+		ARG 1 matrix
+		ARG 2 x
+		ARG 3 y
+		ARG 4 z
+	METHOD method_60796 overlay (II)Lnet/minecraft/class_4588;
+		COMMENT Specifies the {@linkplain VertexFormats#OVERLAY_ELEMENT
+		COMMENT overlay element} of the current vertex.
+		COMMENT
+		COMMENT @throws IllegalStateException if this consumer is not currently
+		COMMENT accepting an overlay element.
+		COMMENT
+		COMMENT @return this consumer, for chaining
+		ARG 1 u
+		ARG 2 v
+	METHOD method_60803 light (I)Lnet/minecraft/class_4588;
+		COMMENT Specifies the {@linkplain VertexFormats#LIGHT_ELEMENT
+		COMMENT light element} of the current vertex.
+		COMMENT
+		COMMENT @throws IllegalStateException if this consumer is not currently
+		COMMENT accepting a light element.
+		COMMENT
+		COMMENT @return this consumer, for chaining
+		ARG 1 uv
+	METHOD method_60830 vertex (Lorg/joml/Vector3f;)Lnet/minecraft/class_4588;
+		ARG 1 vec
+	METHOD method_60831 normal (Lnet/minecraft/class_4587$class_4665;FFF)Lnet/minecraft/class_4588;
+		ARG 1 matrix
+		ARG 2 x
+		ARG 3 y
+		ARG 4 z
+	METHOD method_60832 colorRgb (I)Lnet/minecraft/class_4588;
+		COMMENT Specifies the {@linkplain VertexFormats#COLOR_ELEMENT
+		COMMENT color element} of the current vertex in rgb format.
+		COMMENT
+		COMMENT @throws IllegalStateException if this consumer is not currently
+		COMMENT accepting a color element or if a color has been set in {@link
+		COMMENT #fixedColor}.
+		COMMENT
+		COMMENT @return this consumer, for chaining
+		ARG 1 rgb
+	METHOD method_61032 vertex (Lnet/minecraft/class_4587$class_4665;Lorg/joml/Vector3f;)Lnet/minecraft/class_4588;
+		ARG 1 matrix
+		ARG 2 vec

@@ -6,6 +6,8 @@ CLASS net/minecraft/class_863 net/minecraft/client/render/debug/DebugRenderer
 	FIELD field_21547 beeDebugRenderer Lnet/minecraft/class_4703;
 	FIELD field_22408 villageSectionsDebugRenderer Lnet/minecraft/class_4841;
 	FIELD field_28254 gameEventDebugRenderer Lnet/minecraft/class_5739;
+	FIELD field_44674 lightDebugRenderer Lnet/minecraft/class_8520;
+	FIELD field_44827 supportingBlockDebugRenderer Lnet/minecraft/class_863$class_864;
 	FIELD field_4517 blockOutlineDebugRenderer Lnet/minecraft/class_863$class_864;
 	FIELD field_4523 pathfindingDebugRenderer Lnet/minecraft/class_868;
 	FIELD field_4528 waterDebugRenderer Lnet/minecraft/class_863$class_864;
@@ -18,6 +20,7 @@ CLASS net/minecraft/class_863 net/minecraft/client/render/debug/DebugRenderer
 	FIELD field_4537 worldGenAttemptDebugRenderer Lnet/minecraft/class_863$class_864;
 	FIELD field_4538 heightmapDebugRenderer Lnet/minecraft/class_863$class_864;
 	FIELD field_4539 structureDebugRenderer Lnet/minecraft/class_870;
+	FIELD field_47474 breezeDebugRenderer Lnet/minecraft/class_8985;
 	METHOD <init> (Lnet/minecraft/class_310;)V
 		ARG 1 client
 	METHOD method_20413 reset ()V
@@ -40,6 +43,8 @@ CLASS net/minecraft/class_863 net/minecraft/client/render/debug/DebugRenderer
 		ARG 3 cameraX
 		ARG 5 cameraY
 		ARG 7 cameraZ
+	METHOD method_23100 (Lnet/minecraft/class_1297;)Z
+		ARG 0 entityx
 	METHOD method_23101 getTargetedEntity (Lnet/minecraft/class_1297;I)Ljava/util/Optional;
 		ARG 0 entity
 		ARG 1 maxDistance
@@ -107,6 +112,14 @@ CLASS net/minecraft/class_863 net/minecraft/client/render/debug/DebugRenderer
 		ARG 5 z
 		ARG 6 color
 	METHOD method_3713 toggleShowChunkBorder ()Z
+	METHOD method_54808 drawBlockBox (Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;Lnet/minecraft/class_2338;FFFF)V
+		ARG 0 matrices
+		ARG 1 vertexConsumers
+		ARG 2 pos
+		ARG 3 red
+		ARG 4 green
+		ARG 5 blue
+		ARG 6 alpha
 	CLASS class_864 Renderer
 		METHOD method_20414 clear ()V
 		METHOD method_23109 render (Lnet/minecraft/class_4587;Lnet/minecraft/class_4597;DDD)V

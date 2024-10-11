@@ -7,7 +7,7 @@ CLASS net/minecraft/class_3215 net/minecraft/server/world/ServerChunkManager
 	FIELD field_13945 world Lnet/minecraft/class_3218;
 	FIELD field_17252 ticketManager Lnet/minecraft/class_3204;
 	FIELD field_17253 serverThread Ljava/lang/Thread;
-	FIELD field_17254 threadedAnvilChunkStorage Lnet/minecraft/class_3898;
+	FIELD field_17254 chunkLoadingManager Lnet/minecraft/class_3898;
 	FIELD field_17708 persistentStateManager Lnet/minecraft/class_26;
 	FIELD field_18809 mainThreadExecutor Lnet/minecraft/class_3215$class_4212;
 	FIELD field_19335 chunkPosCache [J
@@ -47,12 +47,11 @@ CLASS net/minecraft/class_3215 net/minecraft/server/world/ServerChunkManager
 		ARG 4 create
 	METHOD method_14144 applyViewDistance (I)V
 		ARG 1 watchDistance
+	METHOD method_14159 (Ljava/util/concurrent/CompletableFuture;)Ljava/util/concurrent/CompletionStage;
+		ARG 0 future
 	METHOD method_14161 tickChunks ()V
-	METHOD method_16150 (Lnet/minecraft/class_2791;)Lnet/minecraft/class_2791;
-		ARG 0 chunk
-	METHOD method_16155 tick ()Z
-	METHOD method_16173 (ZLnet/minecraft/class_3193$class_3724;)Lnet/minecraft/class_2791;
-		ARG 1 unloaded
+	METHOD method_16155 updateChunks ()Z
+		COMMENT Update expected chunk loading states by updating {@code PLAYER} tickets and {@code Future}s.
 	METHOD method_17297 addTicket (Lnet/minecraft/class_3230;Lnet/minecraft/class_1923;ILjava/lang/Object;)V
 		COMMENT Adds a chunk ticket to the ticket manager.
 		COMMENT

@@ -5,6 +5,7 @@ CLASS net/minecraft/class_1493 net/minecraft/entity/passive/WolfEntity
 	FIELD field_25373 ANGER_TIME Lnet/minecraft/class_2940;
 	FIELD field_30386 WILD_MAX_HEALTH F
 	FIELD field_30387 TAMED_MAX_HEALTH F
+	FIELD field_49722 VARIANT Lnet/minecraft/class_2940;
 	FIELD field_6944 furWet Z
 	FIELD field_6945 lastShakeProgress F
 	FIELD field_6946 BEGGING Lnet/minecraft/class_2940;
@@ -23,6 +24,16 @@ CLASS net/minecraft/class_1493 net/minecraft/entity/passive/WolfEntity
 		ARG 2 spawnReason
 		ARG 3 pos
 		ARG 4 random
+	METHOD method_55710 hasArmor ()Z
+	METHOD method_57304 shouldArmorAbsorbDamage (Lnet/minecraft/class_1282;)Z
+		ARG 1 source
+	METHOD method_58059 (Lnet/minecraft/class_5321;)Ljava/util/Optional;
+		ARG 1 variantKey
+	METHOD method_58060 (Lnet/minecraft/class_2960;)Lnet/minecraft/class_5321;
+		ARG 0 variantId
+	METHOD method_58061 getTextureId ()Lnet/minecraft/class_2960;
+	METHOD method_58169 tryTame (Lnet/minecraft/class_1657;)V
+		ARG 1 player
 	METHOD method_6707 getFurWetBrightnessMultiplier (F)F
 		COMMENT Returns this wolf's brightness multiplier based on the fur wetness.
 		COMMENT <p>
@@ -57,6 +68,7 @@ CLASS net/minecraft/class_1493 net/minecraft/entity/passive/WolfEntity
 			ARG 7 fastSpeed
 		METHOD method_6720 isScaredOf (Lnet/minecraft/class_1501;)Z
 			ARG 1 llama
-	CLASS class_6859 WolfEscapeDangerGoal
-		METHOD <init> (Lnet/minecraft/class_1493;D)V
-			ARG 2 speed
+	CLASS class_9345 WolfData
+		FIELD field_49723 variant Lnet/minecraft/class_6880;
+		METHOD <init> (Lnet/minecraft/class_6880;)V
+			ARG 1 variant

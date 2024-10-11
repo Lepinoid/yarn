@@ -136,18 +136,20 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	FIELD field_29989 MAX_COMMAND_TAGS I
 		COMMENT @see Entity#addCommandTag
 		COMMENT @see Entity#readNbt
-	FIELD field_29990 VELOCITY_AFFECTING_POS_Y_OFFSET D
-		COMMENT @see Entity#getVelocityAffectingPos
 	FIELD field_29992 DEFAULT_MIN_FREEZE_DAMAGE_TICKS I
 		COMMENT @see Entity#getMinFreezeDamageTicks
 	FIELD field_29993 FREEZING_DAMAGE_INTERVAL I
-		COMMENT @see LivingEntity#tickMovement
+		COMMENT @see net.minecraft.entity.LivingEntity#tickMovement
 	FIELD field_29994 UUID_KEY Ljava/lang/String;
 	FIELD field_33758 hasVisualFire Z
 	FIELD field_34927 collidedSoftly Z
 	FIELD field_35101 chunkPos Lnet/minecraft/class_1923;
-	FIELD field_35588 blockStateAtPos Lnet/minecraft/class_2680;
+	FIELD field_36331 groundCollision Z
 	FIELD field_38931 trackedPosition Lnet/minecraft/class_7422;
+	FIELD field_44784 supportingBlockPos Ljava/util/Optional;
+	FIELD field_44873 forceUpdateSupportingBlockPos Z
+	FIELD field_47742 stateAtPos Lnet/minecraft/class_2680;
+	FIELD field_51994 portalManager Lnet/minecraft/class_9787;
 	FIELD field_5951 ridingCooldown I
 	FIELD field_5952 onGround Z
 	FIELD field_5953 firstUpdate Z
@@ -158,12 +160,10 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	FIELD field_5960 noClip Z
 	FIELD field_5961 type Lnet/minecraft/class_1299;
 	FIELD field_5962 SILENT Lnet/minecraft/class_2940;
-	FIELD field_5963 inNetherPortal Z
 	FIELD field_5964 fluidHeight Lit/unimi/dsi/fastutil/objects/Object2DoubleMap;
 	FIELD field_5965 pitch F
 	FIELD field_5969 prevZ D
 	FIELD field_5971 lastRenderY D
-	FIELD field_5972 netherPortalTime I
 	FIELD field_5973 horizontalSpeed F
 	FIELD field_5974 random Lnet/minecraft/class_5819;
 	FIELD field_5975 NAME_VISIBLE Lnet/minecraft/class_2940;
@@ -184,7 +184,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @see #getId()
 	FIELD field_5989 lastRenderZ D
 	FIELD field_5990 FLAGS Lnet/minecraft/class_2940;
-	FIELD field_5991 lastNetherPortalPosition Lnet/minecraft/class_2338;
 	FIELD field_5992 verticalCollision Z
 	FIELD field_5993 pistonMovementDelta [D
 	FIELD field_5994 distanceTraveled F
@@ -201,7 +200,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	FIELD field_6009 invulnerable Z
 	FIELD field_6011 dataTracker Lnet/minecraft/class_2945;
 	FIELD field_6012 age I
-	FIELD field_6013 stepHeight F
 	FIELD field_6014 prevX D
 	FIELD field_6017 fallDistance F
 	FIELD field_6018 portalCooldown I
@@ -209,7 +207,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	FIELD field_6025 NULL_BOX Lnet/minecraft/class_238;
 	FIELD field_6027 CUSTOM_NAME Lnet/minecraft/class_2940;
 	FIELD field_6029 commandTags Ljava/util/Set;
-	FIELD field_6030 EMPTY_STACK_LIST Ljava/util/List;
 	FIELD field_6031 yaw F
 	FIELD field_6032 AIR Lnet/minecraft/class_2940;
 	FIELD field_6034 vehicle Lnet/minecraft/class_1297;
@@ -222,17 +219,21 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		ARG 2 world
 	METHOD equals (Ljava/lang/Object;)Z
 		ARG 1 o
+	METHOD method_14245 getWorldSpawnPos (Lnet/minecraft/class_3218;Lnet/minecraft/class_2338;)Lnet/minecraft/class_2338;
+		ARG 1 world
+		ARG 2 basePos
 	METHOD method_17681 getWidth ()F
 		COMMENT {@return the width of the entity's current dimension}
 	METHOD method_17682 getHeight ()F
 		COMMENT {@return the height of the entity's current dimension}
 	METHOD method_17835 adjustMovementForCollisions (Lnet/minecraft/class_243;)Lnet/minecraft/class_243;
 		ARG 1 movement
-	METHOD method_18002 createSpawnPacket ()Lnet/minecraft/class_2596;
+	METHOD method_18002 createSpawnPacket (Lnet/minecraft/class_3231;)Lnet/minecraft/class_2596;
 		COMMENT {@return a packet to notify the clients of the entity's spawning}
 		COMMENT
 		COMMENT @apiNote Subclasses should return {@code new EntitySpawnS2CPacket(this)},
 		COMMENT unless they use a custom spawning packet.
+		ARG 1 entityTrackerEntry
 	METHOD method_18276 isInSneakingPose ()Z
 		COMMENT {@return whether the entity is in a crouching pose}
 		COMMENT
@@ -253,10 +254,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @see #getWidth
 		COMMENT @see #getHeight
 		ARG 1 pose
-	METHOD method_18378 getEyeHeight (Lnet/minecraft/class_4050;Lnet/minecraft/class_4048;)F
-		ARG 1 pose
-		ARG 2 dimensions
-	METHOD method_18379 tickPortal ()V
 	METHOD method_18380 setPose (Lnet/minecraft/class_4050;)V
 		ARG 1 pose
 	METHOD method_18381 getEyeHeight (Lnet/minecraft/class_4050;)F
@@ -305,12 +302,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT when the player is in a 1 block tall tunnel).
 		COMMENT
 		COMMENT @see #isCrawling
-	METHOD method_20233 wouldPoseNotCollide (Lnet/minecraft/class_4050;)Z
-		COMMENT {@return {@code true} if the entity would not collide with blocks if the pose is
-		COMMENT {@code pose}}
-		ARG 1 pose
-	METHOD method_20343 calculateBoundsForPose (Lnet/minecraft/class_4050;)Lnet/minecraft/class_238;
-		ARG 1 pos
 	METHOD method_20448 isCrawling ()Z
 		COMMENT {@return whether the entity is crawling}
 		COMMENT
@@ -319,17 +310,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT when the player is in a 1 block tall tunnel).
 		COMMENT
 		COMMENT @see #isInSwimmingPose
-	METHOD method_20620 teleport (DDD)V
-		COMMENT Teleports the entity to the given position, loading the chunk with
-		COMMENT {@link net.minecraft.server.world.ChunkTicketType#POST_TELEPORT}.
-		COMMENT
-		COMMENT @see #requestTeleportAndDismount
-		COMMENT @see #requestTeleport
-		COMMENT @see #teleport(ServerWorld, double, double, double, Set, float, float)
-		COMMENT @see #refreshPositionAndAngles(double, double, double, float, float)
-		ARG 1 destX
-		ARG 3 destY
-		ARG 5 destZ
 	METHOD method_20736 adjustMovementForCollisions (Lnet/minecraft/class_1297;Lnet/minecraft/class_243;Lnet/minecraft/class_238;Lnet/minecraft/class_1937;Ljava/util/List;)Lnet/minecraft/class_243;
 		ARG 0 entity
 		ARG 1 movement
@@ -420,9 +400,8 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		ARG 1 x
 		ARG 3 y
 		ARG 5 z
-	METHOD method_24201 updatePassengerPosition (Lnet/minecraft/class_1297;Lnet/minecraft/class_1297$class_4738;)V
+	METHOD method_24201 updatePassengerPosition (Lnet/minecraft/class_1297;)V
 		ARG 1 passenger
-		ARG 2 positionUpdater
 	METHOD method_24203 refreshPositionAfterTeleport (DDD)V
 		ARG 1 x
 		ARG 3 y
@@ -446,7 +425,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT for the passenger. Check the implementation of the subclass for details.
 		COMMENT
 		COMMENT @see #getPassengerDismountOffset
-		COMMENT @see Dismounting
+		COMMENT @see net.minecraft.entity.Dismounting
 		ARG 1 passenger
 	METHOD method_24830 setOnGround (Z)V
 		ARG 1 onGround
@@ -495,32 +474,16 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT Removes this entity from the current dimension.
 		COMMENT
 		COMMENT <p>This calls {@link #setRemoved} by default. Subclasses can add other logics,
-		COMMENT such as setting the stack count of {@linkplain #getItemsEquipped equipped stacks}
+		COMMENT such as setting the stack count of {@linkplain LivingEntity#getEquippedItems equipped stacks}
 		COMMENT to zero.
 		COMMENT
-		COMMENT @see #moveToWorld
+		COMMENT @see #teleportTo
 	METHOD method_30229 resetPortalCooldown ()V
 		COMMENT Resets the entity's portal cooldown to the default.
 		COMMENT
 		COMMENT @see #getDefaultPortalCooldown
 	METHOD method_30230 hasPortalCooldown ()Z
 		COMMENT {@return whether the entity's portal cooldown is in effect}
-	METHOD method_30329 getTeleportTarget (Lnet/minecraft/class_3218;)Lnet/minecraft/class_5454;
-		COMMENT {@return a {@link TeleportTarget} for the entity based on its current and
-		COMMENT destination worlds, plus any nether portals that may be present}
-		ARG 1 destination
-	METHOD method_30330 getPortalRect (Lnet/minecraft/class_3218;Lnet/minecraft/class_2338;ZLnet/minecraft/class_2784;)Ljava/util/Optional;
-		COMMENT {@return the portal rect at {@code destPos}}
-		COMMENT
-		COMMENT @see net.minecraft.world.PortalForcer#getPortalRect
-		ARG 1 destWorld
-		ARG 2 destPos
-		ARG 3 destIsNether
-		ARG 4 worldBorder
-	METHOD method_30331 (Lnet/minecraft/class_3218;Lnet/minecraft/class_5459$class_5460;)Lnet/minecraft/class_5454;
-		ARG 2 rect
-	METHOD method_30332 (Lnet/minecraft/class_2680;Lnet/minecraft/class_2338;)Z
-		ARG 2 pos
 	METHOD method_30632 collidesWithStateAtPos (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;)Z
 		COMMENT {@return whether the entity collides with the block {@code state} at {@code pos}}
 		ARG 1 pos
@@ -564,8 +527,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		ARG 1 delta
 	METHOD method_31166 getClientCameraPosVec (F)Lnet/minecraft/class_243;
 		ARG 1 tickDelta
-	METHOD method_31469 (Lnet/minecraft/class_1297;)Z
-		ARG 0 entity
 	METHOD method_31471 onSpawnPacket (Lnet/minecraft/class_2604;)V
 		COMMENT Called on the client when the entity receives a spawn packet.
 		COMMENT
@@ -578,8 +539,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT <p>This does not cause the entity to drop loot.
 	METHOD method_31473 attemptTickInVoid ()V
 		COMMENT Calls {@link #tickInVoid()} when the entity is 64 blocks below the world's {@linkplain net.minecraft.world.HeightLimitView#getBottomY() minimum Y position}.
-	METHOD method_31474 (Lnet/minecraft/class_1297;)V
-		ARG 0 entity
 	METHOD method_31475 (Lnet/minecraft/class_1297;Lnet/minecraft/class_1297;)Z
 		ARG 1 entity
 	METHOD method_31476 getChunkPos ()Lnet/minecraft/class_1923;
@@ -691,34 +650,32 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 			COMMENT the mapped index as given by the item slot argument
 	METHOD method_32319 setInPowderSnow (Z)V
 		ARG 1 inPowderSnow
-	METHOD method_32875 emitGameEvent (Lnet/minecraft/class_5712;Lnet/minecraft/class_1297;)V
+	METHOD method_32875 emitGameEvent (Lnet/minecraft/class_6880;Lnet/minecraft/class_1297;)V
 		COMMENT Emits a game event originating from another entity at this entity's position.
 		COMMENT
 		COMMENT <p>A common example is a game event called in {@link #interact}, where the player
 		COMMENT interacting with the entity is the emitter of the event.
 		COMMENT
-		COMMENT @see #emitGameEvent(GameEvent)
+		COMMENT @see #emitGameEvent(RegistryEntry)
 		ARG 1 event
 		ARG 2 entity
 			COMMENT the entity that emitted the game event, or {@code null} if there is none
-	METHOD method_32876 emitGameEvent (Lnet/minecraft/class_5712;)V
+	METHOD method_32876 emitGameEvent (Lnet/minecraft/class_6880;)V
 		COMMENT Emits a game event originating from this entity at this entity's position.
 		COMMENT
-		COMMENT @see #emitGameEvent(GameEvent, Entity)
+		COMMENT @see #emitGameEvent(RegistryEntry, Entity)
 		ARG 1 event
 	METHOD method_33189 occludeVibrationSignals ()Z
 		COMMENT {@return whether the entity should not emit vibrations}
 		COMMENT
 		COMMENT <p>By default, wool or carpet {@linkplain ItemEntity item entities}, and
 		COMMENT {@link net.minecraft.entity.mob.WardenEntity} do not emit vibrations.
-	METHOD method_33331 (Lnet/minecraft/class_4048;Lnet/minecraft/class_243;)V
-		ARG 2 pos
 	METHOD method_33332 calculateBoundingBox ()Lnet/minecraft/class_238;
 	METHOD method_33567 requestTeleportAndDismount (DDD)V
 		COMMENT Requests the entity to teleport to the given position. If the entity is
 		COMMENT a player, this also dismounts the player.
 		COMMENT
-		COMMENT @see #teleport(double, double, double)
+		COMMENT @see #teleportTo
 		COMMENT @see #teleport(ServerWorld, double, double, double, Set, float, float)
 		COMMENT @see #requestTeleport
 		COMMENT @see #refreshPositionAndAngles(double, double, double, float, float)
@@ -751,7 +708,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT For living entities, {@link #refreshPositionAndAngles} should be used instead.
 		COMMENT
 		COMMENT @see #refreshPositionAndAngles
-		COMMENT @see #teleport(double, double, double)
+		COMMENT @see #teleportTo
 		ARG 1 pos
 	METHOD method_33724 isRegionUnloaded ()Z
 		COMMENT {@return whether any part of this entity's bounding box is in an unloaded
@@ -780,14 +737,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		ARG 1 yaw
 	METHOD method_36457 setPitch (F)V
 		ARG 1 pitch
-	METHOD method_36601 getBlockStateAtPos ()Lnet/minecraft/class_2680;
-		COMMENT {@return the block state at the entity's position}
-		COMMENT
-		COMMENT <p>The result is cached.
-		COMMENT
-		COMMENT @see #getBlockPos
-		COMMENT @see #getLandingBlockState
-		COMMENT @see #getSteppingBlockState
 	METHOD method_36971 canModifyAt (Lnet/minecraft/class_1937;Lnet/minecraft/class_2338;)Z
 		COMMENT {@return whether the entity can modify the world at {@code pos}}
 		COMMENT
@@ -806,8 +755,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_36975 playExtinguishSound ()V
 		COMMENT Plays the {@link
 		COMMENT net.minecraft.sound.SoundEvents#ENTITY_GENERIC_EXTINGUISH_FIRE} sound.
-	METHOD method_37215 playAmethystChimeSound (Lnet/minecraft/class_2680;)V
-		ARG 1 state
+	METHOD method_37215 playAmethystChimeSound ()V
 	METHOD method_37216 (Lnet/minecraft/class_1297;)V
 		ARG 0 player
 	METHOD method_37217 (Lnet/minecraft/class_1297;)Z
@@ -917,7 +865,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT <p>Limits this entity's {@code fallDistance} if its downward velocity isn't fast enough
 		COMMENT in order to prevent unwarranted fall damage.
-	METHOD method_45319 addVelocity (Lnet/minecraft/class_243;)V
+	METHOD method_45319 addVelocityInternal (Lnet/minecraft/class_243;)V
 		ARG 1 velocity
 	METHOD method_45321 getLeashOffset (F)Lnet/minecraft/class_243;
 		ARG 1 tickDelta
@@ -929,7 +877,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT @see #requestTeleportAndDismount
 		COMMENT @see #requestTeleport
-		COMMENT @see #teleport(double, double, double)
+		COMMENT @see #teleportTo
 		COMMENT @see #refreshPositionAndAngles(double, double, double, float, float)
 		ARG 1 world
 		ARG 2 destX
@@ -939,8 +887,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		ARG 9 yaw
 		ARG 10 pitch
 	METHOD method_48155 canSprintAsVehicle ()Z
-	METHOD method_48850 onDataTrackerUpdate (Ljava/util/List;)V
-		ARG 1 dataEntries
 	METHOD method_48921 couldAcceptPassenger ()Z
 		COMMENT {@return {@code true} if this entity supports passengers in general}
 	METHOD method_48922 onDamaged (Lnet/minecraft/class_1282;)V
@@ -948,8 +894,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_48923 getDamageSources ()Lnet/minecraft/class_8109;
 	METHOD method_49108 canBeHitByProjectile ()Z
 	METHOD method_49476 getStepHeight ()F
-	METHOD method_49477 setStepHeight (F)V
-		ARG 1 stepHeight
 	METHOD method_49693 shouldDismountUnderwater ()Z
 		COMMENT {@return whether this vehicle should dismount the passenger if submerged underwater}
 	METHOD method_49694 getControllingVehicle ()Lnet/minecraft/class_1297;
@@ -957,7 +901,83 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT @see #getRootVehicle
 		COMMENT @see #getVehicle
-	METHOD method_5621 getMountedHeightOffset ()D
+	METHOD method_49787 playCombinationStepSounds (Lnet/minecraft/class_2680;Lnet/minecraft/class_2680;)V
+		ARG 1 primaryState
+		ARG 2 secondaryState
+	METHOD method_49788 getStepSoundPos (Lnet/minecraft/class_2338;)Lnet/minecraft/class_2338;
+		ARG 1 pos
+	METHOD method_49789 (Lnet/minecraft/class_1297;)V
+		ARG 0 entity
+	METHOD method_49790 shouldPlayAmethystChimeSound (Lnet/minecraft/class_2680;)Z
+		ARG 1 state
+	METHOD method_49792 teleportPassengers ()V
+	METHOD method_51295 playSwimSound ()V
+	METHOD method_51296 playSecondaryStepSound (Lnet/minecraft/class_2680;)V
+		ARG 1 state
+	METHOD method_51297 playStepSounds (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;)V
+		ARG 1 pos
+		ARG 2 state
+	METHOD method_51502 setWorld (Lnet/minecraft/class_1937;)V
+		ARG 1 world
+	METHOD method_51701 stepOnBlock (Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;ZZLnet/minecraft/class_243;)Z
+		ARG 1 pos
+		ARG 2 state
+		ARG 3 playSound
+		ARG 4 emitEvent
+		ARG 5 movement
+	METHOD method_51702 canClimb (Lnet/minecraft/class_2680;)Z
+		ARG 1 state
+	METHOD method_51703 updateSupportingBlockPos (ZLnet/minecraft/class_243;)V
+		ARG 1 onGround
+		ARG 2 movement
+	METHOD method_51848 getPortalCooldown ()I
+	METHOD method_51849 isSupportedBy (Lnet/minecraft/class_2338;)Z
+		ARG 1 pos
+	METHOD method_51850 setPortalCooldown (I)V
+		ARG 1 portalCooldown
+	METHOD method_52172 isOnRail ()Z
+	METHOD method_52532 lerpPosAndRotation (IDDDDD)V
+		ARG 1 step
+		ARG 2 x
+		ARG 4 y
+		ARG 6 z
+		ARG 8 yaw
+		ARG 10 pitch
+	METHOD method_52533 getPassengerAttachmentPos (Lnet/minecraft/class_1297;Lnet/minecraft/class_4048;F)Lnet/minecraft/class_243;
+		ARG 1 passenger
+		ARG 2 dimensions
+		ARG 3 scaleFactor
+	METHOD method_52534 shouldControlVehicles ()Z
+	METHOD method_52535 isInFluid ()Z
+	METHOD method_52538 getPassengerRidingPos (Lnet/minecraft/class_1297;)Lnet/minecraft/class_243;
+		ARG 1 passenger
+	METHOD method_53827 getLerpTargetY ()D
+	METHOD method_53828 getLerpTargetZ ()D
+	METHOD method_53829 getLerpTargetPitch ()F
+	METHOD method_53830 getLerpTargetX ()D
+	METHOD method_53831 getLerpTargetYaw ()F
+	METHOD method_54756 (Lnet/minecraft/class_1297;)Z
+		ARG 0 passenger
+	METHOD method_54757 getPlayerPassengers ()I
+	METHOD method_55665 getPassengerAttachmentPos (Lnet/minecraft/class_1297;Lnet/minecraft/class_1297;Lnet/minecraft/class_9066;)Lnet/minecraft/class_243;
+		ARG 0 vehicle
+		ARG 1 passenger
+		ARG 2 attachments
+	METHOD method_55667 getBlockStateAtPos ()Lnet/minecraft/class_2680;
+		COMMENT {@return the block state at the entity's position}
+		COMMENT
+		COMMENT <p>The result is cached.
+		COMMENT
+		COMMENT @see #getBlockPos
+		COMMENT @see #getLandingBlockState
+		COMMENT @see #getSteppingBlockState
+	METHOD method_55668 getVehicleAttachmentPos (Lnet/minecraft/class_1297;)Lnet/minecraft/class_243;
+		ARG 1 vehicle
+	METHOD method_56071 getProjectileDeflection (Lnet/minecraft/class_1676;)Lnet/minecraft/class_9109;
+		ARG 1 projectile
+	METHOD method_56072 getAttachments ()Lnet/minecraft/class_9066;
+	METHOD method_56073 setOnFireForTicks (I)V
+		ARG 1 ticks
 	METHOD method_5622 onBlockCollision (Lnet/minecraft/class_2680;)V
 		COMMENT Called when this entity's collision box intersects {@code state}.
 		COMMENT
@@ -967,7 +987,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT Called when the entity falls. Flying mobs should override this to do nothing.
 		COMMENT
 		COMMENT @implNote If on ground, this calls {@link net.minecraft.block.Block#onLandedUpon}, which can add or
-		COMMENT reduce fall damage, emits {@link GameEvent#HIT_GROUND}, then calls {@link #onLanding}.
+		COMMENT reduce fall damage, emits {@link net.minecraft.world.event.GameEvent#HIT_GROUND}, then calls {@link #onLanding}.
 		COMMENT Otherwise, if {@code heightDifference} is negative, it subtracts that value from
 		COMMENT {@link #fallDistance}.
 		ARG 1 heightDifference
@@ -1038,14 +1058,8 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @see net.minecraft.entity.Entity#isInsideBubbleColumn()
 		COMMENT @see net.minecraft.entity.Entity#isInsideWaterOrBubbleColumn()
 	METHOD method_5638 shouldSetPositionOnLoad ()Z
-	METHOD method_5639 setOnFireFor (I)V
+	METHOD method_5639 setOnFireFor (F)V
 		COMMENT Sets the entity on fire for {@code seconds} seconds.
-		COMMENT
-		COMMENT @implNote The actual duration can be reduced using the
-		COMMENT {@linkplain net.minecraft.enchantment.ProtectionEnchantment.Type#FIRE
-		COMMENT fire protection} enchantment.
-		COMMENT
-		COMMENT @see net.minecraft.enchantment.ProtectionEnchantment#transformFireDuration
 		ARG 1 seconds
 	METHOD method_5640 shouldRender (D)Z
 		ARG 1 distance
@@ -1067,11 +1081,11 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_5643 damage (Lnet/minecraft/class_1282;F)Z
 		COMMENT Applies a damage to this entity. The exact implementation differs between subclasses.
 		COMMENT
-		COMMENT <p>{@link LivingEntity} has health value, and damaging the entity decreases it. This
+		COMMENT <p>{@link net.minecraft.entity.LivingEntity} has health value, and damaging the entity decreases it. This
 		COMMENT also handles shields, extra damage to helmets for falling blocks, setting the attacker,
 		COMMENT playing hurt sound, etc.
 		COMMENT
-		COMMENT <p>Some entities like {@link ItemEntity} also have health value, which the overridden
+		COMMENT <p>Some entities like {@link net.minecraft.entity.ItemEntity} also have health value, which the overridden
 		COMMENT method decrements. There also exist several entities, like {@link
 		COMMENT net.minecraft.entity.decoration.EndCrystalEntity}, where any damage discards the entity
 		COMMENT (perhaps with an explosion).
@@ -1082,7 +1096,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @return whether the entity was actually damaged
 		COMMENT
 		COMMENT @see #isInvulnerableTo
-		COMMENT @see LivingEntity#modifyAppliedDamage
+		COMMENT @see net.minecraft.entity.LivingEntity#modifyAppliedDamage
 		ARG 1 source
 		ARG 2 amount
 	METHOD method_5644 onPassengerLookAround (Lnet/minecraft/class_1297;)V
@@ -1123,7 +1137,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_5651 readNbt (Lnet/minecraft/class_2487;)V
 		ARG 1 nbt
 	METHOD method_5652 writeCustomDataToNbt (Lnet/minecraft/class_2487;)V
-		COMMENT Writes custom data to {@code nbt}. Subclasses has to implement this.
+		COMMENT Writes custom data to {@code nbt}. Subclasses have to implement this.
 		COMMENT
 		COMMENT <p>NBT is a storage format; therefore, a data from NBT is loaded to an entity instance's
 		COMMENT fields, which are used for other operations instead of the NBT. The data is written
@@ -1152,28 +1166,24 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_5657 getPistonBehavior ()Lnet/minecraft/class_3619;
 		COMMENT {@return the behavior of the piston for this entity}
 		COMMENT
-		COMMENT <p>This is {@link PistonBehavior#NORMAL} by default. {@link AreaEffectCloudEntity},
-		COMMENT {@link MarkerEntity}, and marker {@link net.minecraft.entity.decoration.ArmorStandEntity}
+		COMMENT <p>This is {@link PistonBehavior#NORMAL} by default. {@link net.minecraft.entity.AreaEffectCloudEntity},
+		COMMENT {@link net.minecraft.entity.MarkerEntity}, and marker {@link net.minecraft.entity.decoration.ArmorStandEntity}
 		COMMENT return {@link PistonBehavior#IGNORE}, causing the piston to not affect the entity's
 		COMMENT position. Other piston behaviors are inapplicable to entities, and treated like
 		COMMENT {@link PistonBehavior#NORMAL}.
-	METHOD method_5659 isImmuneToExplosion ()Z
+	METHOD method_5659 isImmuneToExplosion (Lnet/minecraft/class_1927;)Z
 		COMMENT {@return whether the entity is immune from explosion knockback and damage}
 		COMMENT
 		COMMENT <p>Invisible {@link net.minecraft.entity.decoration.ArmorStandEntity} and
 		COMMENT emerging or digging {@link net.minecraft.entity.mob.WardenEntity} are
 		COMMENT immune from explosions.
+		ARG 1 explosion
 	METHOD method_5660 setSneaking (Z)V
 		COMMENT Sets whether the entity is sneaking.
 		COMMENT
 		COMMENT @see #isSneaking
 		COMMENT @see #isInSneakingPose
 		ARG 1 sneaking
-	METHOD method_5661 getArmorItems ()Ljava/lang/Iterable;
-		COMMENT {@return an iterable of item stacks equipped as armor}
-		COMMENT
-		COMMENT @see #getHandItems
-		COMMENT @see #getItemsEquipped
 	METHOD method_5662 saveNbt (Lnet/minecraft/class_2487;)Z
 		ARG 1 nbt
 	METHOD method_5663 getRotationVecClient ()Lnet/minecraft/class_243;
@@ -1191,6 +1201,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT Sets the custom name of the entity to {@code name} (or {@code null} to
 		COMMENT remove the custom name).
 		ARG 1 name
+	METHOD method_56673 getRegistryManager ()Lnet/minecraft/class_5455;
 	METHOD method_5668 getRootVehicle ()Lnet/minecraft/class_1297;
 		COMMENT {@return the lowest entity this entity is riding}
 		COMMENT
@@ -1214,25 +1225,12 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_5671 getCommandSource ()Lnet/minecraft/class_2168;
 		COMMENT {@return a command source which represents this entity}
 	METHOD method_5672 getHighSpeedSplashSound ()Lnet/minecraft/class_3414;
-	METHOD method_5673 equipStack (Lnet/minecraft/class_1304;Lnet/minecraft/class_1799;)V
-		COMMENT Equips {@code stack} at {@code slot}.This is also used to set an entity's
-		COMMENT mainhand or offhand stack. This overwrites any stacks present in that slot
-		COMMENT without dropping them.
-		ARG 1 slot
-		ARG 2 stack
-	METHOD method_5674 onTrackedDataSet (Lnet/minecraft/class_2940;)V
-		COMMENT Called on the client when the tracked data is set.
-		COMMENT
-		COMMENT <p>This can be overridden to refresh other fields when the tracked data
-		COMMENT is set or changed.
-		ARG 1 data
 	METHOD method_5675 isPushedByFluids ()Z
 		COMMENT {@return whether the entity is pushed by fluids}
 		COMMENT
 		COMMENT @apiNote Aquatic mobs should override this to return {@code false}.
 		COMMENT Players are not pushed by fluids if they can fly (e.g. because of game mode).
 	METHOD method_5676 getBurningDuration ()I
-	METHOD method_5678 getHeightOffset ()D
 	METHOD method_5679 isInvulnerableTo (Lnet/minecraft/class_1282;)Z
 		COMMENT {@return whether the entity is invulnerable to {@code damageSource}}
 		COMMENT
@@ -1309,14 +1307,17 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT <p>This is {@code 0} for non-players.
 		COMMENT
 		COMMENT @see #hasPermissionLevel
+	METHOD method_56918 onExplodedBy (Lnet/minecraft/class_1297;)V
+		ARG 1 entity
 	METHOD method_5692 updateMovementInFluid (Lnet/minecraft/class_6862;D)Z
 		ARG 1 tag
 		ARG 2 speed
-	METHOD method_5693 initDataTracker ()V
+	METHOD method_5693 initDataTracker (Lnet/minecraft/class_2945$class_9222;)V
 		COMMENT Initializes data tracker.
 		COMMENT
-		COMMENT @apiNote Subclasses should override this and call {@link DataTracker#startTracking}
-		COMMENT for any data that needs to be tracked.
+		COMMENT @apiNote Subclasses should override this and add to the builder any data
+		COMMENT that needs to be tracked.
+		ARG 1 builder
 	METHOD method_5694 onPlayerCollision (Lnet/minecraft/class_1657;)V
 		COMMENT Called when a player collides with the entity. Does nothing by default.
 		COMMENT
@@ -1344,6 +1345,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT @see World#canPlayerModifyAt
 		ARG 1 attacker
+	METHOD method_56989 getFinalGravity ()D
 	METHOD method_5699 dropStack (Lnet/minecraft/class_1799;F)Lnet/minecraft/class_1542;
 		COMMENT Drops {@code stack} at the entity's position with the given Y offset.
 		COMMENT
@@ -1355,6 +1357,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @see #dropStack(ItemStack)
 		ARG 1 stack
 		ARG 2 yOffset
+	METHOD method_56990 applyGravity ()V
 	METHOD method_5700 onBubbleColumnSurfaceCollision (Z)V
 		COMMENT Called when the entity collides with a bubble column with an air above.
 		COMMENT
@@ -1427,8 +1430,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		ARG 1 entityKilled
 		ARG 2 score
 		ARG 3 damageSource
-	METHOD method_5717 setInNetherPortal (Lnet/minecraft/class_2338;)V
-		ARG 1 pos
 	METHOD method_5718 getBrightnessAtEyes ()F
 	METHOD method_5719 copyPositionAndRotation (Lnet/minecraft/class_1297;)V
 		COMMENT Sets the entity's position and rotation the same as {@code entity}.
@@ -1449,21 +1450,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT <p>This returns {@code false} if this entity is not in any team.
 		ARG 1 other
-	METHOD method_5723 applyDamageEffects (Lnet/minecraft/class_1309;Lnet/minecraft/class_1297;)V
-		COMMENT Applies damage effects to {@code attacker} or {@code target}.
-		COMMENT
-		COMMENT <p>Called when {@code attacker} damages {@code target}.
-		COMMENT
-		COMMENT <p>Used to apply damage effects based on enchantments, such
-		COMMENT as Thorns attacker damage or slowness from Bane of Arthropods.
-		COMMENT
-		COMMENT @implNote Although this method is non-static, {@code this} keyword is
-		COMMENT not used anywhere in this method.
-		ARG 1 attacker
-			COMMENT the attacker; usually this entity, but may be a {@linkplain
-			COMMENT net.minecraft.entity.projectile.ProjectileEntity#getOwner() projectile's
-			COMMENT owner entity}
-		ARG 2 target
 	METHOD method_5724 updateVelocity (FLnet/minecraft/class_243;)V
 		COMMENT Updates the entity's velocity to add a vector in the direction of the entity's yaw
 		COMMENT whose absolute value is {@code movementInput} normalized and multiplied by {@code speed}.
@@ -1504,18 +1490,18 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT Sets the entity on fire from lava, applies lava damage, and plays the burning sound.
 		COMMENT
 		COMMENT @implNote Fire from lava lasts 15 seconds by default.
-	METHOD method_5731 moveToWorld (Lnet/minecraft/class_3218;)Lnet/minecraft/class_1297;
-		COMMENT Moves this entity to another world.
+	METHOD method_5731 teleportTo (Lnet/minecraft/class_5454;)Lnet/minecraft/class_1297;
+		COMMENT Teleports this entity to another location, potentially in another world.
 		COMMENT
-		COMMENT <p>Note all entities except server player entities are completely recreated at the destination.
+		COMMENT <p>Note if teleported to a different world, entities (excluding server player entities) are completely recreated at the destination.
 		COMMENT
-		COMMENT @return the entity in the other world
-		ARG 1 destination
+		COMMENT @return the entity after teleporting
+		ARG 1 teleportTarget
 	METHOD method_5732 isAttackable ()Z
 		COMMENT {@return whether the entity can be attacked by players}
 		COMMENT
 		COMMENT <p>Note that this is not called for most entities defined in vanilla as unattackable
-		COMMENT (such as {@link ItemEntity} and {@link ExperienceOrbEntity}) as trying to attack them
+		COMMENT (such as {@link net.minecraft.entity.ItemEntity} and {@link net.minecraft.entity.ExperienceOrbEntity}) as trying to attack them
 		COMMENT kicks the player.
 		COMMENT
 		COMMENT @see net.minecraft.server.network.ServerPlayNetworkHandler#onPlayerInteractEntity
@@ -1542,7 +1528,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @see #streamSelfAndPassengers
 		COMMENT @see #streamPassengersAndSelf
 	METHOD method_5737 getSwimSound ()Lnet/minecraft/class_3414;
-	METHOD method_5738 removeScoreboardTag (Ljava/lang/String;)Z
+	METHOD method_5738 removeCommandTag (Ljava/lang/String;)Z
 		COMMENT Removes a command tag from this entity.
 		COMMENT
 		COMMENT <p>Command tags are set using the {@linkplain net.minecraft.server.command.TagCommand
@@ -1558,20 +1544,12 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT <p>Entities using {@link net.minecraft.entity.ai.control.FlightMoveControl} has
 		COMMENT no gravity. This is saved under the {@code NoGravity} NBT key.
-	METHOD method_5741 getMaxNetherPortalTime ()I
-		COMMENT {@return how long entities can be inside the nether portal without teleporting,
-		COMMENT in ticks}
 	METHOD method_5742 onStoppedTrackingBy (Lnet/minecraft/class_3222;)V
 		COMMENT Called when {@code player} stops tracking this entity.
 		COMMENT
 		COMMENT <p>Entities with boss bars like {@link net.minecraft.entity.boss.WitherEntity}
 		COMMENT should override this to remove the player from the boss bar.
 		ARG 1 player
-	METHOD method_5743 getItemsEquipped ()Ljava/lang/Iterable;
-		COMMENT {@return an iterable of item stacks held in the hands or equipped as armor}
-		COMMENT
-		COMMENT @see #getHandItems
-		COMMENT @see #getArmorItems
 	METHOD method_5745 raycast (DFZ)Lnet/minecraft/class_239;
 		ARG 1 maxDistance
 		ARG 3 tickDelta
@@ -1601,7 +1579,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @see #getAir
 		COMMENT @see #setAir
 	METHOD method_5749 readCustomDataFromNbt (Lnet/minecraft/class_2487;)V
-		COMMENT Reads custom data from {@code nbt}. Subclasses has to implement this.
+		COMMENT Reads custom data from {@code nbt}. Subclasses have to implement this.
 		COMMENT
 		COMMENT <p>NBT is a storage format; therefore, a data from NBT is loaded to an entity instance's
 		COMMENT fields, which are used for other operations instead of the NBT. The data is written
@@ -1650,14 +1628,13 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT <p>This returns {@code false} if {@link #noClip} is {@code true}; otherwise,
 		COMMENT this returns {@code true} if the eye position is occupied by a {@linkplain
 		COMMENT net.minecraft.block.AbstractBlock.Settings#suffocates block that can suffocate}.
-	METHOD method_5759 updateTrackedPositionAndAngles (DDDFFIZ)V
+	METHOD method_5759 updateTrackedPositionAndAngles (DDDFFI)V
 		ARG 1 x
 		ARG 3 y
 		ARG 5 z
 		ARG 7 yaw
 		ARG 8 pitch
 		ARG 9 interpolationSteps
-		ARG 10 interpolate
 	METHOD method_5760 tickPortalCooldown ()V
 	METHOD method_5762 addVelocity (DDD)V
 		ARG 1 deltaX
@@ -1693,7 +1670,8 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_5768 kill ()V
 		COMMENT Kills the entity.
 		COMMENT
-		COMMENT <p>This drops loot when applicable, and emits the {@link GameEvent#ENTITY_DIE} game event.
+		COMMENT <p>This drops loot when applicable, and emits the {@link
+		COMMENT net.minecraft.world.event.GameEvent#ENTITY_DIE} game event.
 	METHOD method_5769 getHoverEvent ()Lnet/minecraft/class_2568;
 		COMMENT {@return the hover event referencing this entity}
 	METHOD method_5770 getEntityWorld ()Lnet/minecraft/class_1937;
@@ -1714,7 +1692,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT @implNote By default, this delegates all logics to {@link #baseTick}.
 		COMMENT
-		COMMENT @see LivingEntity#tickMovement
+		COMMENT @see net.minecraft.entity.LivingEntity#tickMovement
 		COMMENT @see net.minecraft.entity.mob.MobEntity#mobTick
 	METHOD method_5774 getEffectiveExplosionResistance (Lnet/minecraft/class_1927;Lnet/minecraft/class_1922;Lnet/minecraft/class_2338;Lnet/minecraft/class_2680;Lnet/minecraft/class_3610;F)F
 		COMMENT {@return the blast resistance of {@code blockState} for an explosion caused
@@ -1766,7 +1744,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT
 		COMMENT @return whether the command tag was successfully added
 		ARG 1 tag
-	METHOD method_5781 getScoreboardTeam ()Lnet/minecraft/class_270;
+	METHOD method_5781 getScoreboardTeam ()Lnet/minecraft/class_268;
 		COMMENT {@return the scoreboard team the entity belongs to, or {@code null} if there is none}
 	METHOD method_5782 hasPassengers ()Z
 		COMMENT {@return whether another entity is riding this entity}
@@ -1917,10 +1895,11 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT For living entities, {@link #refreshPositionAndAngles} should be used instead.
 		COMMENT
 		COMMENT @see #refreshPositionAndAngles
-		COMMENT @see #teleport(double, double, double)
+		COMMENT @see #teleportTo
 		ARG 1 x
 		ARG 3 y
 		ARG 5 z
+	METHOD method_58149 getFacing ()Lnet/minecraft/class_2350;
 	METHOD method_5816 isInsideWaterOrBubbleColumn ()Z
 		COMMENT {@return whether this entity is touching water or a bubble column}
 		COMMENT
@@ -1957,16 +1936,6 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 	METHOD method_5819 populateCrashReport (Lnet/minecraft/class_129;)V
 		COMMENT Populates the crash report section to include the entity's information.
 		ARG 1 section
-	METHOD method_5820 getEntityName ()Ljava/lang/String;
-		COMMENT {@return the name uniquely identifying the entity}
-		COMMENT
-		COMMENT <p>Unlike {@link #getName}, this is guaranteed to be unique. This is the UUID
-		COMMENT for all entities except players (which use the player's username).
-		COMMENT This is mostly used when passing the player name to {@code
-		COMMENT net.minecraft.scoreboard.Scoreboard} methods.
-		COMMENT
-		COMMENT @see #getName
-		COMMENT @see #getUuidAsString
 	METHOD method_5821 hasPassengerDeep (Lnet/minecraft/class_1297;)Z
 		COMMENT {@return whether {@code passenger} is riding this entity or any of its passengers}
 		COMMENT
@@ -1977,12 +1946,13 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT @see #getPassengersDeep
 		COMMENT @see #hasPlayerRider
 		ARG 1 passenger
-	METHOD method_5822 canUsePortals ()Z
+	METHOD method_5822 canUsePortals (Z)Z
 		COMMENT {@return whether the entity can use nether portals and end portals}
 		COMMENT
 		COMMENT <p>{@link net.minecraft.entity.boss.dragon.EnderDragonEntity},
 		COMMENT {@link net.minecraft.entity.boss.WitherEntity}, and {@link
 		COMMENT net.minecraft.entity.projectile.FishingBobberEntity} cannot use portals.
+		ARG 1 allowVehicles
 	METHOD method_5824 getRenderDistanceMultiplier ()D
 		COMMENT {@return the entity render distance multiplier}
 		COMMENT
@@ -2134,7 +2104,7 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT <p>For players, this sends the teleport packet. For other entities,
 		COMMENT this just sets the position of the entity and its passengers.
 		COMMENT
-		COMMENT @see #teleport(double, double, double)
+		COMMENT @see #teleportTo
 		COMMENT @see #teleport(ServerWorld, double, double, double, Set, float, float)
 		COMMENT @see #requestTeleportOffset(double, double, double)
 		COMMENT @see #requestTeleportAndDismount
@@ -2172,8 +2142,9 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT {@return whether the entity can be hit with a projectile or be targeted by
 		COMMENT the player crosshair}
 	METHOD method_5864 getType ()Lnet/minecraft/class_1299;
-	METHOD method_5865 updatePassengerPosition (Lnet/minecraft/class_1297;)V
+	METHOD method_5865 updatePassengerPosition (Lnet/minecraft/class_1297;Lnet/minecraft/class_1297$class_4738;)V
 		ARG 1 passenger
+		ARG 2 positionUpdater
 	METHOD method_5867 calculateNextStepSoundDistance ()F
 	METHOD method_5869 isSubmergedInWater ()Z
 		COMMENT {@return whether this entity's hitbox is fully submerged in water}
@@ -2235,16 +2206,11 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT no gravity. This is saved under the {@code NoGravity} NBT key.
 		ARG 1 noGravity
 	METHOD method_5876 updateWaterState ()Z
-	METHOD method_5877 getHandItems ()Ljava/lang/Iterable;
-		COMMENT {@return an iterable of item stacks held in the hands}
-		COMMENT
-		COMMENT @see #getArmorItems
-		COMMENT @see #getItemsEquipped
 	METHOD method_5878 copyFrom (Lnet/minecraft/class_1297;)V
 		COMMENT Copies serializable data and nether portal data from {@code original}.
 		COMMENT
 		COMMENT @see #readNbt
-		COMMENT @see #moveToWorld
+		COMMENT @see #teleportTo
 		ARG 1 original
 	METHOD method_5879 animateDamage (F)V
 		COMMENT Called on the client to animate the entity's damage (the wobble).
@@ -2262,11 +2228,49 @@ CLASS net/minecraft/class_1297 net/minecraft/entity/Entity
 		COMMENT <p>To despawn this entity, call {@link #discard}.
 		COMMENT
 		COMMENT @see #discard
+	METHOD method_59920 findCollisionsForMovement (Lnet/minecraft/class_1297;Lnet/minecraft/class_1937;Ljava/util/List;Lnet/minecraft/class_238;)Ljava/util/List;
+		ARG 0 entity
+		ARG 1 world
+		ARG 2 regularCollisions
+		ARG 3 movingEntityBoundingBox
+	METHOD method_59921 collectStepHeights (Lnet/minecraft/class_238;Ljava/util/List;FF)[F
+		ARG 0 collisionBox
+		ARG 1 collisions
+		ARG 3 stepHeight
+	METHOD method_59922 getRandom ()Lnet/minecraft/class_5819;
+	METHOD method_59958 getWeaponStack ()Lnet/minecraft/class_1799;
 	METHOD method_6034 canMoveVoluntarily ()Z
+	METHOD method_60478 getMovement ()Lnet/minecraft/class_243;
+	METHOD method_60490 recalculateDimensions (Lnet/minecraft/class_4048;)Z
+		ARG 1 previous
+	METHOD method_60491 addVelocity (Lnet/minecraft/class_243;)V
+		ARG 1 velocity
+	METHOD method_60607 setOnGround (ZLnet/minecraft/class_243;)V
+		ARG 1 onGround
+		ARG 2 movement
+	METHOD method_60608 setAngles (FF)V
+		ARG 1 yaw
+		ARG 2 pitch
+	METHOD method_60697 tryUsePortal (Lnet/minecraft/class_9797;Lnet/minecraft/class_2338;)V
+		ARG 1 portal
+		ARG 2 pos
+	METHOD method_60698 tickPortalTeleportation ()V
+	METHOD method_60949 refreshPositionAndAngles (Lnet/minecraft/class_243;FF)V
+		ARG 1 pos
+		ARG 2 yaw
+		ARG 3 pitch
+	METHOD method_60950 addPortalChunkTicketAt (Lnet/minecraft/class_2338;)V
+		ARG 1 pos
+	METHOD method_60951 lerpYaw (F)F
+		ARG 1 delta
+	METHOD method_61113 canTeleportBetween (Lnet/minecraft/class_1937;Lnet/minecraft/class_1937;)Z
+		ARG 1 from
+		ARG 2 to
 	METHOD method_7325 isSpectator ()Z
 		COMMENT {@return whether the entity is a spectator}
 		COMMENT
 		COMMENT <p>This returns {@code false} unless the entity is a player in spectator game mode.
+	METHOD method_7490 getGravity ()D
 	CLASS class_4738 PositionUpdater
 		METHOD accept (Lnet/minecraft/class_1297;DDD)V
 			ARG 1 entity
